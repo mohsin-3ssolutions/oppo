@@ -1,11 +1,11 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 
 import Logo from "../assets/images/logo.png";
 
-function Payment() {
+function Payment({ setUser, isAuthenticated, user }) {
     const stripe = useStripe();
     const elements = useElements();
     const navigate = useNavigate();
@@ -84,6 +84,7 @@ function Payment() {
                     console.log({ data, message, success }); // This will log the parsed response data
                     if (success) {
                         toast.success('Payment successfully Done!', { autoClose: 3000 });
+                        localStorage.setItem('paid', true);
                         navigate("/payment-completion");
                     } else {
                         toast.error('Payment failed! Kindly, try again.' + message, { autoClose: 3000 });
@@ -118,6 +119,14 @@ function Payment() {
             [name]: value
         });
     };
+
+    useEffect(() => {
+        console.log("isAuthenticated ::::::::::", isAuthenticated);
+        ((!isAuthenticated) && navigate('/signin'));
+
+        const paid = localStorage.getItem('paid')?.length ? true : false;
+        ((isAuthenticated && paid) && navigate('/dashboard'));
+    }, []);
 
     return (
         <>

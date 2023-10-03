@@ -183,7 +183,7 @@ function SubContractorSignUp({ isAuthenticated, setIsAuthenticated }) {
                                 <div className="collapse navbar-collapse navigation" id="navbarNavDropdown">
                                     <ul className="navbar-nav">
                                         <li>
-                                            <a aria-current="page" href="#">Home</a>
+                                            <a aria-current="page" href="/">Home</a>
                                         </li>
                                         <li>
                                             <a href="#">Our Services</a>
@@ -214,7 +214,7 @@ function SubContractorSignUp({ isAuthenticated, setIsAuthenticated }) {
                     <div className="color_bg">
                         <div className="sign_up">
                             <h3>Add Company Details</h3>
-                            <p>Already have an account? <a href="" className="log_in">Log In</a></p>
+                            <p>Already have an account? <a href="/signin" className="log_in">Log In</a></p>
                             <ul className="social_links">
                                 <li><a href=""><img src={FacebookImageSrc} alt="Facebook" /></a></li>
                                 <li><a href=""><img src={GoogleImageSrc} alt="Google" /></a></li>
@@ -224,11 +224,11 @@ function SubContractorSignUp({ isAuthenticated, setIsAuthenticated }) {
                                 <div class="input-group gap-2 justify-content-between">
                                     <div class="mb-3 w-48">
                                         <label style={{ ...(errorState.firstName ? { color: "red" } : {}) }} for="exampleFormControlInput1" class="form-label">First Name </label>
-                                        <input name="firstName" onChange={handleInputChange} style={{ ...(errorState.firstName ? { borderColor: "red" } : {}) }} type="text" class="form-control" id="exampleFormControlInput1" placeholder="Peter" />
+                                        <input name="firstName" onChange={handleInputChange} style={{ ...(errorState.firstName ? { borderColor: "red" } : {}) }} type="text" class="form-control" id="exampleFormControlInput1" placeholder="Enter First Name" />
                                     </div>
                                     <div class="mb-3 w-48">
                                         <label style={{ ...(errorState.lastName ? { color: "red" } : {}) }} for="exampleFormControlInput11" class="form-label">Last Name </label>
-                                        <input name="lastName" onChange={handleInputChange} style={{ ...(errorState.lastName ? { borderColor: "red" } : {}) }} type="text" class="form-control" id="exampleFormControlInput11" placeholder="Ehat" />
+                                        <input name="lastName" onChange={handleInputChange} style={{ ...(errorState.lastName ? { borderColor: "red" } : {}) }} type="text" class="form-control" id="exampleFormControlInput11" placeholder="Enter Last Name" />
                                     </div>
                                 </div>
                                 <div className="mb-3">
@@ -245,7 +245,7 @@ function SubContractorSignUp({ isAuthenticated, setIsAuthenticated }) {
                                         name="yearsInBusiness"
                                         onChange={handleInputChange}
                                         type="text"
-                                        style={{ ...(errorState.yearsInBusiness ? { borderColor: "red" } : {}) }} className="form-control" id="exampleFormControlInput1" placeholder="" />
+                                        style={{ ...(errorState.yearsInBusiness ? { borderColor: "red" } : {}) }} className="form-control" id="exampleFormControlInput1" placeholder="Enter Years in Business" />
                                 </div>
                                 <div class="mb-3">
                                     <label style={{ ...(errorState.phone ? { color: "red" } : {}) }} for="exampleFormControlInput12" class="form-label">Phone No.</label>
@@ -253,7 +253,7 @@ function SubContractorSignUp({ isAuthenticated, setIsAuthenticated }) {
                                         onChange={handleInputChange}
                                         style={{ ...(errorState.phone ? { borderColor: "red" } : {}) }}
                                         type="tel" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" class="form-control" id="exampleFormControlInput12"
-                                        placeholder="+12356780986" />
+                                        placeholder="Enter Phone Number" />
                                 </div>
                                 <div className="mb-3">
                                     <label style={{ ...(errorState.email ? { color: "red" } : {}) }} className="form-label">Email</label>
@@ -283,7 +283,8 @@ function SubContractorSignUp({ isAuthenticated, setIsAuthenticated }) {
                                     </label>
                                 </div>
                                 <div className="submit_btn">
-                                    <input disabled={!agreeCheck} onClick={handleSubmit} type="submit" value="Create Account" />
+                                    <input disabled={!agreeCheck} onClick={() => navigate("/signup")} type="submit" value="Create Account" />
+                                    {/* <input disabled={!agreeCheck} onClick={handleSubmit} type="submit" value="Create Account" /> */}
                                     {/* {
                                         (agreeCheck) ?
                                         <input disabled={!agreeCheck} onClick={handleSubmit} type="submit" value="Create Account" />

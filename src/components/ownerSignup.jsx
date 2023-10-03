@@ -185,7 +185,7 @@ function OwnerSignUp({ isAuthenticated, setIsAuthenticated }) {
                                 <div className="collapse navbar-collapse navigation" id="navbarNavDropdown">
                                     <ul className="navbar-nav">
                                         <li>
-                                            <a aria-current="page" href="#">Home</a>
+                                            <a aria-current="page" href="/">Home</a>
                                         </li>
                                         <li>
                                             <a href="#">Our Services</a>
@@ -216,7 +216,7 @@ function OwnerSignUp({ isAuthenticated, setIsAuthenticated }) {
                     <div className="color_bg">
                         <div className="sign_up">
                             <h3>Add Company Details</h3>
-                            <p>Already have an account? <a href="" className="log_in">Log In</a></p>
+                            <p>Already have an account? <a href="/signin" className="log_in">Log In</a></p>
                             <ul className="social_links">
                                 <li><a href=""><img src={FacebookImageSrc} alt="Facebook" /></a></li>
                                 <li><a href=""><img src={GoogleImageSrc} alt="Google" /></a></li>
@@ -226,11 +226,11 @@ function OwnerSignUp({ isAuthenticated, setIsAuthenticated }) {
                                 <div class="input-group gap-2 justify-content-between">
                                     <div class="mb-3 w-48">
                                         <label style={{ ...(errorState.firstName ? { color: "red" } : {}) }} for="exampleFormControlInput1" class="form-label">First Name </label>
-                                        <input name="firstName" onChange={handleInputChange} style={{ ...(errorState.firstName ? { borderColor: "red" } : {}) }} type="text" class="form-control" id="exampleFormControlInput1" placeholder="Peter" />
+                                        <input name="firstName" onChange={handleInputChange} style={{ ...(errorState.firstName ? { borderColor: "red" } : {}) }} type="text" class="form-control" id="exampleFormControlInput1" placeholder="Enter First Name" />
                                     </div>
                                     <div class="mb-3 w-48">
                                         <label style={{ ...(errorState.lastName ? { color: "red" } : {}) }} for="exampleFormControlInput11" class="form-label">Last Name </label>
-                                        <input name="lastName" onChange={handleInputChange} style={{ ...(errorState.lastName ? { borderColor: "red" } : {}) }} type="text" class="form-control" id="exampleFormControlInput11" placeholder="Ehat" />
+                                        <input name="lastName" onChange={handleInputChange} style={{ ...(errorState.lastName ? { borderColor: "red" } : {}) }} type="text" class="form-control" id="exampleFormControlInput11" placeholder="Enter Last Name" />
                                     </div>
                                 </div>
                                 <div className="mb-3">
@@ -247,14 +247,14 @@ function OwnerSignUp({ isAuthenticated, setIsAuthenticated }) {
                                         <input name="yearsInBusiness"
                                             onChange={handleInputChange}
                                             type="text"
-                                            style={{ ...(errorState.yearsInBusiness ? { borderColor: "red" } : {}) }} class="form-control" id="exampleFormControlInput1" placeholder="" />
+                                            style={{ ...(errorState.yearsInBusiness ? { borderColor: "red" } : {}) }} class="form-control" id="exampleFormControlInput1" placeholder="Enter Years in Business" />
                                     </div>
                                     <div class="mb-3 w-48">
                                         <label style={{ ...(errorState.companySize ? { color: "red" } : {}) }} for="exampleFormControlInput11" class="form-label">Company Size</label>
                                         <input name="companySize"
                                             onChange={handleInputChange}
                                             type="text"
-                                            style={{ ...(errorState.companySize ? { borderColor: "red" } : {}) }} class="form-control" id="exampleFormControlInput11" placeholder="" />
+                                            style={{ ...(errorState.companySize ? { borderColor: "red" } : {}) }} class="form-control" id="exampleFormControlInput11" placeholder="Enter Company Size" />
                                     </div>
                                 </div>
 
@@ -286,7 +286,8 @@ function OwnerSignUp({ isAuthenticated, setIsAuthenticated }) {
                                     </label>
                                 </div>
                                 <div className="submit_btn">
-                                    <input disabled={!agreeCheck} onClick={handleSubmit} type="submit" value="Create Account" />
+                                    {/* <input disabled={!agreeCheck} onClick={handleSubmit} type="submit" value="Create Account" /> */}
+                                    <input disabled={!agreeCheck} onClick={() => navigate("/signup")} type="submit" value="Create Account" />
                                     {/* {
                                         (agreeCheck) ?
                                         <input disabled={!agreeCheck} onClick={handleSubmit} type="submit" value="Create Account" />

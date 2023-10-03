@@ -1,8 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import Logo from "../assets/images/logo.png"
 
-function Dashboard() {
+function Dashboard({ user, isAuthenticated }) {
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        console.log("isAuthenticated ::::::::::", isAuthenticated);
+        ((!isAuthenticated) && navigate('/signin'));
+        const paid = localStorage.getItem('paid')?.length ? true : false;
+        debugger
+        ((isAuthenticated && paid) ? navigate('/dashboard') : navigate('/payment'));
+    }, [user]);
+
     return (
         <>
             <header>

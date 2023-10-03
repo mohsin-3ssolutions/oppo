@@ -17,7 +17,7 @@ function PaymentPlans() {
                                 <div className="collapse navbar-collapse navigation" id="navbarNavDropdown">
                                     <ul className="navbar-nav">
                                         <li>
-                                            <a aria-current="page" href="#">Home</a>
+                                            <a aria-current="page" href="/">Home</a>
                                         </li>
                                         <li>
                                             <a href="#">Our Services</a>
@@ -88,7 +88,7 @@ function PaymentPlans() {
                                             </li>
                                         </ul>
                                         <div className="creat_btn">
-                                            <a href="">Select</a>
+                                            <a href="/owner-signup">Select</a>
                                         </div>
                                     </div>
                                 </div>
@@ -111,7 +111,7 @@ function PaymentPlans() {
                                             </li>
                                         </ul>
                                         <div className="creat_btn">
-                                            <a href="">Select</a>
+                                            <a href="/general-contractor-signup">Select</a>
                                         </div>
                                     </div>
                                 </div>
@@ -133,7 +133,7 @@ function PaymentPlans() {
                                             </li>
                                         </ul>
                                         <div className="creat_btn">
-                                            <a href="">Select</a>
+                                            <a href="/sub-contractor-signup">Select</a>
                                         </div>
                                     </div>
                                 </div>

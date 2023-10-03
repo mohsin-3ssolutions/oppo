@@ -107,7 +107,7 @@ function Signin({ isAuthenticated, setIsAuthenticated }) {
                                 <div className="collapse navbar-collapse navigation" id="navbarNavDropdown">
                                     <ul className="navbar-nav">
                                         <li>
-                                            <a aria-current="page" href="#">Home</a>
+                                            <a aria-current="page" href="/">Home</a>
                                         </li>
                                         <li>
                                             <a href="#">Our Services</a>
@@ -191,7 +191,7 @@ export default Signin;
 //                             <div className="collapse navbar-collapse navigation" id="navbarNavDropdown">
 //                                 <ul className="navbar-nav">
 //                                     <li>
-//                                         <a aria-current="page" href="#">Home</a>
+//                                         <a aria-current="page" href="/">Home</a>
 //                                     </li>
 //                                     <li>
 //                                         <a href="#">Our Services</a>
