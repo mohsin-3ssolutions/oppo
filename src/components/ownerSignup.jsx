@@ -8,21 +8,29 @@ import FacebookImageSrc from "../assets/images/facebook.png"
 import GoogleImageSrc from "../assets/images/google.png"
 import AppleImageSrc from "../assets/images/apple.png"
 
-function Signup({ isAuthenticated, setIsAuthenticated }) {
+function OwnerSignUp({ isAuthenticated, setIsAuthenticated }) {
     const [agreeCheck, setAgreeCheck] = useState(true);
     const [passwordStrength, setPasswordStrength] = useState("default");
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
-        companyName: "",
-        fullName: "",
+        business: "",
+        firstName: "",
+        lastName: "",
+        yearsInBusiness: "",
+        companySize: "",
+        phone: "",
         email: "",
         password: "",
         passwordStrength: 'default',
         // agreementCheck: true,
     });
     const [errorState, setErrorState] = useState({
-        companyName: false,
-        fullName: false,
+        business: false,
+        firstName: false,
+        lastName: false,
+        yearsInBusiness: false,
+        companySize: false,
+        phone: false,
         email: false,
         password: false,
     });
@@ -123,8 +131,12 @@ function Signup({ isAuthenticated, setIsAuthenticated }) {
         try {
             if (hasError) throw Error("Has some validation errors.");
             const requestData = {
-                company_name: formData.companyName,
-                fname: formData.fullName,
+                company_name: formData.business,
+                firstName: formData.firstName,
+                lastName: formData.lastName,
+                yearsInBusiness: formData.yearsInBusiness,
+                companySize: formData.companySize,
+                phone: formData.phone,
                 email: formData.email,
                 password: formData.password,
             };
@@ -194,7 +206,11 @@ function Signup({ isAuthenticated, setIsAuthenticated }) {
                     </div>
                 </div>
             </header>
-            
+            <section class="title_head">
+                <div class="container">
+                    <h1>Owner Sign-Up</h1>
+                </div>
+            </section>
             <section className="form_style margin-top">
                 <div className="container">
                     <div className="color_bg">
@@ -207,31 +223,50 @@ function Signup({ isAuthenticated, setIsAuthenticated }) {
                                 <li><a href=""><img src={AppleImageSrc} alt="Apple" /></a></li>
                             </ul>
                             <form >
-                                <div className="mb-3">
-                                    <label  style={{ ...(errorState.companyName ? { color: "red" } : {}) }} className="form-label">Company Name</label>
-                                    <input
-                                        name="companyName"
-                                        onChange={handleInputChange}
-                                        type="text"
-                                        style={{ ...(errorState.companyName ? { borderColor: "red" } : {}) }} className="form-control" id="exampleFormControlInput1" placeholder="Enter Company Name" />
+                                <div class="input-group gap-2 justify-content-between">
+                                    <div class="mb-3 w-48">
+                                        <label style={{ ...(errorState.firstName ? { color: "red" } : {}) }} for="exampleFormControlInput1" class="form-label">First Name </label>
+                                        <input name="firstName" onChange={handleInputChange} style={{ ...(errorState.firstName ? { borderColor: "red" } : {}) }} type="text" class="form-control" id="exampleFormControlInput1" placeholder="Peter" />
+                                    </div>
+                                    <div class="mb-3 w-48">
+                                        <label style={{ ...(errorState.lastName ? { color: "red" } : {}) }} for="exampleFormControlInput11" class="form-label">Last Name </label>
+                                        <input name="lastName" onChange={handleInputChange} style={{ ...(errorState.lastName ? { borderColor: "red" } : {}) }} type="text" class="form-control" id="exampleFormControlInput11" placeholder="Ehat" />
+                                    </div>
                                 </div>
                                 <div className="mb-3">
-                                    <label  style={{ ...(errorState.fullName ? { color: "red" } : {}) }} className="form-label">Full Name</label>
+                                    <label style={{ ...(errorState.business ? { color: "red" } : {}) }} className="form-label">Business Name</label>
                                     <input
-                                        name="fullName"
+                                        name="business"
                                         onChange={handleInputChange}
                                         type="text"
-                                        style={{ ...(errorState.fullName ? { borderColor: "red" } : {}) }} className="form-control" id="exampleFormControlInput11" placeholder="Enter Full Name" />
+                                        style={{ ...(errorState.business ? { borderColor: "red" } : {}) }} className="form-control" id="exampleFormControlInput1" placeholder="Enter Company Name" />
                                 </div>
+                                <div class="input-group gap-2 justify-content-between">
+                                    <div class="mb-3 w-48">
+                                        <label style={{ ...(errorState.yearsInBusiness ? { color: "red" } : {}) }} for="exampleFormControlInput1" class="form-label">Years in Business</label>
+                                        <input name="yearsInBusiness"
+                                            onChange={handleInputChange}
+                                            type="text"
+                                            style={{ ...(errorState.yearsInBusiness ? { borderColor: "red" } : {}) }} class="form-control" id="exampleFormControlInput1" placeholder="" />
+                                    </div>
+                                    <div class="mb-3 w-48">
+                                        <label style={{ ...(errorState.companySize ? { color: "red" } : {}) }} for="exampleFormControlInput11" class="form-label">Company Size</label>
+                                        <input name="companySize"
+                                            onChange={handleInputChange}
+                                            type="text"
+                                            style={{ ...(errorState.companySize ? { borderColor: "red" } : {}) }} class="form-control" id="exampleFormControlInput11" placeholder="" />
+                                    </div>
+                                </div>
+
                                 <div className="mb-3">
-                                    <label  style={{ ...(errorState.email ? { color: "red" } : {}) }} className="form-label">Email</label>
+                                    <label style={{ ...(errorState.email ? { color: "red" } : {}) }} className="form-label">Email</label>
                                     <input
                                         name="email"
                                         style={{ ...(errorState.email ? { borderColor: "red" } : {}) }}
                                         onChange={handleInputChange} type="Email" className="form-control" id="exampleFormControlInput12" placeholder="Enter Email" />
                                 </div>
                                 <div className="mb-3 password-group">
-                                    <label  style={{ ...(errorState.password ? { color: "red" } : {}) }} className="form-label">Password</label>
+                                    <label style={{ ...(errorState.password ? { color: "red" } : {}) }} className="form-label">Password</label>
                                     <input
                                         name="password"
                                         onChange={(e) => calculatePasswordStrength(e.target.value)}
@@ -239,16 +274,16 @@ function Signup({ isAuthenticated, setIsAuthenticated }) {
                                         style={{ ...(errorState.password ? { borderColor: "red" } : {}) }} className="form-control" id="exampleFormControlInput13" placeholder="Enter Password" />
                                 </div>
                                 <div className="mb-3">
-                                    <label  className="form-label strength_pwd">Password Strength</label>
+                                    <label className="form-label strength_pwd">Password Strength</label>
                                     <div className="strenght_field">
                                         <span style={{ background: passwordStrengthBar[passwordStrength][0] }} /> <span style={{ background: passwordStrengthBar[passwordStrength][1] }} /> <span style={{ background: passwordStrengthBar[passwordStrength][2] }} /> <span style={{ background: passwordStrengthBar[passwordStrength][3] }} />
                                     </div>
                                 </div>
                                 <div className="form-check">
                                     <input className="form-check-input" type="checkbox" checked={agreeCheck} onChange={(e) => setAgreeCheck(!agreeCheck)} value="true" id="flexCheckDefault" />
-                                        <label className="form-check-label" >
-                                            By creating account you agree to our <a href="">Privacy Policy</a> <a href="">Terms of Service</a> and <a href="">Notification Setting</a>
-                                        </label>
+                                    <label className="form-check-label" >
+                                        By creating account you agree to our <a href="">Privacy Policy</a> <a href="">Terms of Service</a> and <a href="">Notification Setting</a>
+                                    </label>
                                 </div>
                                 <div className="submit_btn">
                                     <input disabled={!agreeCheck} onClick={handleSubmit} type="submit" value="Create Account" />
@@ -280,4 +315,4 @@ function Signup({ isAuthenticated, setIsAuthenticated }) {
     );
 }
 
-export default Signup;
+export default OwnerSignUp;

@@ -18,6 +18,8 @@ import ThankYou from "./components/thankyou.jsx";
 
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
+import SubContractorSignUp from './components/subContractor-signup.jsx';
+import OwnerSignUp from './components/ownerSignup.jsx';
 
 function App() {
   const stripePromise = loadStripe('pk_test_51Nt6pALVujA8J6lyi9k5qgGlFHXEgq3SwHSi3bgJiXsAl1RBuxwwnPm8IHuGd9M83MoJa0y9lssxSyFH3E9hvtkB00LXzCRHyA');
@@ -39,9 +41,11 @@ function App() {
     <Router>
       <Routes>
         <Route path="/dashboard" element={<Dashboard isAuthenticated={isAuthenticated} logout={logout} />} />
-        <Route path="/" element={<SignIn isAuthenticated={isAuthenticated} />} />
+        <Route path="/" element={<SignIn isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />} />
         <Route path="/signin" element={<SignIn isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />} />
         <Route path="/signup" element={<SignUp isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />} />
+        <Route path="/owner-signup" element={<OwnerSignUp isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />} />
+        <Route path="/subContractor-signup" element={<SubContractorSignUp isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />} />
         <Route path="/payment-plans" element={<PaymentPlans isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />} />
         <Route path="/payment" element={
           <Elements stripe={stripePromise}>
@@ -49,7 +53,6 @@ function App() {
           </Elements>
         } />
         <Route path="/payment-completion" element={<ThankYou isAuthenticated={isAuthenticated} />} />
-
       </Routes>
     </Router>
   );
