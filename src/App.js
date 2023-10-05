@@ -15,15 +15,17 @@ import PaymentPlans from "./components/paymentPlans.jsx";
 import ThankYou from "./components/thankyou.jsx";
 import SubContractorSignUp from './components/subContractorSignup.jsx';
 import GeneralContractorSignUp from './components/generalContractorSignup.jsx';
-// import 'dotenv/config';
-// require('dotenv').config();
+import { verifyAuthToken } from './utils.js';
 
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import OwnerSignUp from './components/ownerSignup.jsx';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
-  const stripePromise = loadStripe('pk_test_51Nt6pALVujA8J6lyi9k5qgGlFHXEgq3SwHSi3bgJiXsAl1RBuxwwnPm8IHuGd9M83MoJa0y9lssxSyFH3E9hvtkB00LXzCRHyA');
+  console.log({11111111: process.env});
+  const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState({
     // isAuthenticated: false,
@@ -37,6 +39,9 @@ function App() {
     setIsAuthenticated(false);
   }
 
+  useEffect(() => {
+    verifyAuthToken();
+  }, []);
   useEffect(() => {
     const authenticated = !!localStorage.getItem("authToken");
     console.log({ authenticated });
@@ -62,6 +67,7 @@ function App() {
         } />
         <Route path="/payment-completion" element={<ThankYou isAuthenticated={isAuthenticated} />} />
       </Routes>
+      <ToastContainer />
     </Router>
   );
 }
