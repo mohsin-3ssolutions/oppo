@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
@@ -22,35 +22,74 @@ function Signin({ isAuthenticated, setIsAuthenticated }) {
         password: Yup.string().required('Password is required'),
     });
 
+    useEffect(() => {
+        console.log("isAuthenticated ::::::::::", isAuthenticated);
+        (isAuthenticated && navigate('/dashboard'));
+    }, [isAuthenticated]);
+
     const handleSubmit = async (values, { setSubmitting }) => {
         console.log(values)
         try {
-            // Your form submission logic here, e.g., making an API request
+            // if (hasError) throw Error("Has some validation errors.");
+            setSubmitting(true)
+            const requestData = {
+                email: values.email,
+                password: values.password,
+            };
 
-            // Simulate a successful submission for demonstration purposes
-            const response = await fetch('https://opo.jjtestsite.us/api/login', {
+            fetch('https://opo.jjtestsite.us/api/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(values),
-            });
-            const data = await response.json();
-
-            if (data.success) {
-                localStorage.setItem('authToken', data.token);
-                toast.success('Logged in successfully!', { autoClose: 3000 });
-                setIsAuthenticated(true);
-                navigate('/dashboard');
-            } else {
-                toast.error('Login failed! ' + data.message, { autoClose: 3000 });
-            }
+                body: JSON.stringify(requestData),
+            }).then((response) => {
+                return response.json();
+            })
+                .then(({ data, message, success }) => {
+                    // console.log(res); // This will log the parsed response data
+                    console.log({ data, message, success }); // This will log the parsed response data
+                    if (success) {
+                        localStorage.setItem("authToken", data?.token);
+                        toast.success('Loggedin successfully!', { autoClose: 3000 });
+                        setIsAuthenticated(true);
+                        navigate("/dashboard");
+                    } else {
+                        toast.error('Login failed!' + message, { autoClose: 3000 });
+                    }
+                });
         } catch (error) {
             console.error('An error occurred:', error);
-            toast.error('An error occurred. ' + error, { autoClose: 3000 });
-        } finally {
-            setSubmitting(false);
+            toast.error('An error occurred.' + error, { autoClose: 3000 });
         }
+        // try {
+        //     // Your form submission logic here, e.g., making an API request
+
+        //     // Simulate a successful submission for demonstration purposes
+        //     const response = await fetch('https://opo.jjtestsite.us/api/login', {
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //         },
+        //         body: JSON.stringify(values),
+        //     });
+        //     const { data, message } = await response.json();
+
+        //     console.log(data)
+        //     if (data.success) {
+        //         localStorage.setItem("authToken", data?.token);
+        //         toast.success('Logged in successfully!', { autoClose: 3000 });
+        //         setIsAuthenticated(true);
+        //         navigate('/dashboard');
+        //     } else {
+        //         toast.error('Login failed! ' + message, { autoClose: 3000 });
+        //     }
+        // } catch (error) {
+        //     console.error('An error occurred:', error);
+        //     toast.error('An error occurred. ' + error, { autoClose: 3000 });
+        // } finally {
+        //     setSubmitting(false);
+        // }
     };
 
     return (
@@ -118,7 +157,7 @@ function Signin({ isAuthenticated, setIsAuthenticated }) {
                                                 className="submit_btn"
                                                 disabled={isSubmitting}
                                             >
-                                                Create Account {isSubmitting && (
+                                                Login {isSubmitting && (
                                                     <div class="spinner-border spinner-border-sm" role="status">
                                                         <span class="sr-only"></span>
                                                     </div>
@@ -144,7 +183,6 @@ function Signin({ isAuthenticated, setIsAuthenticated }) {
                     <p>© 2022 All Rights Reserved</p>
                 </div>
             </footer>
-            <ToastContainer />
         </>
     );
 }

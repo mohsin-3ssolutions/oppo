@@ -21,6 +21,7 @@ import GeneralContractorSignUp from './components/generalContractorSignup.jsx';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import OwnerSignUp from './components/ownerSignup.jsx';
+import { ToastContainer } from 'react-toastify';
 
 function App() {
   const stripePromise = loadStripe('pk_test_51Nt6pALVujA8J6lyi9k5qgGlFHXEgq3SwHSi3bgJiXsAl1RBuxwwnPm8IHuGd9M83MoJa0y9lssxSyFH3E9hvtkB00LXzCRHyA');
@@ -39,15 +40,18 @@ function App() {
 
   useEffect(() => {
     const authenticated = !!localStorage.getItem("authToken");
-    console.log({ authenticated });
+    // console.log({ authenticated });
     setIsAuthenticated(authenticated);
   }, [isAuthenticated, user]);
+
+
+  // console.log(isAuthenticated)
 
   return (
     <Router>
       <Routes>
         <Route path="/dashboard" element={<Dashboard isAuthenticated={isAuthenticated} user={user} logout={logout} />} />
-        <Route path="/" element={<PaymentPlans  />} />
+        <Route path="/" element={<PaymentPlans />} />
         {/* <Route path="/payment-plans" element={<PaymentPlans isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />} /> */}
         {/* <Route path="/" element={<SignIn isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />} /> */}
         <Route path="/signin" element={<SignIn isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />} />
@@ -57,17 +61,17 @@ function App() {
         <Route path="/general-contractor-signup" element={<GeneralContractorSignUp isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />} />
         <Route path="/payment" element={
           <Elements stripe={stripePromise}>
-            <Payment isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated}  user={user} setUser={setUser} />
+            <Payment isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} user={user} setUser={setUser} />
           </Elements>
         } />
         <Route path="/payment-completion" element={<ThankYou isAuthenticated={isAuthenticated} />} />
       </Routes>
+      <ToastContainer />
     </Router>
   );
 }
 
 export default App;
-
 
 
 // import React, { useState, useEffect } from 'react';

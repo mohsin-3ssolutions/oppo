@@ -84,46 +84,31 @@ function Signup({ isAuthenticated, setIsAuthenticated }) {
         }
     };
 
-    const FormObserver = () => {
-        const { values } = useFormikContext();
+    const calculatePasswordStrength = (value) => {
+        const criteria = {
+            minLength: 8,
+            hasUppercase: /[A-Z]/.test(value),
+            hasLowercase: /[a-z]/.test(value),
+            hasNumber: /\d/.test(value),
+            hasSpecial: /[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]/.test(value),
+        };
 
-        useEffect(() => {
-            // console.log("FormObserver::values", values);
-        }, [values]);
+        let score = 0;
+        if (value.length >= criteria.minLength) score += 2;
+        if (criteria.hasUppercase) score += 2;
+        if (criteria.hasLowercase) score += 2;
+        if (criteria.hasNumber) score += 2;
+        if (criteria.hasSpecial) score += 2;
 
-        console.log(values)
-
-        if (values.password) {
-            const criteria = {
-                minLength: 8,      // Minimum length
-                hasUppercase: /[A-Z]/.test(values.password),  // At least one uppercase letter
-                hasLowercase: /[a-z]/.test(values.password),  // At least one lowercase letter
-                hasNumber: /\d/.test(values.password),         // At least one digit
-                hasSpecial: /[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]/.test(values.password),  // At least one special character
-            };
-
-            let score = 0;
-            if (values.password.length >= criteria.minLength) score += 2;
-            if (criteria.hasUppercase) score += 2;
-            if (criteria.hasLowercase) score += 2;
-            if (criteria.hasNumber) score += 2;
-            if (criteria.hasSpecial) score += 2;
-
-            // Password strength categories
-            if (score < 4) {
-                setPasswordStrength("veryWeak");
-            } else if (score < 6) {
-                setPasswordStrength("weak");
-            } else if (score < 8) {
-                setPasswordStrength("normal");
-            } else {
-                setPasswordStrength("strong");
-            }
+        if (score < 4) {
+            setPasswordStrength("veryWeak");
+        } else if (score < 6) {
+            setPasswordStrength("weak");
+        } else if (score < 8) {
+            setPasswordStrength("normal");
+        } else {
+            setPasswordStrength("strong");
         }
-
-
-
-        return null;
     };
     return (
         <>
@@ -177,63 +162,14 @@ function Signup({ isAuthenticated, setIsAuthenticated }) {
                                 <li><a href=""><img src={GoogleImageSrc} alt="Google" /></a></li>
                                 <li><a href=""><img src={AppleImageSrc} alt="Apple" /></a></li>
                             </ul>
-                            {/* <form >
-                                <div className="mb-3">
-                                    <label style={{ ...(errorState.company_name ? { color: "red" } : {}) }} className="form-label">Company Name</label>
-                                    <input
-                                        name="company_name"
-                                        onChange={handleInputChange}
-                                        type="text"
-                                        style={{ ...(errorState.company_name ? { borderColor: "red" } : {}) }} className="form-control" id="exampleFormControlInput1" placeholder="Enter Company Name" />
-                                </div>
-                                <div className="mb-3">
-                                    <label style={{ ...(errorState.fname ? { color: "red" } : {}) }} className="form-label">Full Name</label>
-                                    <input
-                                        name="fname"
-                                        onChange={handleInputChange}
-                                        type="text"
-                                        style={{ ...(errorState.fname ? { borderColor: "red" } : {}) }} className="form-control" id="exampleFormControlInput11" placeholder="Enter Full Name" />
-                                </div>
-                                <div className="mb-3">
-                                    <label style={{ ...(errorState.email ? { color: "red" } : {}) }} className="form-label">Email</label>
-                                    <input
-                                        name="email"
-                                        style={{ ...(errorState.email ? { borderColor: "red" } : {}) }}
-                                        onChange={handleInputChange} type="Email" className="form-control" id="exampleFormControlInput12" placeholder="Enter Email" />
-                                </div>
-                                <div className="mb-3 password-group">
-                                    <label style={{ ...(errorState.password ? { color: "red" } : {}) }} className="form-label">Password</label>
-                                    <input
-                                        name="password"
-                                        onChange={(e) => calculatePasswordStrength(e.target.value)}
-                                        type="password"
-                                        style={{ ...(errorState.password ? { borderColor: "red" } : {}) }} className="form-control" id="exampleFormControlInput13" placeholder="Enter Password" />
-                                </div>
-                                <div className="mb-3">
-                                    <label className="form-label strength_pwd">Password Strength</label>
-                                    <div className="strenght_field">
-                                        <span style={{ background: passwordStrengthBar[passwordStrength][0] }} /> <span style={{ background: passwordStrengthBar[passwordStrength][1] }} /> <span style={{ background: passwordStrengthBar[passwordStrength][2] }} /> <span style={{ background: passwordStrengthBar[passwordStrength][3] }} />
-                                    </div>
-                                </div>
-                                <div className="form-check">
-                                    <input className="form-check-input" type="checkbox" checked={agreeCheck} onChange={(e) => setAgreeCheck(!agreeCheck)} value="true" id="flexCheckDefault" />
-                                    <label className="form-check-label" >
-                                        By creating account you agree to our <a href="">Privacy Policy</a> <a href="">Terms of Service</a> and <a href="">Notification Setting</a>
-                                    </label>
-                                </div>
-                                <button className="submit_btn" disabled={!agreeCheck} onClick={handleSubmit} type="submit">
-                                    Create Account
-                                </button>
-                            </form> */}
-
                             <Formik
                                 initialValues={initialValues}
                                 validationSchema={validationSchema}
                                 onSubmit={handleSubmit}
                             >
-                                {({ isSubmitting, handleChange, touched, errors }) => (
+                                {({ isSubmitting, handleChange, touched, errors, values }) => (
                                     <Form>
-                                        <FormObserver />
+                                        {/* <FormObserver /> */}
                                         <div className="mb-3">
                                             <label
                                                 className="form-label"
@@ -304,8 +240,12 @@ function Signup({ isAuthenticated, setIsAuthenticated }) {
                                                 name="password"
                                                 type="password"
                                                 className={`form-control ${touched.password && errors.password ? "is-invalid" : ""
-                                                    }`} placeholder="Enter Password"
-                                            // onChange={(e) => calculatePasswordStrength(e.target.value)}
+                                                    }`}
+                                                placeholder="Enter Password"
+                                                onChange={(e) => {
+                                                    handleChange(e);
+                                                    calculatePasswordStrength(e.target.value);
+                                                }}
                                             />
                                             <ErrorMessage
                                                 name="password"
@@ -350,7 +290,6 @@ function Signup({ isAuthenticated, setIsAuthenticated }) {
                     <p>© 2022 All Rights Reserved</p>
                 </div>
             </footer>
-            <ToastContainer />
         </>
     );
 }

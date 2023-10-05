@@ -10,7 +10,6 @@ function Dashboard({ user, isAuthenticated }) {
         console.log("isAuthenticated ::::::::::", isAuthenticated);
         ((!isAuthenticated) && navigate('/signin'));
         const paid = localStorage.getItem('paid')?.length ? true : false;
-        debugger
         ((isAuthenticated && paid) ? navigate('/dashboard') : navigate('/payment'));
     }, [user]);
 
@@ -21,7 +20,7 @@ function Dashboard({ user, isAuthenticated }) {
                     <div className="header_nav">
                         <nav className="navbar navbar-expand-lg navbar-light">
                             <div className="container-fluid">
-                                <a className="navbar-brand" href="#"><img className="img-fluid" src={Logo} alt=""/></a>
+                                <a className="navbar-brand" href="#"><img className="img-fluid" src={Logo} alt="" /></a>
                                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                                     <span className="navbar-toggler-icon"></span>
                                 </button>
@@ -60,7 +59,7 @@ function Dashboard({ user, isAuthenticated }) {
                     <div className="market_card_list">
                         <div className="market_card">
                             <div className="market_card_img">
-                                <img src="" alt=""/>
+                                <img src="" alt="" />
                             </div>
                             <div className="market_card_content">
                                 <p>Marketing info or other sales info and pictures. Marketing info or other sales info and pictures. Marketing info or other sales info and pictures. Marketing info or other sales info and pictures. Marketing info or other sales info and pictures. Marketing info or other sales info and pictures. Marketing info or other sales info and pictures. Marketing info or other sales info and pictures. Marketing info or other sales info and pictures. Marketing info or other sales info and pictures. Marketing info or other sales info and pictures. Marketing info or other sales info and pictures.</p>
