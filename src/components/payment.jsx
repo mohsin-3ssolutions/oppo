@@ -6,6 +6,7 @@ import * as Yup from 'yup';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 
 import Logo from "../assets/images/logo.png";
+import DefaultLayout from './reusableComponents/defaultLayout';
 
 function Payment({ setUser, isAuthenticated, user }) {
     console.log("======>", isAuthenticated)
@@ -109,206 +110,170 @@ function Payment({ setUser, isAuthenticated, user }) {
 
     return (
         <>
-            <header>
-                <div className="container">
-                    <div className="header_nav">
-                        <nav className="navbar navbar-expand-lg navbar-light">
-                            <div className="container-fluid">
-                                <a className="navbar-brand" href="#"><img className="img-fluid" src={Logo} alt="" /></a>
-                                <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                                    <span className="navbar-toggler-icon"></span>
-                                </button>
-                                <div className="collapse navbar-collapse navigation" id="navbarNavDropdown">
-                                    <ul className="navbar-nav">
-                                        <li>
-                                            <a aria-current="page" href="#">Home</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Our Services</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Our Story</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Contact Us</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">My Account</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </nav>
-                    </div>
-                </div>
-            </header>
-
-
-            <section className="pay_banner margin-top">
-                <div className="container">
-                    <div className="form_style">
-                        <div className="color_bg">
-                            <div className="sign_up">
-                                <h3>Payment Plan Details</h3>
-                                <p className="payment_price"><span className="pe-1">1</span>Owner Account…….…… <span>$29.99/mon</span></p>
-                                <Formik
-                                    initialValues={initialValues}
-                                    validationSchema={validationSchema}
-                                    onSubmit={handleSubmit}
-                                >
-                                    {({ isSubmitting, touched, errors }) => (
-                                        <Form>
-                                            <div className="mb-3">
-                                                <label
-
-                                                    className="form-label"
-                                                >
-                                                    Name on Card
-                                                </label>
-                                                <Field
-                                                    name="name"
-
-                                                    type="text"
-                                                    className={`form-control ${touched.name && errors.name ? "is-invalid" : ""
-                                                        }`}
-                                                    placeholder="Enter Card Holder Name"
-                                                />
-                                                <ErrorMessage
-                                                    name="name"
-                                                    component="div"
-                                                    className="text-danger"
-                                                />
-                                            </div>
-                                            <div className="mb-3">
-                                                <label
-
-                                                    className="form-label"
-                                                >
-                                                    Card Number
-                                                </label>
-                                                {/* Use CardElement here for card number input */}
-                                                <CardElement
-                                                // onChange={(e) => {
-                                                //     setPaymentError(false);
-                                                // }}
-                                                />
-                                                <ErrorMessage
-                                                    name="cardNumber"
-                                                    component="div"
-                                                    className="text-danger"
-                                                />
-                                            </div>
-                                            <div className="mb-3">
-                                                <label
-                                                    className="form-label"
-                                                >
-                                                    Billing Address
-                                                </label>
-                                                <Field
-                                                    name="address"
-
-                                                    type="text"
-                                                    className={`form-control ${touched.address && errors.address ? "is-invalid" : ""
-                                                        }`}
-                                                    placeholder="Enter Billing Address"
-                                                />
-                                                <ErrorMessage
-                                                    name="address"
-                                                    component="div"
-                                                    className="text-danger"
-                                                />
-                                            </div>
-
-                                            <div className="input-group gap-2">
-                                                <div className="mb-3 w-33">
+            <DefaultLayout>
+                <section className="pay_banner margin-top">
+                    <div className="container">
+                        <div className="form_style">
+                            <div className="color_bg">
+                                <div className="sign_up">
+                                    <h3>Payment Plan Details</h3>
+                                    <p className="payment_price"><span className="pe-1">1</span>Owner Account…….…… <span>$29.99/mon</span></p>
+                                    <Formik
+                                        initialValues={initialValues}
+                                        validationSchema={validationSchema}
+                                        onSubmit={handleSubmit}
+                                    >
+                                        {({ isSubmitting, touched, errors }) => (
+                                            <Form>
+                                                <div className="mb-3">
                                                     <label
 
                                                         className="form-label"
                                                     >
-                                                        Billing City
+                                                        Name on Card
                                                     </label>
                                                     <Field
-                                                        name="city"
+                                                        name="name"
 
                                                         type="text"
-                                                        className={`form-control ${touched.city && errors.city ? "is-invalid" : ""
+                                                        className={`form-control ${touched.name && errors.name ? "is-invalid" : ""
                                                             }`}
-                                                        placeholder="Enter Billing City"
+                                                        placeholder="Enter Card Holder Name"
                                                     />
                                                     <ErrorMessage
-                                                        name="city"
+                                                        name="name"
                                                         component="div"
                                                         className="text-danger"
                                                     />
                                                 </div>
-                                                <div className="mb-3 w-33">
+                                                <div className="mb-3">
                                                     <label
 
                                                         className="form-label"
                                                     >
-                                                        Billing State
+                                                        Card Number
                                                     </label>
-                                                    <Field
-                                                        name="state"
-
-                                                        as="select"
-                                                        className={`form-control ${touched.state && errors.state ? "is-invalid" : ""
-                                                            }`}
-                                                    >
-                                                        <option value="utah">Utah</option>
-                                                        <option value="usa">USA</option>
-                                                    </Field>
+                                                    {/* Use CardElement here for card number input */}
+                                                    <CardElement
+                                                    // onChange={(e) => {
+                                                    //     setPaymentError(false);
+                                                    // }}
+                                                    />
                                                     <ErrorMessage
-                                                        name="state"
+                                                        name="cardNumber"
                                                         component="div"
                                                         className="text-danger"
                                                     />
                                                 </div>
-                                                <div className="mb-3 w-33">
+                                                <div className="mb-3">
                                                     <label
-
                                                         className="form-label"
                                                     >
-                                                        Billing Zip
+                                                        Billing Address
                                                     </label>
                                                     <Field
-                                                        name="zip"
+                                                        name="address"
 
-                                                        type="number"
-                                                        className={`form-control ${touched.zip && errors.zip ? "is-invalid" : ""
+                                                        type="text"
+                                                        className={`form-control ${touched.address && errors.address ? "is-invalid" : ""
                                                             }`}
-                                                        placeholder="Enter Zip Code"
+                                                        placeholder="Enter Billing Address"
                                                     />
                                                     <ErrorMessage
-                                                        name="zip"
+                                                        name="address"
                                                         component="div"
                                                         className="text-danger"
                                                     />
                                                 </div>
-                                            </div>
+
+                                                <div className="input-group gap-2">
+                                                    <div className="mb-3 w-33">
+                                                        <label
+
+                                                            className="form-label"
+                                                        >
+                                                            Billing City
+                                                        </label>
+                                                        <Field
+                                                            name="city"
+
+                                                            type="text"
+                                                            className={`form-control ${touched.city && errors.city ? "is-invalid" : ""
+                                                                }`}
+                                                            placeholder="Enter Billing City"
+                                                        />
+                                                        <ErrorMessage
+                                                            name="city"
+                                                            component="div"
+                                                            className="text-danger"
+                                                        />
+                                                    </div>
+                                                    <div className="mb-3 w-33">
+                                                        <label
+
+                                                            className="form-label"
+                                                        >
+                                                            Billing State
+                                                        </label>
+                                                        <Field
+                                                            name="state"
+
+                                                            as="select"
+                                                            className={`form-control ${touched.state && errors.state ? "is-invalid" : ""
+                                                                }`}
+                                                        >
+                                                            <option value="utah">Utah</option>
+                                                            <option value="usa">USA</option>
+                                                        </Field>
+                                                        <ErrorMessage
+                                                            name="state"
+                                                            component="div"
+                                                            className="text-danger"
+                                                        />
+                                                    </div>
+                                                    <div className="mb-3 w-33">
+                                                        <label
+
+                                                            className="form-label"
+                                                        >
+                                                            Billing Zip
+                                                        </label>
+                                                        <Field
+                                                            name="zip"
+
+                                                            type="number"
+                                                            className={`form-control ${touched.zip && errors.zip ? "is-invalid" : ""
+                                                                }`}
+                                                            placeholder="Enter Zip Code"
+                                                        />
+                                                        <ErrorMessage
+                                                            name="zip"
+                                                            component="div"
+                                                            className="text-danger"
+                                                        />
+                                                    </div>
+                                                </div>
 
 
-                                            <button
-                                                className="submit_btn"
-                                                type="submit"
-                                                disabled={isSubmitting}
-                                            >
-                                                Complete Payment
-                                            </button>
-                                        </Form>
-                                    )}
-                                </Formik>
+                                                <button
+                                                    className="submit_btn"
+                                                    type="submit"
+                                                    disabled={isSubmitting}
+                                                >
+                                                    Complete Payment
+                                                </button>
+                                            </Form>
+                                        )}
+                                    </Formik>
 
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </section>
-            <footer>
-                <div className="container">
-                    <p>© 2022 All Rights Reserved</p>
-                </div>
-            </footer>
+                </section>
+            </DefaultLayout>
+
+
             <ToastContainer />
         </>
     );
