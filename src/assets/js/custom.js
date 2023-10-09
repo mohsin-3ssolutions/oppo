@@ -1,25 +1,22 @@
-
-$(document).ready(function() {
-    $(".bar-list ul li a").click(function(){
-        $(this).addClass("active");
-    });
-    $('#ham-menu').on("click", function() {
-        $("#mySidenav").show();
-        $("#mySidenav").css("width","263px");
-    });
-    $('#mySidenav .side-closebtn').on("click", function() {
-        $("#mySidenav").hide();
-        $("#mySidenav").css("width","0px");
-
-    });
-
-});
-
-function openNav() {
-    alert("ok");
-    document.getElementById("mySidenav").style.width = "250px !important";
+var step = ["step1", "step2", "step3", "step4", "step5"];
+var visibleDivId = null;
+function toggleVisibility(divId) {
+  if(visibleDivId === divId) {
+    //visibleDivId = null;
+  } else {
+    visibleDivId = divId;
+  }
+  hideNonVisibleDivs();
 }
-    
-function closeNav() {
-    document.getElementById("mySidenav").style.width = "0";
+function hideNonVisibleDivs() {
+  var i, divId, div;
+  for(i = 0; i < step.length; i++) {
+    divId = step[i];
+    div = document.getElementById(divId);
+    if(visibleDivId === divId) {
+      div.style.display = "block";
+    } else {
+      div.style.display = "none";
+    }
+  }
 }

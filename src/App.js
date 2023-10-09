@@ -15,6 +15,7 @@ import PaymentPlans from "./components/paymentPlans.jsx";
 import ThankYou from "./components/thankyou.jsx";
 import SubContractorSignUp from './components/subContractorSignup.jsx';
 import GeneralContractorSignUp from './components/generalContractorSignup.jsx';
+import Account from './components/account.jsx';
 // import 'dotenv/config';
 // require('dotenv').config();
 
@@ -50,6 +51,7 @@ function App() {
   return (
     <Router>
       <Routes>
+        <Route path="/account" element={<Account />} />
         <Route path="/dashboard" element={<Dashboard isAuthenticated={isAuthenticated} user={user} logout={logout} />} />
         <Route path="/" element={<PaymentPlans />} />
         {/* <Route path="/payment-plans" element={<PaymentPlans isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />} /> */}
