@@ -53,9 +53,12 @@ function App() {
   console.log('helloo', paymentSripe)
   useEffect(() => {
     const authenticated = !!localStorage.getItem("authToken");
-    console.log({ authenticated });
+    // console.log({ authenticated });
     setIsAuthenticated(authenticated);
   }, [isAuthenticated, user]);
+
+
+  // console.log(isAuthenticated)
 
   return (
     <Router>
@@ -82,7 +85,6 @@ function App() {
 }
 
 export default App;
-
 
 
 // import React, { useState, useEffect } from 'react';
