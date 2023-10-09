@@ -22,9 +22,11 @@ import { loadStripe } from '@stripe/stripe-js';
 import OwnerSignUp from './components/ownerSignup.jsx';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchUserProfileDetails } from './store/userProfileSlice/userProfileSlice.js';
 
 function App() {
-  console.log({11111111: process.env});
+  console.log({ 11111111: process.env });
   const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState({
@@ -38,10 +40,17 @@ function App() {
     localStorage.removeItem('authToken');
     setIsAuthenticated(false);
   }
-
+  const dispatch = useDispatch();
   useEffect(() => {
-    verifyAuthToken();
+    // verifyAuthToken();
+    dispatch(verifyAuthToken(fetchUserProfileDetails))
   }, []);
+
+  const paymentSripe = useSelector((state) => {
+    return state?.userProfileSlice?.userData?.data?.stripe_customer_id;
+  });
+
+  console.log('helloo', paymentSripe)
   useEffect(() => {
     const authenticated = !!localStorage.getItem("authToken");
     console.log({ authenticated });
@@ -51,8 +60,8 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/dashboard" element={<Dashboard isAuthenticated={isAuthenticated} user={user} logout={logout} />} />
-        <Route path="/" element={<PaymentPlans  />} />
+        <Route path="/dashboard" element={<Dashboard isAuthenticated={isAuthenticated} paymentSripe={paymentSripe} user={user} logout={logout} />} />
+        <Route path="/" element={<PaymentPlans />} />
         {/* <Route path="/payment-plans" element={<PaymentPlans isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />} /> */}
         {/* <Route path="/" element={<SignIn isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />} /> */}
         <Route path="/signin" element={<SignIn isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />} />
@@ -62,7 +71,7 @@ function App() {
         <Route path="/general-contractor-signup" element={<GeneralContractorSignUp isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />} />
         <Route path="/payment" element={
           <Elements stripe={stripePromise}>
-            <Payment isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated}  user={user} setUser={setUser} />
+            <Payment isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} user={user} setUser={setUser} />
           </Elements>
         } />
         <Route path="/payment-completion" element={<ThankYou isAuthenticated={isAuthenticated} />} />
