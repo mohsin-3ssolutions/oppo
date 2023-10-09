@@ -50,7 +50,6 @@ function App() {
     return state?.userProfileSlice?.userData?.data?.stripe_customer_id;
   });
 
-  console.log('helloo', paymentSripe)
   useEffect(() => {
     const authenticated = !!localStorage.getItem("authToken");
     // console.log({ authenticated });
