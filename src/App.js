@@ -16,6 +16,7 @@ import ThankYou from "./components/thankyou.jsx";
 import SubContractorSignUp from './components/subContractorSignup.jsx';
 import GeneralContractorSignUp from './components/generalContractorSignup.jsx';
 import { verifyAuthToken } from './utils.js';
+import Account from './components/account.jsx';
 
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
@@ -24,6 +25,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUserProfileDetails } from './store/userProfileSlice/userProfileSlice.js';
+import LandingPage from './components/landingPage.jsx';
 
 function App() {
   console.log({ 11111111: process.env });
@@ -56,14 +58,15 @@ function App() {
     setIsAuthenticated(authenticated);
   }, [isAuthenticated, user]);
 
-
   // console.log(isAuthenticated)
 
   return (
     <Router>
       <Routes>
+        <Route path="/account" element={<Account />} />
         <Route path="/dashboard" element={<Dashboard isAuthenticated={isAuthenticated} paymentSripe={paymentSripe} user={user} logout={logout} />} />
-        <Route path="/" element={<PaymentPlans />} />
+        <Route path="/payment-plans" element={<PaymentPlans />} />
+        <Route path="/" element={<LandingPage />} />
         {/* <Route path="/payment-plans" element={<PaymentPlans isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />} /> */}
         {/* <Route path="/" element={<SignIn isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />} /> */}
         <Route path="/signin" element={<SignIn isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />} />

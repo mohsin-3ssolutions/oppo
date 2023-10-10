@@ -3,7 +3,6 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import { emailPatternValidator } from '../utils';
-import Logo from "../assets/images/logo.png"
 import FacebookImageSrc from "../assets/images/facebook.png"
 import GoogleImageSrc from "../assets/images/google.png"
 import AppleImageSrc from "../assets/images/apple.png"
@@ -173,7 +172,7 @@ function SubContractorSignUp({ isAuthenticated, setIsAuthenticated }) {
                     <div className="header_nav">
                         <nav className="navbar navbar-expand-lg navbar-light">
                             <div className="container-fluid">
-                                <a className="navbar-brand" href="#"><img className="img-fluid" src={Logo} alt="" /></a>
+                                <a className="navbar-brand" href="#"><img className="img-fluid" src="/assets/images/logo.png" alt="" /></a>
                                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                                     <span className="navbar-toggler-icon"></span>
                                 </button>

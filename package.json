@@ -80,6 +80,17 @@
     "extends": [
       "react-app",
       "react-app/jest"
+    ],
+    "overrides": [
+      {
+        "files": [
+          "**/bootstrap.bundle.min.js"
+        ],
+        "rules": {
+          "no-undef": "off",
+          "no-unused-expressions": "off"
+        }
+      }
     ]
   },
   "browserslist": {
