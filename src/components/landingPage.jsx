@@ -173,7 +173,7 @@ export default function LandingPage() {
                         </div>
                     </div>
                     <div class="text-center mt-5">
-                        <Link to="/payment-plans" class="globle_btn">Get Started</Link>
+                        <Link to="/select-role" class="globle_btn">Get Started</Link>
                     </div>
                 </div>
             </section>
