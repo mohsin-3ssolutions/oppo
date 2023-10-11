@@ -1,5 +1,6 @@
 import React from 'react';
 import Logo from '../../assets/images/logo.png'
+import { Link } from 'react-router-dom';
 function Header() {
     return (
         <header>
@@ -14,19 +15,19 @@ function Header() {
                             <div className="collapse navbar-collapse navigation" id="navbarNavDropdown">
                                 <ul className="navbar-nav">
                                     <li>
-                                        <a aria-current="page" href="/">Home</a>
+                                        <Link to="/">Home</Link>
                                     </li>
                                     <li>
-                                        <a href="">Our Services</a>
+                                        <Link to="/our-services">Our Services</Link>
                                     </li>
                                     <li>
-                                        <a href="">Our Story</a>
+                                        <Link to="/our-story">Our Story</Link>
                                     </li>
                                     <li>
-                                        <a href="">Contact Us</a>
+                                        <Link to="/contact-us">Contact Us</Link>
                                     </li>
                                     <li>
-                                        <a href="/account">My Account</a>
+                                        <Link to="/account">My Account</Link>
                                     </li>
                                 </ul>
                             </div>

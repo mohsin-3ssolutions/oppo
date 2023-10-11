@@ -18,6 +18,7 @@ import ThankYou from "./components/thankyou.jsx";
 import { verifyAuthToken } from './utils.js';
 
 import { fetchUserProfileDetails } from './store/userProfileSlice/userProfileSlice.js';
+import LandingPage from './components/landingPage.jsx';
 
 function App() {
   const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
@@ -51,8 +52,8 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/select-role" element={<SelectRole />} />
-        <Route path="/signup" element={<SignUp isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />} />
+        {/* <Route path="/payment-plans" element={<PaymentPlans isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />} /> */}
+        {/* <Route path="/" element={<SignIn isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />} /> */}
         <Route path="/signin" element={<SignIn isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />} />
         <Route path="/payment" element={
           <Elements stripe={stripePromise}>

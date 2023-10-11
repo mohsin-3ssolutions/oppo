@@ -1,5 +1,6 @@
 import React from 'react'
 import DefaultLayout from './reusableComponents/defaultLayout'
+import { Link } from 'react-router-dom'
 
 export default function LandingPage() {
     return (
@@ -172,7 +173,7 @@ export default function LandingPage() {
                         </div>
                     </div>
                     <div class="text-center mt-5">
-                        <a href="" class="globle_btn">Get Started</a>
+                        <Link to="/payment-plans" class="globle_btn">Get Started</Link>
                     </div>
                 </div>
             </section>
