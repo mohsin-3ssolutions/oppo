@@ -1,9 +1,51 @@
-import React from 'react';
+import React, { useState } from 'react';
 import DefaultLayout from './reusableComponents/defaultLayout';
-// import Logo from "../assets/images/logo.png"
+import { IconButton, Menu, MenuItem } from '@mui/material';
+import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'// import Logo from "../assets/images/logo.png"
+const options = [
+    '10%',
+    '20%',
+    '30%',
+    '40%',
+    '50%',
+    '60%',
+    '70%',
+    '80%',
+    '90%',
+    '100%'
+];
 
+const ITEM_HEIGHT = 48;
 function Account() {
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [jobStatus, setJobstatus] = useState('10%');
 
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = (e) => {
+        if (e) {
+            // If an event object is provided, set the selected value
+            console.log(e);
+            setJobstatus(e);
+        }
+        setAnchorEl(null);
+    };
+
+    const [startDate, setStartDate] = useState(null);
+    const [completionDate, setCompletionDate] = useState(null);
+
+    const handleStartDateChange = (date) => {
+        console.log(date)
+        setStartDate(date);
+    };
+
+    const handleCompletionDateChange = (date) => {
+        console.log(date)
+        setCompletionDate(date);
+    };
     return (
         <>
             <DefaultLayout>
@@ -40,7 +82,7 @@ function Account() {
                                                     <h2>Project Name <span>Start Date</span></h2>
                                                     <ul class="project_status">
                                                         <li>
-                                                            <div class="dropdown">
+                                                            {/* <div class="dropdown">
                                                                 <button class="dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                                                     Job Status: <span>70%</span>
                                                                 </button>
@@ -49,10 +91,47 @@ function Account() {
                                                                     <li><a class="dropdown-item" href="#">Another action</a></li>
                                                                     <li><a class="dropdown-item" href="#">Something else here</a></li>
                                                                 </ul>
+                                                            </div> */}
+                                                            <div>
+                                                                <p
+                                                                    aria-label="more"
+                                                                    id="long-button"
+                                                                    aria-controls={open ? 'long-menu' : undefined}
+                                                                    aria-expanded={open ? 'true' : undefined}
+                                                                    aria-haspopup="true"
+                                                                    onClick={handleClick}
+                                                                    className='cursor-pointer'
+                                                                >
+                                                                    Job Status: <span>{jobStatus}</span>
+                                                                </p>
+                                                                {/* <button  onClick={handleClick} class="dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                    Job Status: <span>70%</span>
+                                                                </button> */}
+                                                                <Menu
+                                                                    id="long-menu"
+                                                                    MenuListProps={{
+                                                                        'aria-labelledby': 'long-button',
+                                                                    }}
+                                                                    anchorEl={anchorEl}
+                                                                    open={open}
+                                                                    onClose={() => handleClose(options[0])}
+                                                                    PaperProps={{
+                                                                        style: {
+                                                                            maxHeight: ITEM_HEIGHT * 4.5,
+                                                                            width: '20ch',
+                                                                        },
+                                                                    }}
+                                                                >
+                                                                    {options.map((option) => (
+                                                                        <MenuItem key={option} selected={option === '10%'} onClick={() => { handleClose(option) }}>
+                                                                            {option}
+                                                                        </MenuItem>
+                                                                    ))}
+                                                                </Menu>
                                                             </div>
                                                         </li>
                                                         <li>
-                                                            <p class="view_count"><img src="assets/images/view.png" alt="" /><span>100</span></p>
+                                                            <p className="view_count mt-2"><img src="assets/images/view.png" alt="" /><span>100</span></p>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -270,7 +349,9 @@ function Account() {
                                                         <div class="form_style">
                                                             <div class="mb-3">
                                                                 <label for="exampleFormControlInput1" class="form-label">Approximate Start Date</label>
-                                                                <input class="form-control" type="date" />
+                                                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                                                    <DatePicker />
+                                                                </LocalizationProvider>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -483,11 +564,15 @@ function Account() {
                                                         <div class="form_style">
                                                             <div class="mb-3">
                                                                 <label for="exampleFormControlInput1" class="form-label">Approximate Start Date</label>
-                                                                <input class="form-control" type="date" />
+                                                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                                                    <DatePicker value={startDate} onChange={handleStartDateChange} />
+                                                                </LocalizationProvider>
                                                             </div>
                                                             <div class="mb-3">
                                                                 <label for="exampleFormControlInput1" class="form-label">Approximate Completion Date</label>
-                                                                <input class="form-control" type="date" />
+                                                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                                                    <DatePicker value={completionDate} onChange={handleCompletionDateChange} />
+                                                                </LocalizationProvider>
                                                             </div>
                                                         </div>
                                                     </div>
