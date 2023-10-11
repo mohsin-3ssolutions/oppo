@@ -1,5 +1,4 @@
 import React from 'react';
-import Logo from '../../assets/images/logo.png'
 import { Link } from 'react-router-dom';
 function Header() {
     return (
@@ -8,7 +7,7 @@ function Header() {
                 <div className="header_nav">
                     <nav className="navbar navbar-expand-lg navbar-light">
                         <div className="container-fluid">
-                            <a className="navbar-brand" href="#"><img className="img-fluid" src={Logo} alt="" /></a>
+                            <a className="navbar-brand" href="#"><img className="img-fluid" src="/assets/images/logo.png" alt="" /></a>
                             <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                                 <span className="navbar-toggler-icon"></span>
                             </button>

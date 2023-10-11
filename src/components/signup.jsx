@@ -3,10 +3,6 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import { emailPatternValidator } from '../utils';
-import Logo from "../assets/images/logo.png"
-import FacebookImageSrc from "../assets/images/facebook.png"
-import GoogleImageSrc from "../assets/images/google.png"
-import AppleImageSrc from "../assets/images/apple.png"
 import { Formik, Form, Field, ErrorMessage, useFormikContext } from 'formik';
 import * as Yup from 'yup';
 import DefaultLayout from './reusableComponents/defaultLayout';
@@ -122,9 +118,9 @@ function Signup({ isAuthenticated, setIsAuthenticated }) {
                                 <h3>Add Company Details</h3>
                                 <p>Already have an account? <a href="/signin" className="log_in">Log In</a></p>
                                 <ul className="social_links">
-                                    <li><a href=""><img src={FacebookImageSrc} alt="Facebook" /></a></li>
-                                    <li><a href=""><img src={GoogleImageSrc} alt="Google" /></a></li>
-                                    <li><a href=""><img src={AppleImageSrc} alt="Apple" /></a></li>
+                                    <li><a href=""><img src="/assets/images/facebook.png" alt="Facebook" /></a></li>
+                                    <li><a href=""><img src="/assets/images/google.png" alt="Google" /></a></li>
+                                    <li><a href=""><img src="/assets/images/apple.png" alt="Apple" /></a></li>
                                 </ul>
                                 <Formik
                                     initialValues={initialValues}

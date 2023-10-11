@@ -4,9 +4,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import { emailPatternValidator } from '../../utils';
 
-import FacebookImageSrc from "../../assets/images/facebook.png"
-import GoogleImageSrc from "../../assets/images/google.png"
-import AppleImageSrc from "../../assets/images/apple.png"
 
 const SignUp = ({ isAuthenticated, setIsAuthenticated }) => {
   const [agreeCheck, setAgreeCheck] = useState(false);
@@ -40,7 +37,7 @@ const SignUp = ({ isAuthenticated, setIsAuthenticated }) => {
     // console.log("isAuthenticated ::::::::::", isAuthenticated);
 
     (isAuthenticated && navigate('/account'));
-    
+
   }, [isAuthenticated, errorState]);
 
 
@@ -49,13 +46,13 @@ const SignUp = ({ isAuthenticated, setIsAuthenticated }) => {
     if (name === 'email') isErr = (value.length && emailPatternValidator.test(value)) ? false : true;
     else isErr = value.length ? false : true;
 
-    setErrorState((es)=>({
+    setErrorState((es) => ({
       ...es,
       [name]: isErr,
     }));
 
     return isErr;
-  },[errorState]);
+  }, [errorState]);
 
 
   const calculatePasswordStrength = (password) => {
@@ -109,15 +106,15 @@ const SignUp = ({ isAuthenticated, setIsAuthenticated }) => {
   const handleSubmit = useCallback(async (event) => {
     event.preventDefault();
     let hasError = false;
-    
+
     Object.entries(formData).map(([name, value]) => {
-      console.log({111:hasError});
+      console.log({ 111: hasError });
       const currentFieldError = checkErrorState(name, value);
       hasError = (hasError || currentFieldError);
-      console.log({222:hasError});
+      console.log({ 222: hasError });
       console.log({ name, value });
     });
-    
+
     console.log({ errorState }, hasError);
 
     try {
@@ -136,31 +133,31 @@ const SignUp = ({ isAuthenticated, setIsAuthenticated }) => {
         },
         body: JSON.stringify(requestData),
       }).then((response) => {
-          // if (!response.ok) {
-          //   throw new Error('Network response was not ok');
-          // }
-          return response.json(); // Use response.json() for JSON data
-          // If the response is plain text, you can use response.text() instead
-        })
-          .then(({data, message, success}) => {
-            // console.log(res); // This will log the parsed response data
-            console.log({ data, message, success }); // This will log the parsed response data
-            if (success) {
-              localStorage.setItem("authToken", data?.token);
-              toast.success('Registration successful!', { autoClose: 3000 });
-              setIsAuthenticated(true);
-              navigate("/account");
-            } else {
-              toast.error('Registration failed!' + message, { autoClose: 3000 });
-            }
-          });
+        // if (!response.ok) {
+        //   throw new Error('Network response was not ok');
+        // }
+        return response.json(); // Use response.json() for JSON data
+        // If the response is plain text, you can use response.text() instead
+      })
+        .then(({ data, message, success }) => {
+          // console.log(res); // This will log the parsed response data
+          console.log({ data, message, success }); // This will log the parsed response data
+          if (success) {
+            localStorage.setItem("authToken", data?.token);
+            toast.success('Registration successful!', { autoClose: 3000 });
+            setIsAuthenticated(true);
+            navigate("/account");
+          } else {
+            toast.error('Registration failed!' + message, { autoClose: 3000 });
+          }
+        });
     } catch (error) {
       console.error('An error occurred:', error);
       toast.error('An error occurred.' + error, { autoClose: 3000 });
     }
   }, [formData, errorState]);
 
-  
+
 
 
   return (
@@ -184,13 +181,13 @@ const SignUp = ({ isAuthenticated, setIsAuthenticated }) => {
               <h3>Add Company Details</h3>
               <p>Already have an account? <a href="/signin" className="log_in">Log In</a></p>
               <ul className="social_links">
-                <li><a href=""><img src={FacebookImageSrc} alt="Facebook" /></a></li>
-                <li><a href=""><img src={GoogleImageSrc} alt="Google" /></a></li>
-                <li><a href=""><img src={AppleImageSrc} alt="Apple" /></a></li>
+                <li><a href=""><img src="/assets/images/facebook.png" alt="Facebook" /></a></li>
+                <li><a href=""><img src="/assets/images/google.png" alt="Google" /></a></li>
+                <li><a href=""><img src="/assets/images/apple.png" alt="Apple" /></a></li>
               </ul>
               <form action="">
                 <div className="mb-3">
-                  <label htmlFor="exampleFormControlInput1" className="form-label" style={{...(errorState.companyName ? {color:"red"} : {})}} >Company Name</label>
+                  <label htmlFor="exampleFormControlInput1" className="form-label" style={{ ...(errorState.companyName ? { color: "red" } : {}) }} >Company Name</label>
                   <input
                     name="companyName"
                     onChange={handleInputChange}
@@ -202,7 +199,7 @@ const SignUp = ({ isAuthenticated, setIsAuthenticated }) => {
                   />
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="exampleFormControlInput11" className="form-label" style={{...(errorState.fullName ? {color:"red"} : {})}} >Full Name</label>
+                  <label htmlFor="exampleFormControlInput11" className="form-label" style={{ ...(errorState.fullName ? { color: "red" } : {}) }} >Full Name</label>
                   <input
                     name="fullName"
                     onChange={handleInputChange}
@@ -214,7 +211,7 @@ const SignUp = ({ isAuthenticated, setIsAuthenticated }) => {
                   />
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="exampleFormControlInput12" className="form-label" style={{...(errorState.email ? {color:"red"} : {})}} >Email</label>
+                  <label htmlFor="exampleFormControlInput12" className="form-label" style={{ ...(errorState.email ? { color: "red" } : {}) }} >Email</label>
                   <input
                     name="email"
                     style={{ ...(errorState.email ? { borderColor: "red" } : {}) }}
@@ -226,7 +223,7 @@ const SignUp = ({ isAuthenticated, setIsAuthenticated }) => {
                   />
                 </div>
                 <div className="mb-3 password-group">
-                  <label htmlFor="exampleFormControlInput13" className="form-label" style={{...(errorState.password ? {color:"red"} : {})}} >Password</label>
+                  <label htmlFor="exampleFormControlInput13" className="form-label" style={{ ...(errorState.password ? { color: "red" } : {}) }} >Password</label>
                   <input
                     name="password"
                     onChange={(e) => calculatePasswordStrength(e.target.value)}

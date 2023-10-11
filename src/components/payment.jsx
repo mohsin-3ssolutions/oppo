@@ -4,8 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import * as Yup from 'yup';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-
-import Logo from "../assets/images/logo.png";
 import DefaultLayout from './reusableComponents/defaultLayout';
 
 function Payment({ setUser, isAuthenticated, user }) {

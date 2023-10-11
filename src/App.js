@@ -1,11 +1,16 @@
 import { Elements } from '@stripe/react-stripe-js';
+import './App.css';
+// import '../public/assets/js/bootstrap.bundle.min.js';
+
 import { loadStripe } from '@stripe/stripe-js';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import "./styles/global.css";
+import './styles/responsive.css';
+import 'bootstrap/dist/css/bootstrap.css';
 // import { useNavigate } from 'react-router-dom';
 import Account from './components/account.jsx';
 import Dashboard from "./components/dashboard.jsx";
@@ -45,7 +50,7 @@ function App() {
   });
 
   useEffect(() => {
-    console.log({123456: process.env});
+    console.log({ 123456: process.env });
     const authenticated = !!localStorage.getItem("authToken");
     setIsAuthenticated(authenticated);
   }, [isAuthenticated, user]);
