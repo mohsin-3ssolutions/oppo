@@ -8,7 +8,7 @@ export default function LandingPage() {
                 <div class="container">
                     <div class="home_content">
                         <h1>OPPO. an opportunity to connect, organize, and bid projects simply.</h1>
-                        <a href="" class="globle_btn">Get Started</a>
+                        <a href="/select-role" class="globle_btn">Get Started</a>
                     </div>
                 </div>
             </section>

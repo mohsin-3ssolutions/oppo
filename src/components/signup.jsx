@@ -50,7 +50,8 @@ function Signup({ isAuthenticated, setIsAuthenticated }) {
     }, [isAuthenticated]);
 
 
-    const handleSubmit = async (values, { setSubmitting }) => {
+    // const handleSubmit = async (values, { setSubmitting }) => {
+    const handleSubmit = async (values) => {
         console.log(values)
         try {
             fetch('https://opo.jjtestsite.us/api/register', {
@@ -81,7 +82,7 @@ function Signup({ isAuthenticated, setIsAuthenticated }) {
             toast.error('An error occurred.' + error, { autoClose: 3000 });
         }
         finally {
-            setSubmitting(false);
+            // setSubmitting(false);
         }
     };
 
@@ -229,6 +230,7 @@ function Signup({ isAuthenticated, setIsAuthenticated }) {
                                                 </label>
                                             </div>
                                             <div >
+                                                {/* <input  disabled={isSubmitting} onClick={handleSubmit} type="submit" value="Create Account" /> */}
                                                 <button
                                                     type="submit"
                                                     className="submit_btn"
@@ -249,8 +251,6 @@ function Signup({ isAuthenticated, setIsAuthenticated }) {
                     </div>
                 </section>
             </DefaultLayout>
-
-
         </>
     );
 }

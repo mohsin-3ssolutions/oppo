@@ -1,0 +1,12 @@
+{
+    // "ignorePatterns": ["**/bootstrap.bundle.min.js"]
+    "overrides": [
+        {
+          "files": ["**/bootstrap.bundle.min.js"],
+          "rules": {
+            "no-undef": "off", // Turn off the "no-undef" rule for this file
+            "no-unused-expressions": "off" // Turn off the "no-unused-expressions" rule for this file
+          }
+        }
+      ]
+}

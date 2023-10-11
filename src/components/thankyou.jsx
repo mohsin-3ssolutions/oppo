@@ -56,7 +56,7 @@ function Signin({ isAuthenticated, setIsAuthenticated }) {
                                 <p className="thnaku_message">Your payment was successful! Welcome to Oppo!
                                     Begin using your account now!</p>
                                 <div className="creat_btn">
-                                    <a href="/dashboard">Go to Dashboard</a>
+                                    <a href="/account">Go to Dashboard</a>
                                 </div>
                             </div>
                         </div>

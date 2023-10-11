@@ -14,19 +14,19 @@ function Header() {
                             <div className="collapse navbar-collapse navigation" id="navbarNavDropdown">
                                 <ul className="navbar-nav">
                                     <li>
-                                        <a aria-current="page" href="#">Home</a>
+                                        <a aria-current="page" href="/">Home</a>
                                     </li>
                                     <li>
-                                        <a href="#">Our Services</a>
+                                        <a href="">Our Services</a>
                                     </li>
                                     <li>
-                                        <a href="#">Our Story</a>
+                                        <a href="">Our Story</a>
                                     </li>
                                     <li>
-                                        <a href="#">Contact Us</a>
+                                        <a href="">Contact Us</a>
                                     </li>
                                     <li>
-                                        <a href="#">My Account</a>
+                                        <a href="/account">My Account</a>
                                     </li>
                                 </ul>
                             </div>

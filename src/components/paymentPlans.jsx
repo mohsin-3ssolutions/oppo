@@ -2,7 +2,7 @@ import React from 'react';
 
 import Logo from "../assets/images/logo.png"
 
-function PaymentPlans() {
+function SelectRole() {
     return (
         <>
             <header>
@@ -88,7 +88,8 @@ function PaymentPlans() {
                                             </li>
                                         </ul>
                                         <div className="creat_btn">
-                                            <a href="/owner-signup">Select</a>
+                                            <a href="/signup">Select</a>
+                                            {/* <a href="/owner-signup">Select</a> */}
                                         </div>
                                     </div>
                                 </div>
@@ -111,7 +112,8 @@ function PaymentPlans() {
                                             </li>
                                         </ul>
                                         <div className="creat_btn">
-                                            <a href="/general-contractor-signup">Select</a>
+                                            <a href="/signup">Select</a>
+                                            {/* <a href="/general-contractor-signup">Select</a> */}
                                         </div>
                                     </div>
                                 </div>
@@ -133,7 +135,8 @@ function PaymentPlans() {
                                             </li>
                                         </ul>
                                         <div className="creat_btn">
-                                            <a href="/sub-contractor-signup">Select</a>
+                                            <a href="/signup">Select</a>
+                                            {/* <a href="/sub-contractor-signup">Select</a> */}
                                         </div>
                                     </div>
                                 </div>
@@ -151,4 +154,4 @@ function PaymentPlans() {
     );
 }
 
-export default PaymentPlans;
+export default SelectRole;

@@ -39,7 +39,7 @@ const SignUp = ({ isAuthenticated, setIsAuthenticated }) => {
     // console.log("errorState has changed:", errorState);
     // console.log("isAuthenticated ::::::::::", isAuthenticated);
 
-    (isAuthenticated && navigate('/dashboard'));
+    (isAuthenticated && navigate('/account'));
     
   }, [isAuthenticated, errorState]);
 
@@ -149,7 +149,7 @@ const SignUp = ({ isAuthenticated, setIsAuthenticated }) => {
               localStorage.setItem("authToken", data?.token);
               toast.success('Registration successful!', { autoClose: 3000 });
               setIsAuthenticated(true);
-              navigate("/dashboard");
+              navigate("/account");
             } else {
               toast.error('Registration failed!' + message, { autoClose: 3000 });
             }
