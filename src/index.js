@@ -4,10 +4,9 @@ import ReactDOM from 'react-dom/client';
 // import 'bootstrap/dist/css/bootstrap.css';
 // import './App.css';
 
-// import './assets/js/jquery.min.js';
-// import './assets/js/slick.js';
-// import './assets/js/custom.js';
+
 import App from './App';
+
 import { Provider } from 'react-redux';
 import store from './store/store';
 // import reportWebVitals from './reportWebVitals';

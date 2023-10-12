@@ -1,15 +1,14 @@
 import { Elements } from '@stripe/react-stripe-js';
 import './App.css';
-// import '../public/assets/js/bootstrap.bundle.min.js';
-
+import './assentials/js/bootstrap.bundle.min.js';
 import { loadStripe } from '@stripe/stripe-js';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import "./styles/global.css";
-import './styles/responsive.css';
+import "./assentials/styles/global.css";
+import './assentials/styles/responsive.css';
 import 'bootstrap/dist/css/bootstrap.css';
 // import { useNavigate } from 'react-router-dom';
 import Account from './components/account.jsx';
@@ -25,6 +24,9 @@ import { verifyAuthToken } from './utils.js';
 import { fetchUserProfileDetails } from './store/userProfileSlice/userProfileSlice.js';
 import ContactUs from './components/contactUs.jsx';
 import Services from './components/services.jsx';
+import './assentials/js/custom.js'
+import './assentials/js/jquery.min.js';
+import './assentials/js/slick.js';
 import Story from './components/story.jsx';
 
 function App() {
