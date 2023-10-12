@@ -3,6 +3,7 @@ import DefaultLayout from './reusableComponents/defaultLayout';
 import { IconButton, Menu, MenuItem } from '@mui/material';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'// import Logo from "../assets/images/logo.png"
+import { Link } from 'react-router-dom';
 const options = [
     '10%',
     '20%',
@@ -139,7 +140,7 @@ function Account() {
                                             </div>
                                         </div>
                                         <div class="creat_btn">
-                                            <a href="">Find a Project</a>
+                                            <Link to="/find-a-project">Find a Project</Link>
                                             <a href="">Post a Project</a>
                                         </div>
                                     </div>
