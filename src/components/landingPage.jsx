@@ -1,8 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import DefaultLayout from './reusableComponents/defaultLayout'
 import { Link } from 'react-router-dom'
 
 export default function LandingPage() {
+    const [activeStep, setActiveStep] = useState('step1');
+
+    const toggleVisibility = (step) => {
+        setActiveStep(step);
+    };
     return (
         <DefaultLayout>
             <section class="home_banner">
@@ -79,54 +84,54 @@ export default function LandingPage() {
                             </div>
                         </div>
                     </div>
-                    <div class="step_section">
-                        <div class="steps_banner">
-                            <ul class="steps_pill">
+                    <div className="step_section">
+                        <div className="steps_banner">
+                            <ul className="steps_pill">
                                 <li>
-                                    <a href="javascript:void(0)" onclick="toggleVisibility('step1');">
+                                    <a href="javascript:void(0)" onClick={() => toggleVisibility('step1')}>
                                         <img src="/assets/images/icon5.png" alt="" />
                                         <span>Step1</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="javascript:void(0)" onclick="toggleVisibility('step2');">
+                                    <a href="javascript:void(0)" onClick={() => toggleVisibility('step2')}>
                                         <img src="/assets/images/icon6.png" alt="" />
                                         <span>Step2</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="javascript:void(0)" onclick="toggleVisibility('step3');">
+                                    <a href="javascript:void(0)" onClick={() => toggleVisibility('step3')}>
                                         <img src="/assets/images/icon7.png" alt="" />
                                         <span>Step3</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="javascript:void(0)" onclick="toggleVisibility('step4');">
+                                    <a href="javascript:void(0)" onClick={() => toggleVisibility('step4')}>
                                         <img src="/assets/images/icon8.png" alt="" />
                                         <span>Step4</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="javascript:void(0)" onclick="toggleVisibility('step5');">
+                                    <a href="javascript:void(0)" onClick={() => toggleVisibility('step5')}>
                                         <img src="/assets/images/icon9.png" alt="" />
                                         <span>Step5</span>
                                     </a>
                                 </li>
                             </ul>
-                            <ul class="step_content">
-                                <li id="step1" style={{ display: "none" }}>
+                            <ul className="step_content">
+                                <li id="step1" style={{ display: activeStep === 'step1' ? 'block' : 'none' }}>
                                     <p>Present your content in an attractive Circle layout item 1. You can highlight key information with click or hover effects and style it as per your preference</p>
                                 </li>
-                                <li id="step2" style={{ display: "none" }}>
+                                <li id="step2" style={{ display: activeStep === 'step2' ? 'block' : 'none' }}>
                                     <p>Present your content in an attractive Circle layout item 2. You can highlight key information with click or hover effects and style it as per your preference</p>
                                 </li>
-                                <li id="step3" style={{ display: "none" }}>
+                                <li id="step3" style={{ display: activeStep === 'step3' ? 'block' : 'none' }}>
                                     <p>Present your content in an attractive Circle layout item 3. You can highlight key information with click or hover effects and style it as per your preference</p>
                                 </li>
-                                <li id="step4" style={{ display: "none" }}>
+                                <li id="step4" style={{ display: activeStep === 'step4' ? 'block' : 'none' }}>
                                     <p>Present your content in an attractive Circle layout item 4. You can highlight key information with click or hover effects and style it as per your preference</p>
                                 </li>
-                                <li id="step5" style={{ display: "none" }}>
+                                <li id="step5" style={{ display: activeStep === 'step5' ? 'block' : 'none' }}>
                                     <p>Present your content in an attractive Circle layout item 5. You can highlight key information with click or hover effects and style it as per your preference</p>
                                 </li>
                             </ul>
