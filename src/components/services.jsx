@@ -110,7 +110,7 @@ export default function Services() {
                                 <h4>A BENEFIT / FEATURE</h4>
                                 <h1 class="sub_head">A Title About Your Services</h1>
                                 <p>A paragraph describing additional information about your business or services. This is a great opportunity to provide details about services that are not listed in the main services menu.</p>
-                                <a href="contact_us.html" class="globle_btn">Contact Us</a>
+                                <a href="contact-us" class="globle_btn">Contact Us</a>
                             </div>
                         </div>
                         <div class="col-lg-7">
