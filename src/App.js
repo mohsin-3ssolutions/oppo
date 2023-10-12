@@ -2,7 +2,7 @@ import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import { Route, BrowserRouter as Router, Routes, Navigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -15,6 +15,7 @@ import SignIn from "./components/signin.jsx";
 import SignUp from "./components/signup.jsx";
 import LandingPage from './components/landingPage.jsx';
 import ThankYou from "./components/thankyou.jsx";
+import PrivateRoute from "./routes/private-route.js";
 import { verifyAuthToken } from './utils.js';
 
 import { fetchUserProfileDetails } from './store/userProfileSlice/userProfileSlice.js';
@@ -44,6 +45,12 @@ function App() {
     return state?.userProfileSlice?.userData?.data?.stripe_customer_id;
   });
 
+  const NoComponent = () => {
+    return (
+        <h1>No Component</h1>
+    );
+}
+
   useEffect(() => {
     console.log({123456: process.env});
     const authenticated = !!localStorage.getItem("authToken");
@@ -54,6 +61,9 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<LandingPage />} />
+        <Route path="/gc/*" element={<PrivateRoute path='/abc' isAuthenticated={isAuthenticated} element={<LandingPage />} />} />
+        <Route path="/sc/*" element={<PrivateRoute path='/abc' isAuthenticated={isAuthenticated} element={<LandingPage />} />} />
+        <Route path="/ow/*" element={<PrivateRoute path='/abc' isAuthenticated={isAuthenticated} element={<LandingPage />} />} />
         <Route path="/select-role" element={<SelectRole />} />
         <Route path="/contact-us" element={<ContactUs />} />
         <Route path="/our-services" element={<Services />} />
