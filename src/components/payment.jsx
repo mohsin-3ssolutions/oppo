@@ -268,6 +268,10 @@ function Payment({ setUser, isAuthenticated, user }) {
                                                 >
                                                     Complete Payment
                                                 </button>
+                                                <div class="creat_btn mb-5">
+                                                        <button>Complete Payment</button>
+                                                        <button>Find a Project</button>
+                                                </div>
                                             </Form>
                                         )}
                                     </Formik>

@@ -29,6 +29,7 @@ import FindProject from './components/findProject';
 import Services from './components/services.jsx';
 import Story from './components/story.jsx';
 import { fetchUserProfileDetails } from './store/userProfileSlice/userProfileSlice.js';
+import ChartComponent from './components/ganttchart';
 
 function App() {
   const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
@@ -65,7 +66,8 @@ function App() {
         <Route path="/our-services" element={<Services />} />
         <Route path="/our-story" element={<Story />} />
         <Route path="/find-a-project" element={<FindProject />} />
-        
+        {/* <Route path="/chart" element={<ChartComponent />} /> */}
+
         <Route path="/signin" element={<SignIn isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />} />
         <Route path="/signup" element={<SignUp isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />} />
         <Route path="/payment" element={

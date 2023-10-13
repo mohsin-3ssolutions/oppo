@@ -1,26 +1,95 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import Chart from 'chart.js/auto';
+import 'chart.js/auto';
+import 'chartjs-adapter-date-fns';
+
 import DefaultLayout from './reusableComponents/defaultLayout';
 import { IconButton, Menu, MenuItem } from '@mui/material';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'// import Logo from "../assets/images/logo.png"
 import { Link } from 'react-router-dom';
 const options = [
-    '10%',
-    '20%',
-    '30%',
-    '40%',
-    '50%',
-    '60%',
-    '70%',
-    '80%',
-    '90%',
-    '100%'
+    { value: '10%', color: "red" },
+    { value: '20%', color: "red" },
+    { value: '30%', color: "red" },
+    { value: '40%', color: "red" },
+    { value: '50%', color: "red" },
+    { value: '60%', color: "red" },
+    { value: '70%', color: "red" },
+    { value: '80%', color: "red" },
+    { value: '90%', color: "red" },
+    { value: '100%', color: "red" }
 ];
+
 
 const ITEM_HEIGHT = 48;
 function Account() {
     const [anchorEl, setAnchorEl] = useState(null);
     const [jobStatus, setJobstatus] = useState('10%');
+
+    useEffect(() => {
+        // Your Chart.js initialization code
+        const data = {
+            labels: ['Mik Jason', 'Travor Smith', 'Shane Watsaon', 'Kevin Peterson', 'James Anderson', 'Ashley', 'Lee'],
+            datasets: [
+                {
+                    label: 'My Chart',
+                    data: [
+                        ['2023-01-01', '2023-03-11'],
+                        ['2023-03-01', '2023-04-01'],
+                        ['2023-04-01', '2023-07-01'],
+                        ['2023-04-01', '2023-05-01'],
+                        ['2023-06-01', '2023-09-01'],
+                        ['2023-03-01', '2023-05-01'],
+                        ['2023-02-01', '2023-08-01'],
+                    ],
+                    backgroundColor: [
+                        'rgba(255, 26, 104, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(0, 0, 0, 1)',
+                    ],
+                    borderColor: [
+                        'rgba(255, 26, 104, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(0, 0, 0, 1)',
+                    ],
+                    // borderWidth: 1,
+                    barPercentage: 0.2
+                },
+            ],
+        };
+
+        const config = {
+            type: 'bar',
+            data,
+            options: {
+                indexAxis: 'y',
+                scales: {
+                    x: {
+                        min: '2023-01-01',
+                        type: 'time',
+                        time: {
+                            unit: 'month',
+                        },
+                    },
+                    y: {
+                        // type: 'linear', // Explicitly specify the scale type
+                        beginAtZero: true,
+                    },
+                },
+            },
+        };
+
+        const myChart = new Chart(document.getElementById('myChart'), config);
+    }, []);
 
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -50,17 +119,17 @@ function Account() {
     return (
         <>
             <DefaultLayout>
-                <section class="inner_banner account_banner">
-                    <div class="inner_plan_banner">
-                        <div class="container">
+                <section className="inner_banner account_banner">
+                    <div className="inner_plan_banner">
+                        <div className="container">
                             <h1>Welcome Back <span> Zach</span></h1>
                         </div>
                     </div>
                 </section>
-                <section class="gc_homebanner">
-                    <div class="container">
-                        <div class="globle_tabs">
-                            <ul class="nav nav-tabs" id="gcTab" role="tablist">
+                <section className="gc_homebanner">
+                    <div className="container">
+                        <div className="globle_tabs">
+                            <ul className="nav nav-tabs" id="gcTab" role="tablist">
                                 <li role="presentation">
                                     <a id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Out for Bid</a>
                                 </li>
@@ -68,31 +137,21 @@ function Account() {
                                     <a id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Active Projects</a>
                                 </li>
                                 <li role="presentation">
-                                    <a id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Sub Contractor Schedule</a>
+                                    <a id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">General Contractor Schedule</a>
                                 </li>
                                 <li role="presentation">
                                     <a id="contact-tab" data-bs-toggle="tab" data-bs-target="#mycontact" type="button" role="tab" aria-controls="contact" aria-selected="false">My Contacts</a>
                                 </li>
                             </ul>
-                            <div class="tab-content" id="gcTabContent">
-                                <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
-                                    <div class="about_projects">
-                                        <div class="color_bg">
-                                            <div class="project_detail">
-                                                <div class="project_head">
+                            <div className="tab-content" id="gcTabContent">
+                                <div className="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                    <div className="about_projects">
+                                        <div className="color_bg">
+                                            <div className="project_detail">
+                                                <div className="project_head">
                                                     <h2>Project Name <span>Start Date</span></h2>
-                                                    <ul class="project_status">
+                                                    <ul className="project_status">
                                                         <li>
-                                                            {/* <div class="dropdown">
-                                                                <button class="dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                    Job Status: <span>70%</span>
-                                                                </button>
-                                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                                                </ul>
-                                                            </div> */}
                                                             <div>
                                                                 <p
                                                                     aria-label="more"
@@ -105,9 +164,6 @@ function Account() {
                                                                 >
                                                                     Job Status: <span>{jobStatus}</span>
                                                                 </p>
-                                                                {/* <button  onClick={handleClick} class="dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                    Job Status: <span>70%</span>
-                                                                </button> */}
                                                                 <Menu
                                                                     id="long-menu"
                                                                     MenuListProps={{
@@ -115,7 +171,7 @@ function Account() {
                                                                     }}
                                                                     anchorEl={anchorEl}
                                                                     open={open}
-                                                                    onClose={() => handleClose(options[0])}
+                                                                    onClose={() => handleClose(options.value[0])}
                                                                     PaperProps={{
                                                                         style: {
                                                                             maxHeight: ITEM_HEIGHT * 4.5,
@@ -124,8 +180,8 @@ function Account() {
                                                                     }}
                                                                 >
                                                                     {options.map((option) => (
-                                                                        <MenuItem key={option} selected={option === '10%'} onClick={() => { handleClose(option) }}>
-                                                                            {option}
+                                                                        <MenuItem key={option.value} selected={option.value === '10%'} onClick={() => { handleClose(option.value) }}>
+                                                                            {option.value}
                                                                         </MenuItem>
                                                                     ))}
                                                                 </Menu>
@@ -136,220 +192,220 @@ function Account() {
                                                         </li>
                                                     </ul>
                                                 </div>
-                                                <p><strong>Project Description:</strong> General contractors will manage the build process of a movie theater, overseeing site preparation, excavation, electrical, plumbing, HVAC, and finishing work. They will collaborate with specialists to ensure timely, budget-friendly, and quality project completion. The theater will offer advanced audio-visual equipment, comfortable seating, and safety protocols to deliver a first-class entertainment experience.</p>
+                                                <p><strong>Project Description:</strong> General contractors will manage the build process of a movie theater, overseeing site preparation, excavation, electrical, plumbing, HVAC, and finishing work. They will collaborate with specialists to ensure timely, budget-friendly, and quality project completion. The theater will offer advanced audio-visual equipment, comfortable seating, and safety protocols to deliver a first-className entertainment experience.</p>
                                             </div>
                                         </div>
-                                        <div class="creat_btn">
+                                        <div className="creat_btn">
                                             <Link to="/find-a-project">Find a Project</Link>
                                             <a href="">Post a Project</a>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                                    <div class="about_projects" style={{ display: "none" }}>
-                                        <div class="color_bg">
-                                            <div class="project_detail">
-                                                <div class="project_head">
+                                <div className="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                    <div className="about_projects" style={{ display: "none" }}>
+                                        <div className="color_bg">
+                                            <div className="project_detail">
+                                                <div className="project_head">
                                                     <h2>Project Name <span>Start Date</span></h2>
-                                                    <ul class="project_status">
+                                                    <ul className="project_status">
                                                         <li>
-                                                            <p class="view_count"><img src="assets/images/view.png" alt="" /><span>100</span></p>
+                                                            <p className="view_count"><img src="assets/images/view.png" alt="" /><span>100</span></p>
                                                         </li>
                                                     </ul>
                                                 </div>
-                                                <p><strong>Project Description:</strong> General contractors will manage the build process of a movie theater, overseeing site preparation, excavation, electrical, plumbing, HVAC, and finishing work. They will collaborate with specialists to ensure timely, budget-friendly, and quality project completion. The theater will offer advanced audio-visual equipment, comfortable seating, and safety protocols to deliver a first-class entertainment experience.</p>
+                                                <p><strong>Project Description:</strong> General contractors will manage the build process of a movie theater, overseeing site preparation, excavation, electrical, plumbing, HVAC, and finishing work. They will collaborate with specialists to ensure timely, budget-friendly, and quality project completion. The theater will offer advanced audio-visual equipment, comfortable seating, and safety protocols to deliver a first-className entertainment experience.</p>
                                             </div>
                                         </div>
-                                        <div class="creat_btn">
+                                        <div className="creat_btn">
                                             <a href="">Find a Project</a>
                                             <a href="">Post a Project</a>
                                         </div>
                                     </div>
-                                    <div class="new_project" style={{ display: "none" }}>
-                                        <div class="color_bg">
+                                    <div className="new_project" style={{ display: "none" }}>
+                                        <div className="color_bg">
                                             <h2>Start a New Project</h2>
                                             <form action="">
-                                                <div class="row">
-                                                    <div class="col-lg-4 col-md-6">
-                                                        <div class="form_style ps-0">
-                                                            <div class="mb-3">
-                                                                <label for="exampleFormControlInput1" class="form-label">Project Name</label>
-                                                                <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="XYZ Contractors" />
+                                                <div className="row">
+                                                    <div className="col-lg-4 col-md-6">
+                                                        <div className="form_style ps-0">
+                                                            <div className="mb-3">
+                                                                <label for="exampleFormControlInput1" className="form-label">Project Name</label>
+                                                                <input type="text" className="form-control" id="exampleFormControlInput1" placeholder="XYZ Contractors" />
                                                             </div>
-                                                            <div class="mb-3">
-                                                                <label for="exampleFormControlInput12" class="form-label">Email</label>
-                                                                <input type="Email" class="form-control" id="exampleFormControlInput12" placeholder="peterehat+oppotest@gmail.com" />
+                                                            <div className="mb-3">
+                                                                <label for="exampleFormControlInput12" className="form-label">Email</label>
+                                                                <input type="Email" className="form-control" id="exampleFormControlInput12" placeholder="peterehat+oppotest@gmail.com" />
                                                             </div>
-                                                            <div class="mb-3">
-                                                                <label for="exampleFormControlInput11" class="form-label">Project Rep</label>
-                                                                <input type="text" class="form-control" id="exampleFormControlInput11" placeholder="Peter Ehat" />
+                                                            <div className="mb-3">
+                                                                <label for="exampleFormControlInput11" className="form-label">Project Rep</label>
+                                                                <input type="text" className="form-control" id="exampleFormControlInput11" placeholder="Peter Ehat" />
                                                             </div>
-                                                            <div class="mb-3">
-                                                                <label for="exampleFormControlInput13" class="form-label">Phone Number</label>
-                                                                <input type="text" class="form-control" id="exampleFormControlInput13" placeholder="801-976-2351" />
+                                                            <div className="mb-3">
+                                                                <label for="exampleFormControlInput13" className="form-label">Phone Number</label>
+                                                                <input type="text" className="form-control" id="exampleFormControlInput13" placeholder="801-976-2351" />
                                                             </div>
-                                                            <div class="mb-3">
-                                                                <label for="exampleFormControlInput13" class="form-label">Project Description</label>
-                                                                <textarea name="" id="" cols="30" rows="5" class="form-control"></textarea>
+                                                            <div className="mb-3">
+                                                                <label for="exampleFormControlInput13" className="form-label">Project Description</label>
+                                                                <textarea name="" id="" cols="30" rows="5" className="form-control"></textarea>
                                                                 <hr />
                                                             </div>
-                                                            <div class="mb-3">
-                                                                <label for="exampleFormControlInput13" class="form-label">Who have you worked with in the past? (Banks, Lenders, etc.)</label>
-                                                                <textarea name="" id="" cols="30" rows="5" class="form-control"></textarea>
+                                                            <div className="mb-3">
+                                                                <label for="exampleFormControlInput13" className="form-label">Who have you worked with in the past? (Banks, Lenders, etc.)</label>
+                                                                <textarea name="" id="" cols="30" rows="5" className="form-control"></textarea>
                                                                 <hr />
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-4 col-md-6">
-                                                        <div class="form_style">
-                                                            <div class="mb-3">
-                                                                <label for="exampleFormControlInput1" class="form-label">Designer</label>
-                                                                <div class="input-group gap-3">
-                                                                    <div class="form-check">
-                                                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="radio1" />
-                                                                        <label class="form-check-label" for="radio1">
+                                                    <div className="col-lg-4 col-md-6">
+                                                        <div className="form_style">
+                                                            <div className="mb-3">
+                                                                <label for="exampleFormControlInput1" className="form-label">Designer</label>
+                                                                <div className="input-group gap-3">
+                                                                    <div className="form-check">
+                                                                        <input className="form-check-input" type="radio" name="flexRadioDefault" id="radio1" />
+                                                                        <label className="form-check-label" for="radio1">
                                                                             Yes
                                                                         </label>
                                                                     </div>
-                                                                    <div class="form-check">
-                                                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="radio2" />
-                                                                        <label class="form-check-label" for="radio2">
+                                                                    <div className="form-check">
+                                                                        <input className="form-check-input" type="radio" name="flexRadioDefault" id="radio2" />
+                                                                        <label className="form-check-label" for="radio2">
                                                                             No
                                                                         </label>
                                                                     </div>
-                                                                    <div class="form-check">
-                                                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="radio3" />
-                                                                        <label class="form-check-label" for="radio3">
+                                                                    <div className="form-check">
+                                                                        <input className="form-check-input" type="radio" name="flexRadioDefault" id="radio3" />
+                                                                        <label className="form-check-label" for="radio3">
                                                                             TBD
                                                                         </label>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="mb-3">
-                                                                <label for="exampleFormControlInput12" class="form-label">Engineer</label>
-                                                                <div class="input-group gap-3">
-                                                                    <div class="form-check">
-                                                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="radio1" />
-                                                                        <label class="form-check-label" for="radio1">
+                                                            <div className="mb-3">
+                                                                <label for="exampleFormControlInput12" className="form-label">Engineer</label>
+                                                                <div className="input-group gap-3">
+                                                                    <div className="form-check">
+                                                                        <input className="form-check-input" type="radio" name="flexRadioDefault" id="radio1" />
+                                                                        <label className="form-check-label" for="radio1">
                                                                             Yes
                                                                         </label>
                                                                     </div>
-                                                                    <div class="form-check">
-                                                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="radio2" />
-                                                                        <label class="form-check-label" for="radio2">
+                                                                    <div className="form-check">
+                                                                        <input className="form-check-input" type="radio" name="flexRadioDefault" id="radio2" />
+                                                                        <label className="form-check-label" for="radio2">
                                                                             No
                                                                         </label>
                                                                     </div>
-                                                                    <div class="form-check">
-                                                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="radio3" />
-                                                                        <label class="form-check-label" for="radio3">
+                                                                    <div className="form-check">
+                                                                        <input className="form-check-input" type="radio" name="flexRadioDefault" id="radio3" />
+                                                                        <label className="form-check-label" for="radio3">
                                                                             TBD
                                                                         </label>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="mb-3">
-                                                                <label for="exampleFormControlInput12" class="form-label">Architect</label>
-                                                                <div class="input-group gap-3">
-                                                                    <div class="form-check">
-                                                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="radio1" />
-                                                                        <label class="form-check-label" for="radio1">
+                                                            <div className="mb-3">
+                                                                <label for="exampleFormControlInput12" className="form-label">Architect</label>
+                                                                <div className="input-group gap-3">
+                                                                    <div className="form-check">
+                                                                        <input className="form-check-input" type="radio" name="flexRadioDefault" id="radio1" />
+                                                                        <label className="form-check-label" for="radio1">
                                                                             Yes
                                                                         </label>
                                                                     </div>
-                                                                    <div class="form-check">
-                                                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="radio2" />
-                                                                        <label class="form-check-label" for="radio2">
+                                                                    <div className="form-check">
+                                                                        <input className="form-check-input" type="radio" name="flexRadioDefault" id="radio2" />
+                                                                        <label className="form-check-label" for="radio2">
                                                                             No
                                                                         </label>
                                                                     </div>
-                                                                    <div class="form-check">
-                                                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="radio3" />
-                                                                        <label class="form-check-label" for="radio3">
+                                                                    <div className="form-check">
+                                                                        <input className="form-check-input" type="radio" name="flexRadioDefault" id="radio3" />
+                                                                        <label className="form-check-label" for="radio3">
                                                                             TBD
                                                                         </label>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="mb-3">
-                                                                <label for="exampleFormControlInput12" class="form-label">Permits</label>
-                                                                <div class="upload_files">
-                                                                    <div class="input-group gap-3">
-                                                                        <div class="form-check">
-                                                                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="radio1" />
-                                                                            <label class="form-check-label" for="radio1">
+                                                            <div className="mb-3">
+                                                                <label for="exampleFormControlInput12" className="form-label">Permits</label>
+                                                                <div className="upload_files">
+                                                                    <div className="input-group gap-3">
+                                                                        <div className="form-check">
+                                                                            <input className="form-check-input" type="radio" name="flexRadioDefault" id="radio1" />
+                                                                            <label className="form-check-label" for="radio1">
                                                                                 Yes
                                                                             </label>
                                                                         </div>
-                                                                        <div class="form-check">
-                                                                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="radio2" />
-                                                                            <label class="form-check-label" for="radio2">
+                                                                        <div className="form-check">
+                                                                            <input className="form-check-input" type="radio" name="flexRadioDefault" id="radio2" />
+                                                                            <label className="form-check-label" for="radio2">
                                                                                 No
                                                                             </label>
                                                                         </div>
-                                                                        <div class="form-check">
-                                                                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="radio3" />
-                                                                            <label class="form-check-label" for="radio3">
+                                                                        <div className="form-check">
+                                                                            <input className="form-check-input" type="radio" name="flexRadioDefault" id="radio3" />
+                                                                            <label className="form-check-label" for="radio3">
                                                                                 TBD
                                                                             </label>
                                                                         </div>
                                                                     </div>
-                                                                    <label for="exampleFormControlInput12" class="form-label">Upload Permits</label>
+                                                                    <label for="exampleFormControlInput12" className="form-label">Upload Permits</label>
                                                                     <input type="file" />
                                                                 </div>
                                                             </div>
-                                                            <div class="mb-3">
-                                                                <label for="exampleFormControlInput12" class="form-label">Financing</label>
-                                                                <div class="input-group gap-3">
-                                                                    <div class="form-check">
-                                                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="radio1" />
-                                                                        <label class="form-check-label" for="radio1">
+                                                            <div className="mb-3">
+                                                                <label for="exampleFormControlInput12" className="form-label">Financing</label>
+                                                                <div className="input-group gap-3">
+                                                                    <div className="form-check">
+                                                                        <input className="form-check-input" type="radio" name="flexRadioDefault" id="radio1" />
+                                                                        <label className="form-check-label" for="radio1">
                                                                             Yes
                                                                         </label>
                                                                     </div>
-                                                                    <div class="form-check">
-                                                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="radio2" />
-                                                                        <label class="form-check-label" for="radio2">
+                                                                    <div className="form-check">
+                                                                        <input className="form-check-input" type="radio" name="flexRadioDefault" id="radio2" />
+                                                                        <label className="form-check-label" for="radio2">
                                                                             No
                                                                         </label>
                                                                     </div>
-                                                                    <div class="form-check">
-                                                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="radio3" />
-                                                                        <label class="form-check-label" for="radio3">
+                                                                    <div className="form-check">
+                                                                        <input className="form-check-input" type="radio" name="flexRadioDefault" id="radio3" />
+                                                                        <label className="form-check-label" for="radio3">
                                                                             TBD
                                                                         </label>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="mb-3">
-                                                                <label for="exampleFormControlInput12" class="form-label">Plans</label>
-                                                                <div class="upload_files border-0">
-                                                                    <div class="input-group gap-3">
-                                                                        <div class="form-check">
-                                                                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="radio1" />
-                                                                            <label class="form-check-label" for="radio1">
+                                                            <div className="mb-3">
+                                                                <label for="exampleFormControlInput12" className="form-label">Plans</label>
+                                                                <div className="upload_files border-0">
+                                                                    <div className="input-group gap-3">
+                                                                        <div className="form-check">
+                                                                            <input className="form-check-input" type="radio" name="flexRadioDefault" id="radio1" />
+                                                                            <label className="form-check-label" for="radio1">
                                                                                 Yes
                                                                             </label>
                                                                         </div>
-                                                                        <div class="form-check">
-                                                                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="radio2" />
-                                                                            <label class="form-check-label" for="radio2">
+                                                                        <div className="form-check">
+                                                                            <input className="form-check-input" type="radio" name="flexRadioDefault" id="radio2" />
+                                                                            <label className="form-check-label" for="radio2">
                                                                                 No
                                                                             </label>
                                                                         </div>
                                                                     </div>
-                                                                    <label for="exampleFormControlInput12" class="form-label">Upload Plans</label>
+                                                                    <label for="exampleFormControlInput12" className="form-label">Upload Plans</label>
                                                                     <input type="file" />
-                                                                    <label for="exampleFormControlInput12" class="form-label">Upload Pictures</label>
+                                                                    <label for="exampleFormControlInput12" className="form-label">Upload Pictures</label>
                                                                     <input type="file" />
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-4 col-md-6">
-                                                        <div class="form_style">
-                                                            <div class="mb-3">
-                                                                <label for="exampleFormControlInput1" class="form-label">Approximate Start Date</label>
+                                                    <div className="col-lg-4 col-md-6">
+                                                        <div className="form_style">
+                                                            <div className="mb-3">
+                                                                <label for="exampleFormControlInput1" className="form-label">Approximate Start Date</label>
                                                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                                                     <DatePicker />
                                                                 </LocalizationProvider>
@@ -357,56 +413,56 @@ function Account() {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="submit_btn">
+                                                <div className="submit_btn">
                                                     <input type="submit" value="Create Project" />
                                                 </div>
                                             </form>
                                         </div>
                                     </div>
-                                    <div class="new_project project_name_banner">
-                                        <div class="color_bg">
+                                    <div className="new_project project_name_banner">
+                                        <div className="color_bg">
                                             <h2>Start a New Project</h2>
                                             <form action="">
-                                                <div class="row">
-                                                    <div class="col-lg-4 col-md-6">
-                                                        <div class="form_style ps-0">
-                                                            <div class="mb-3">
-                                                                <label for="exampleFormControlInput1" class="form-label">Project Name</label>
-                                                                <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="XYZ Contractors" />
+                                                <div className="row">
+                                                    <div className="col-lg-4 col-md-6">
+                                                        <div className="form_style ps-0">
+                                                            <div className="mb-3">
+                                                                <label for="exampleFormControlInput1" className="form-label">Project Name</label>
+                                                                <input type="text" className="form-control" id="exampleFormControlInput1" placeholder="XYZ Contractors" />
                                                             </div>
-                                                            <div class="mb-3">
-                                                                <label for="exampleFormControlInput12" class="form-label">Email</label>
-                                                                <input type="Email" class="form-control" id="exampleFormControlInput12" placeholder="peterehat+oppotest@gmail.com" />
+                                                            <div className="mb-3">
+                                                                <label for="exampleFormControlInput12" className="form-label">Email</label>
+                                                                <input type="Email" className="form-control" id="exampleFormControlInput12" placeholder="peterehat+oppotest@gmail.com" />
                                                             </div>
-                                                            <div class="mb-3">
-                                                                <label for="exampleFormControlInput11" class="form-label">Project Rep</label>
-                                                                <input type="text" class="form-control" id="exampleFormControlInput11" placeholder="Peter Ehat" />
+                                                            <div className="mb-3">
+                                                                <label for="exampleFormControlInput11" className="form-label">Project Rep</label>
+                                                                <input type="text" className="form-control" id="exampleFormControlInput11" placeholder="Peter Ehat" />
                                                             </div>
-                                                            <div class="mb-3">
-                                                                <label for="exampleFormControlInput13" class="form-label">Phone Number</label>
-                                                                <input type="text" class="form-control" id="exampleFormControlInput13" placeholder="801-976-2351" />
+                                                            <div className="mb-3">
+                                                                <label for="exampleFormControlInput13" className="form-label">Phone Number</label>
+                                                                <input type="text" className="form-control" id="exampleFormControlInput13" placeholder="801-976-2351" />
                                                             </div>
-                                                            <div class="mb-3">
-                                                                <label for="exampleFormControlInput13" class="form-label">Project Description</label>
-                                                                <textarea name="" id="" cols="30" rows="5" class="form-control"></textarea>
+                                                            <div className="mb-3">
+                                                                <label for="exampleFormControlInput13" className="form-label">Project Description</label>
+                                                                <textarea name="" id="" cols="30" rows="5" className="form-control"></textarea>
                                                                 <hr />
                                                             </div>
-                                                            <div class="mb-3">
-                                                                <label for="exampleFormControlInput13" class="form-label">Who have you worked with in the past? (Banks, Lenders, etc.)</label>
-                                                                <textarea name="" id="" cols="30" rows="5" class="form-control"></textarea>
+                                                            <div className="mb-3">
+                                                                <label for="exampleFormControlInput13" className="form-label">Who have you worked with in the past? (Banks, Lenders, etc.)</label>
+                                                                <textarea name="" id="" cols="30" rows="5" className="form-control"></textarea>
                                                                 <hr />
                                                             </div>
-                                                            <div class="mb-3">
-                                                                <ul class="project_status">
+                                                            <div className="mb-3">
+                                                                <ul className="project_status">
                                                                     <li>
-                                                                        <div class="dropdown">
-                                                                            <button class="dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                        <div className="dropdown">
+                                                                            <button className="dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                                                                 Job Status: <span>70%</span>
                                                                             </button>
-                                                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                                                                <li><a class="dropdown-item" href="#">Action</a></li>
-                                                                                <li><a class="dropdown-item" href="#">Another action</a></li>
-                                                                                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                                                            <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                                                <li><a className="dropdown-item" href="#">Action</a></li>
+                                                                                <li><a className="dropdown-item" href="#">Another action</a></li>
+                                                                                <li><a className="dropdown-item" href="#">Something else here</a></li>
                                                                             </ul>
                                                                         </div>
                                                                     </li>
@@ -415,162 +471,162 @@ function Account() {
 
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-4 col-md-6">
-                                                        <div class="form_style">
-                                                            <div class="mb-3">
-                                                                <label for="exampleFormControlInput1" class="form-label">Designer</label>
-                                                                <div class="input-group gap-3">
-                                                                    <div class="form-check">
-                                                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="radio1" />
-                                                                        <label class="form-check-label" for="radio1">
+                                                    <div className="col-lg-4 col-md-6">
+                                                        <div className="form_style">
+                                                            <div className="mb-3">
+                                                                <label for="exampleFormControlInput1" className="form-label">Designer</label>
+                                                                <div className="input-group gap-3">
+                                                                    <div className="form-check">
+                                                                        <input className="form-check-input" type="radio" name="flexRadioDefault" id="radio1" />
+                                                                        <label className="form-check-label" for="radio1">
                                                                             Yes
                                                                         </label>
                                                                     </div>
-                                                                    <div class="form-check">
-                                                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="radio2" />
-                                                                        <label class="form-check-label" for="radio2">
+                                                                    <div className="form-check">
+                                                                        <input className="form-check-input" type="radio" name="flexRadioDefault" id="radio2" />
+                                                                        <label className="form-check-label" for="radio2">
                                                                             No
                                                                         </label>
                                                                     </div>
-                                                                    <div class="form-check">
-                                                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="radio3" />
-                                                                        <label class="form-check-label" for="radio3">
+                                                                    <div className="form-check">
+                                                                        <input className="form-check-input" type="radio" name="flexRadioDefault" id="radio3" />
+                                                                        <label className="form-check-label" for="radio3">
                                                                             TBD
                                                                         </label>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="mb-3">
-                                                                <label for="exampleFormControlInput12" class="form-label">Engineer</label>
-                                                                <div class="input-group gap-3">
-                                                                    <div class="form-check">
-                                                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="radio1" />
-                                                                        <label class="form-check-label" for="radio1">
+                                                            <div className="mb-3">
+                                                                <label for="exampleFormControlInput12" className="form-label">Engineer</label>
+                                                                <div className="input-group gap-3">
+                                                                    <div className="form-check">
+                                                                        <input className="form-check-input" type="radio" name="flexRadioDefault" id="radio1" />
+                                                                        <label className="form-check-label" for="radio1">
                                                                             Yes
                                                                         </label>
                                                                     </div>
-                                                                    <div class="form-check">
-                                                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="radio2" />
-                                                                        <label class="form-check-label" for="radio2">
+                                                                    <div className="form-check">
+                                                                        <input className="form-check-input" type="radio" name="flexRadioDefault" id="radio2" />
+                                                                        <label className="form-check-label" for="radio2">
                                                                             No
                                                                         </label>
                                                                     </div>
-                                                                    <div class="form-check">
-                                                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="radio3" />
-                                                                        <label class="form-check-label" for="radio3">
+                                                                    <div className="form-check">
+                                                                        <input className="form-check-input" type="radio" name="flexRadioDefault" id="radio3" />
+                                                                        <label className="form-check-label" for="radio3">
                                                                             TBD
                                                                         </label>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="mb-3">
-                                                                <label for="exampleFormControlInput12" class="form-label">Architect</label>
-                                                                <div class="input-group gap-3">
-                                                                    <div class="form-check">
-                                                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="radio1" />
-                                                                        <label class="form-check-label" for="radio1">
+                                                            <div className="mb-3">
+                                                                <label for="exampleFormControlInput12" className="form-label">Architect</label>
+                                                                <div className="input-group gap-3">
+                                                                    <div className="form-check">
+                                                                        <input className="form-check-input" type="radio" name="flexRadioDefault" id="radio1" />
+                                                                        <label className="form-check-label" for="radio1">
                                                                             Yes
                                                                         </label>
                                                                     </div>
-                                                                    <div class="form-check">
-                                                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="radio2" />
-                                                                        <label class="form-check-label" for="radio2">
+                                                                    <div className="form-check">
+                                                                        <input className="form-check-input" type="radio" name="flexRadioDefault" id="radio2" />
+                                                                        <label className="form-check-label" for="radio2">
                                                                             No
                                                                         </label>
                                                                     </div>
-                                                                    <div class="form-check">
-                                                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="radio3" />
-                                                                        <label class="form-check-label" for="radio3">
+                                                                    <div className="form-check">
+                                                                        <input className="form-check-input" type="radio" name="flexRadioDefault" id="radio3" />
+                                                                        <label className="form-check-label" for="radio3">
                                                                             TBD
                                                                         </label>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="mb-3">
-                                                                <label for="exampleFormControlInput12" class="form-label">Permits</label>
-                                                                <div class="upload_files">
-                                                                    <div class="input-group gap-3">
-                                                                        <div class="form-check">
-                                                                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="radio1" />
-                                                                            <label class="form-check-label" for="radio1">
+                                                            <div className="mb-3">
+                                                                <label for="exampleFormControlInput12" className="form-label">Permits</label>
+                                                                <div className="upload_files">
+                                                                    <div className="input-group gap-3">
+                                                                        <div className="form-check">
+                                                                            <input className="form-check-input" type="radio" name="flexRadioDefault" id="radio1" />
+                                                                            <label className="form-check-label" for="radio1">
                                                                                 Yes
                                                                             </label>
                                                                         </div>
-                                                                        <div class="form-check">
-                                                                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="radio2" />
-                                                                            <label class="form-check-label" for="radio2">
+                                                                        <div className="form-check">
+                                                                            <input className="form-check-input" type="radio" name="flexRadioDefault" id="radio2" />
+                                                                            <label className="form-check-label" for="radio2">
                                                                                 No
                                                                             </label>
                                                                         </div>
-                                                                        <div class="form-check">
-                                                                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="radio3" />
-                                                                            <label class="form-check-label" for="radio3">
+                                                                        <div className="form-check">
+                                                                            <input className="form-check-input" type="radio" name="flexRadioDefault" id="radio3" />
+                                                                            <label className="form-check-label" for="radio3">
                                                                                 TBD
                                                                             </label>
                                                                         </div>
                                                                     </div>
-                                                                    <label for="exampleFormControlInput12" class="form-label">Upload Permits</label>
+                                                                    <label for="exampleFormControlInput12" className="form-label">Upload Permits</label>
                                                                     <input type="file" />
                                                                 </div>
                                                             </div>
-                                                            <div class="mb-3">
-                                                                <label for="exampleFormControlInput12" class="form-label">Financing</label>
-                                                                <div class="input-group gap-3">
-                                                                    <div class="form-check">
-                                                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="radio1" />
-                                                                        <label class="form-check-label" for="radio1">
+                                                            <div className="mb-3">
+                                                                <label for="exampleFormControlInput12" className="form-label">Financing</label>
+                                                                <div className="input-group gap-3">
+                                                                    <div className="form-check">
+                                                                        <input className="form-check-input" type="radio" name="flexRadioDefault" id="radio1" />
+                                                                        <label className="form-check-label" for="radio1">
                                                                             Yes
                                                                         </label>
                                                                     </div>
-                                                                    <div class="form-check">
-                                                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="radio2" />
-                                                                        <label class="form-check-label" for="radio2">
+                                                                    <div className="form-check">
+                                                                        <input className="form-check-input" type="radio" name="flexRadioDefault" id="radio2" />
+                                                                        <label className="form-check-label" for="radio2">
                                                                             No
                                                                         </label>
                                                                     </div>
-                                                                    <div class="form-check">
-                                                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="radio3" />
-                                                                        <label class="form-check-label" for="radio3">
+                                                                    <div className="form-check">
+                                                                        <input className="form-check-input" type="radio" name="flexRadioDefault" id="radio3" />
+                                                                        <label className="form-check-label" for="radio3">
                                                                             TBD
                                                                         </label>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="mb-3">
-                                                                <label for="exampleFormControlInput12" class="form-label">Plans</label>
-                                                                <div class="upload_files border-0">
-                                                                    <div class="input-group gap-3">
-                                                                        <div class="form-check">
-                                                                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="radio1" />
-                                                                            <label class="form-check-label" for="radio1">
+                                                            <div className="mb-3">
+                                                                <label for="exampleFormControlInput12" className="form-label">Plans</label>
+                                                                <div className="upload_files border-0">
+                                                                    <div className="input-group gap-3">
+                                                                        <div className="form-check">
+                                                                            <input className="form-check-input" type="radio" name="flexRadioDefault" id="radio1" />
+                                                                            <label className="form-check-label" for="radio1">
                                                                                 Yes
                                                                             </label>
                                                                         </div>
-                                                                        <div class="form-check">
-                                                                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="radio2" />
-                                                                            <label class="form-check-label" for="radio2">
+                                                                        <div className="form-check">
+                                                                            <input className="form-check-input" type="radio" name="flexRadioDefault" id="radio2" />
+                                                                            <label className="form-check-label" for="radio2">
                                                                                 No
                                                                             </label>
                                                                         </div>
                                                                     </div>
-                                                                    <label for="exampleFormControlInput12" class="form-label">Upload Plans</label>
+                                                                    <label for="exampleFormControlInput12" className="form-label">Upload Plans</label>
                                                                     <input type="file" />
-                                                                    <label for="exampleFormControlInput12" class="form-label">Upload Pictures</label>
+                                                                    <label for="exampleFormControlInput12" className="form-label">Upload Pictures</label>
                                                                     <input type="file" />
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-4 col-md-6">
-                                                        <div class="form_style">
-                                                            <div class="mb-3">
-                                                                <label for="exampleFormControlInput1" class="form-label">Approximate Start Date</label>
+                                                    <div className="col-lg-4 col-md-6">
+                                                        <div className="form_style">
+                                                            <div className="mb-3">
+                                                                <label for="exampleFormControlInput1" className="form-label">Approximate Start Date</label>
                                                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                                                     <DatePicker value={startDate} onChange={handleStartDateChange} />
                                                                 </LocalizationProvider>
                                                             </div>
-                                                            <div class="mb-3">
-                                                                <label for="exampleFormControlInput1" class="form-label">Approximate Completion Date</label>
+                                                            <div className="mb-3">
+                                                                <label for="exampleFormControlInput1" className="form-label">Approximate Completion Date</label>
                                                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                                                     <DatePicker value={completionDate} onChange={handleCompletionDateChange} />
                                                                 </LocalizationProvider>
@@ -581,25 +637,37 @@ function Account() {
 
                                             </form>
                                         </div>
-                                        <div class="creat_btn">
+                                        <div className="creat_btn">
                                             <a href="">Update Project</a>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
-                                <div class="tab-pane fade" id="mycontact" role="tabpanel" aria-labelledby="contact-tab">
-                                    <div class="about_projects">
-                                        <div class="color_bg">
-                                            <div class="contact_list">
-                                                <div class="search_form">
+                                <div className="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                                    <div className="color_bg">
+                                        <div className="project_detail">
+                                            <div>
+                                                <div className="chartCard">
+                                                    <div className="chartBox">
+                                                        <canvas id="myChart"></canvas>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="tab-pane fade" id="mycontact" role="tabpanel" aria-labelledby="contact-tab">
+                                    <div className="about_projects">
+                                        <div className="color_bg">
+                                            <div className="contact_list">
+                                                <div className="search_form">
                                                     <form action="">
                                                         <input type="search" placeholder="Search" />
                                                         <button><img src="assets/images/search.png" alt="" /></button>
                                                     </form>
                                                 </div>
-                                                <div class="list_table">
-                                                    <div class="table-responsive">
-                                                        <table class="table">
+                                                <div className="list_table">
+                                                    <div className="table-responsive">
+                                                        <table className="table">
                                                             <thead>
                                                                 <tr>
                                                                     <th scope="col">Name</th>
@@ -705,104 +773,104 @@ function Account() {
                         </div>
                     </div>
                 </section>
-                <section class="profile_banner">
-                    <div class="container">
-                        <div class="new_project project_name_banner">
-                            <div class="color_bg">
+                <section className="profile_banner">
+                    <div className="container">
+                        <div className="new_project project_name_banner">
+                            <div className="color_bg">
                                 <h2>Profile Information</h2>
                                 <form action="">
-                                    <div class="row">
-                                        <div class="col-lg-4 col-md-6">
-                                            <div class="form_style ps-0">
-                                                <div class="mb-3">
-                                                    <label for="exampleFormControlInput1" class="form-label">Project Name</label>
-                                                    <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="XYZ Contractors" />
+                                    <div className="row">
+                                        <div className="col-lg-4 col-md-6">
+                                            <div className="form_style ps-0">
+                                                <div className="mb-3">
+                                                    <label for="exampleFormControlInput1" className="form-label">Project Name</label>
+                                                    <input type="text" className="form-control" id="exampleFormControlInput1" placeholder="XYZ Contractors" />
                                                 </div>
-                                                <div class="mb-3">
-                                                    <label for="exampleFormControlInput12" class="form-label">Years In Business</label>
-                                                    <input type="text" class="form-control" id="exampleFormControlInput12" placeholder="25" />
+                                                <div className="mb-3">
+                                                    <label for="exampleFormControlInput12" className="form-label">Years In Business</label>
+                                                    <input type="text" className="form-control" id="exampleFormControlInput12" placeholder="25" />
                                                 </div>
-                                                <div class="mb-3">
-                                                    <label for="exampleFormControlInput11" class="form-label">EIN</label>
-                                                    <input type="text" class="form-control" id="exampleFormControlInput11" placeholder="34-98676" />
+                                                <div className="mb-3">
+                                                    <label for="exampleFormControlInput11" className="form-label">EIN</label>
+                                                    <input type="text" className="form-control" id="exampleFormControlInput11" placeholder="34-98676" />
                                                 </div>
-                                                <div class="mb-3">
-                                                    <label for="exampleFormControlInput13" class="form-label">Licensed Work States</label>
-                                                    <select name="" class="form-control" id="">
+                                                <div className="mb-3">
+                                                    <label for="exampleFormControlInput13" className="form-label">Licensed Work States</label>
+                                                    <select name="" className="form-control" id="">
                                                         <option value=""></option>
                                                     </select>
                                                 </div>
-                                                <div class="mb-3">
-                                                    <label for="exampleFormControlInput13" class="form-label">Contractor License #</label>
-                                                    <input type="text" class="form-control" placeholder="12983546142" />
+                                                <div className="mb-3">
+                                                    <label for="exampleFormControlInput13" className="form-label">Contractor License #</label>
+                                                    <input type="text" className="form-control" placeholder="12983546142" />
                                                 </div>
-                                                <div class="mb-3">
-                                                    <label for="exampleFormControlInput13" class="form-label">Work Capacity (# concurrent jobs)</label>
-                                                    <input type="text" class="form-control" placeholder="5" />
+                                                <div className="mb-3">
+                                                    <label for="exampleFormControlInput13" className="form-label">Work Capacity (# concurrent jobs)</label>
+                                                    <input type="text" className="form-control" placeholder="5" />
                                                 </div>
-                                                <div class="mb-3">
-                                                    <label for="exampleFormControlInput13" class="form-label">Number of Employees</label>
-                                                    <input type="text" class="form-control" placeholder="22" />
+                                                <div className="mb-3">
+                                                    <label for="exampleFormControlInput13" className="form-label">Number of Employees</label>
+                                                    <input type="text" className="form-control" placeholder="22" />
                                                 </div>
-                                                <div class="mb-3">
-                                                    <label for="exampleFormControlInput13" class="form-label">W9 Form (PDF)</label>
-                                                    <div class="upload_files">
+                                                <div className="mb-3">
+                                                    <label for="exampleFormControlInput13" className="form-label">W9 Form (PDF)</label>
+                                                    <div className="upload_files">
                                                         <input type="file" />
                                                     </div>
                                                 </div>
-                                                <div class="mb-3">
-                                                    <label for="exampleFormControlInput13" class="form-label">Worker’s Comp Form (PDF)</label>
-                                                    <div class="upload_files">
+                                                <div className="mb-3">
+                                                    <label for="exampleFormControlInput13" className="form-label">Worker’s Comp Form (PDF)</label>
+                                                    <div className="upload_files">
                                                         <input type="file" />
                                                     </div>
                                                 </div>
-                                                <div class="mb-3">
-                                                    <label for="exampleFormControlInput13" class="form-label">Profile Picture</label>
-                                                    <div class="upload_files">
+                                                <div className="mb-3">
+                                                    <label for="exampleFormControlInput13" className="form-label">Profile Picture</label>
+                                                    <div className="upload_files">
                                                         <input type="file" />
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-md-6">
-                                            <div class="form_style">
-                                                <div class="mb-3">
-                                                    <label for="exampleFormControlInput13" class="form-label">Description/Biography of Company & Services</label>
-                                                    <textarea name="" id="" cols="30" rows="5" class="form-control"></textarea>
+                                        <div className="col-lg-4 col-md-6">
+                                            <div className="form_style">
+                                                <div className="mb-3">
+                                                    <label for="exampleFormControlInput13" className="form-label">Description/Biography of Company & Services</label>
+                                                    <textarea name="" id="" cols="30" rows="5" className="form-control"></textarea>
                                                     <hr />
                                                 </div>
-                                                <div class="mb-3">
-                                                    <label for="flexCheckDefault11" class="form-label">Select Services You Provide</label>
-                                                    <div class="upload_files">
+                                                <div className="mb-3">
+                                                    <label for="flexCheckDefault11" className="form-label">Select Services You Provide</label>
+                                                    <div className="upload_files">
                                                         <ul>
                                                             <li>
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-                                                                    <label class="form-check-label" for="flexCheckDefault">
+                                                                <div className="form-check">
+                                                                    <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+                                                                    <label className="form-check-label" for="flexCheckDefault">
                                                                         Commercial
                                                                     </label>
                                                                 </div>
                                                             </li>
                                                             <li>
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1" />
-                                                                    <label class="form-check-label" for="flexCheckDefault1">
+                                                                <div className="form-check">
+                                                                    <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault1" />
+                                                                    <label className="form-check-label" for="flexCheckDefault1">
                                                                         Residential
                                                                     </label>
                                                                 </div>
                                                             </li>
                                                             <li>
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault2" />
-                                                                    <label class="form-check-label" for="flexCheckDefault2">
+                                                                <div className="form-check">
+                                                                    <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault2" />
+                                                                    <label className="form-check-label" for="flexCheckDefault2">
                                                                         Federal
                                                                     </label>
                                                                 </div>
                                                             </li>
                                                             <li>
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault3" />
-                                                                    <label class="form-check-label" for="flexCheckDefault3">
+                                                                <div className="form-check">
+                                                                    <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault3" />
+                                                                    <label className="form-check-label" for="flexCheckDefault3">
                                                                         Road Construction & Industrial
                                                                     </label>
                                                                 </div>
@@ -811,26 +879,26 @@ function Account() {
                                                     </div>
 
                                                 </div>
-                                                <div class="mb-3">
-                                                    <label for="exampleFormControlInput13" class="form-label">Identify Scope</label>
-                                                    <select name="" class="form-control" id="">
+                                                <div className="mb-3">
+                                                    <label for="exampleFormControlInput13" className="form-label">Identify Scope</label>
+                                                    <select name="" className="form-control" id="">
                                                         <option value=""></option>
                                                     </select>
                                                 </div>
-                                                <div class="mb-3">
-                                                    <label for="exampleFormControlInput13" class="form-label">Past Contractors Worked With</label>
-                                                    <textarea name="" id="" cols="30" rows="5" class="form-control"></textarea>
+                                                <div className="mb-3">
+                                                    <label for="exampleFormControlInput13" className="form-label">Past Contractors Worked With</label>
+                                                    <textarea name="" id="" cols="30" rows="5" className="form-control"></textarea>
                                                     <hr />
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-md-6">
+                                        <div className="col-lg-4 col-md-6">
                                         </div>
                                     </div>
 
                                 </form>
                             </div>
-                            <div class="creat_btn">
+                            <div className="creat_btn">
                                 <a href="">Save</a>
                             </div>
                         </div>
