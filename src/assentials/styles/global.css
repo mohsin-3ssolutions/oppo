@@ -748,6 +748,7 @@ footer p {
     align-items: center;
     justify-content: space-between;
     gap: 38px;
+    padding-left: 0;
 }
 
 .project_status .dropdown button {
@@ -761,7 +762,25 @@ footer p {
 .project_status .dropdown button::after {
     display: none;
 }
-
+.MuiPaper-root {
+    border-radius: 20px;
+    box-shadow: 0px 5px 30px rgba(0,0,0,0.14);
+}
+.MuiPaper-root::-webkit-scrollbar {
+    width: 8px;
+    border-radius: 10px;
+}
+.MuiPaper-root::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+.MuiPaper-root::-webkit-scrollbar-thumb {
+    background: #888; 
+    border-radius: 10px;
+}
+.MuiPaper-root::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
 .project_status p {
     color: #707070;
     margin-bottom: 0;
