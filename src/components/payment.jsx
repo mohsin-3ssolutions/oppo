@@ -255,6 +255,14 @@ function Payment({ setUser, isAuthenticated, user }) {
 
                                                 <button
                                                     className="submit_btn"
+                                                    // type="submit"
+                                                    // disabled={isSubmitting}
+                                                >
+                                                    Start Trail
+                                                </button>
+
+                                                <button
+                                                    className="submit_btn"
                                                     type="submit"
                                                     disabled={isSubmitting}
                                                 >
