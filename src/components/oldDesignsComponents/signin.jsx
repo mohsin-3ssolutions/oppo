@@ -19,7 +19,7 @@ export default function Signin({ isAuthenticated, setIsAuthenticated }) {
 
   useEffect(() => {
     console.log("isAuthenticated ::::::::::", isAuthenticated);
-    (isAuthenticated && navigate('/dashboard'));
+    (isAuthenticated && navigate('/account'));
   }, [isAuthenticated]);
 
   const checkErrorState = useCallback((name, value) => {

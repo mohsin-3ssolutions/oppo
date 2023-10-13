@@ -3,10 +3,6 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import { emailPatternValidator } from '../utils';
-import Logo from "../assets/images/logo.png"
-import FacebookImageSrc from "../assets/images/facebook.png"
-import GoogleImageSrc from "../assets/images/google.png"
-import AppleImageSrc from "../assets/images/apple.png"
 
 function SubContractorSignUp({ isAuthenticated, setIsAuthenticated }) {
     const [agreeCheck, setAgreeCheck] = useState(true);
@@ -173,7 +169,7 @@ function SubContractorSignUp({ isAuthenticated, setIsAuthenticated }) {
                     <div className="header_nav">
                         <nav className="navbar navbar-expand-lg navbar-light">
                             <div className="container-fluid">
-                                <a className="navbar-brand" href="#"><img className="img-fluid" src={Logo} alt="" /></a>
+                                <a className="navbar-brand" href="#"><img className="img-fluid" src="/assets/images/logo.png" alt="" /></a>
                                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                                     <span className="navbar-toggler-icon"></span>
                                 </button>
@@ -213,9 +209,9 @@ function SubContractorSignUp({ isAuthenticated, setIsAuthenticated }) {
                             <h3>Add Company Details</h3>
                             <p>Already have an account? <a href="/signin" className="log_in">Log In</a></p>
                             <ul className="social_links">
-                                <li><a href=""><img src={FacebookImageSrc} alt="Facebook" /></a></li>
-                                <li><a href=""><img src={GoogleImageSrc} alt="Google" /></a></li>
-                                <li><a href=""><img src={AppleImageSrc} alt="Apple" /></a></li>
+                                <li><a href=""><img src="/assets/images/facebook.png" alt="Facebook" /></a></li>
+                                <li><a href=""><img src="/assets/images/google.png" alt="Google" /></a></li>
+                                <li><a href=""><img src="/assets/images/apple.png" alt="Apple" /></a></li>
                             </ul>
                             <form >
                                 <div class="input-group gap-2 justify-content-between">

@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { Link } from 'react-router-dom';
 function Header() {
     return (
         <header>
@@ -7,26 +7,26 @@ function Header() {
                 <div className="header_nav">
                     <nav className="navbar navbar-expand-lg navbar-light">
                         <div className="container-fluid">
-                            <a className="navbar-brand" href="#"><img className="img-fluid" src="assets/images/logo.png" alt="" /></a>
+                            <a className="navbar-brand" href="#"><img className="img-fluid" src="/assets/images/logo.png" alt="" /></a>
                             <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                                 <span className="navbar-toggler-icon"></span>
                             </button>
                             <div className="collapse navbar-collapse navigation" id="navbarNavDropdown">
                                 <ul className="navbar-nav">
                                     <li>
-                                        <a aria-current="page" href="#">Home</a>
+                                        <Link to="/">Home</Link>
                                     </li>
                                     <li>
-                                        <a href="#">Our Services</a>
+                                        <Link to="/our-services">Our Services</Link>
                                     </li>
                                     <li>
-                                        <a href="#">Our Story</a>
+                                        <Link to="/our-story">Our Story</Link>
                                     </li>
                                     <li>
-                                        <a href="#">Contact Us</a>
+                                        <Link to="/contact-us">Contact Us</Link>
                                     </li>
                                     <li>
-                                        <a href="#">My Account</a>
+                                        <Link to="/account">My Account</Link>
                                     </li>
                                 </ul>
                             </div>

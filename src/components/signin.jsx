@@ -1,69 +1,38 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ErrorMessage, Field, Form, Formik } from 'formik';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import * as Yup from 'yup';
 import { emailPatternValidator } from '../utils';
-import Logo from "../assets/images/logo.png"
 
 function Signin({ isAuthenticated, setIsAuthenticated }) {
     const navigate = useNavigate();
-    const [formData, setFormData] = useState({
-        email: "",
-        password: "",
-    });
-    const [errorState, setErrorState] = useState({
-        email: false,
-        password: false,
-    });
 
-
-
-    useEffect(() => {
-        console.log("isAuthenticated ::::::::::", isAuthenticated);
-        (isAuthenticated && navigate('/dashboard'));
-    }, [isAuthenticated]);
-
-    const checkErrorState = useCallback((name, value) => {
-        let isErr = false;
-        if (name === 'email') isErr = (value.length && emailPatternValidator.test(value)) ? false : true;
-        else isErr = value.length ? false : true;
-
-        setErrorState((es) => ({
-            ...es,
-            [name]: isErr,
-        }));
-
-        return isErr;
-    }, [errorState]);
-
-    const handleInputChange = (event) => {
-        const { name, value } = event.target;
-
-        checkErrorState(name, value);
-        setFormData({
-            ...formData,
-            [name]: value
-        });
+    const initialValues = {
+        email: '',
+        password: '',
     };
 
+    const validationSchema = Yup.object({
+        email: Yup.string()
+            .required('Email is required')
+            .matches(emailPatternValidator, 'Invalid email address'),
+        password: Yup.string().required('Password is required'),
+    });
 
-    // Function to handle form submission and log the values
-    const handleSubmit = useCallback(async (event) => {
-        event.preventDefault();
-        let hasError = false;
+    useEffect(() => {
+        (isAuthenticated && navigate('/account'));
+    }, [isAuthenticated]);
 
-        Object.entries(formData).map(([name, value]) => {
-            const currentFieldError = checkErrorState(name, value);
-            hasError = (hasError || currentFieldError);
-        });
-
-        console.log({ errorState }, hasError);
-
+    const handleSubmit = async (values, { setSubmitting }) => {
+        console.log(values)
         try {
-            if (hasError) throw Error("Has some validation errors.");
+            // if (hasError) throw Error("Has some validation errors.");
+            setSubmitting(true)
             const requestData = {
-                email: formData.email,
-                password: formData.password,
+                email: values.email,
+                password: values.password,
             };
 
             fetch('https://opo.jjtestsite.us/api/login', {
@@ -82,7 +51,7 @@ function Signin({ isAuthenticated, setIsAuthenticated }) {
                         localStorage.setItem("authToken", data?.token);
                         toast.success('Loggedin successfully!', { autoClose: 3000 });
                         setIsAuthenticated(true);
-                        // navigate("/dashboard");
+                        navigate("/account");
                     } else {
                         toast.error('Login failed!' + message, { autoClose: 3000 });
                     }
@@ -91,43 +60,10 @@ function Signin({ isAuthenticated, setIsAuthenticated }) {
             console.error('An error occurred:', error);
             toast.error('An error occurred.' + error, { autoClose: 3000 });
         }
-    }, [formData, errorState]);
+    };
 
     return (
         <>
-            <header>
-                <div className="container">
-                    <div className="header_nav">
-                        <nav className="navbar navbar-expand-lg navbar-light">
-                            <div className="container-fluid">
-                                <a className="navbar-brand" href="#"><img className="img-fluid" src={Logo} alt="" /></a>
-                                <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                                    <span className="navbar-toggler-icon"></span>
-                                </button>
-                                <div className="collapse navbar-collapse navigation" id="navbarNavDropdown">
-                                    <ul className="navbar-nav">
-                                        <li>
-                                            <a aria-current="page" href="/">Home</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Our Services</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Our Story</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Contact Us</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">My Account</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </nav>
-                    </div>
-                </div>
-            </header>
             <section className="title_head">
                 <div className="container">
                     <h1>Login</h1>
@@ -138,26 +74,76 @@ function Signin({ isAuthenticated, setIsAuthenticated }) {
                 <div className="container">
                     <div className="color_bg">
                         <div className="sign_up">
-                            <form >
-                                <div className="mb-3">
-                                    <label style={{ ...(errorState.email ? { color: "red" } : {}) }}  className="form-label">Email Address</label>
-                                    <input
-                                        name="email"
-                                        style={{ ...(errorState.email ? { borderColor: "red" } : {}) }}
-                                        onChange={handleInputChange} type="Email" className="form-control" id="exampleFormControlInput12" placeholder="Enter Email Address" />
-                                </div>
-                                <div className="mb-3 password-group">
-                                    <label style={{ ...(errorState.password ? { color: "red" } : {}) }}  className="form-label">Password</label>
-                                    <input
-                                        name="password"
-                                        onChange={handleInputChange}
-                                        type="password"
-                                        style={{ ...(errorState.password ? { borderColor: "red" } : {}) }} className="form-control" id="exampleFormControlInput13" placeholder="Enter Password" />
-                                </div>
-                                <div className="submit_btn">
-                                    <input type="submit" onClick={handleSubmit} value="Log In " />
-                                </div>
-                            </form>
+                            <Formik
+                                initialValues={initialValues}
+                                validationSchema={validationSchema}
+                                onSubmit={handleSubmit}
+                            >
+                                {({ isSubmitting, touched, errors }) => (
+                                    <Form>
+                                        <div className="mb-3">
+                                            <label
+                                                className="form-label"
+                                            >
+                                                Email Address
+                                            </label>
+                                            <Field
+                                                name="email"
+
+                                                type="email"
+                                                placeholder="Enter Email Address"
+                                                className={`form-control ${touched.email && errors.email ? "is-invalid" : ""
+                                                    }`}
+                                            />
+                                            <ErrorMessage
+                                                name="email"
+                                                component="div"
+                                                className="text-danger"
+                                            />
+                                        </div>
+                                        <div className="mb-3 password-group">
+                                            <label
+
+                                                className="form-label"
+                                            >
+                                                Password
+                                            </label>
+                                            <Field
+                                                name="password"
+                                                type="password"
+
+                                                className={`form-control ${touched.password && errors.password ? "is-invalid" : ""
+                                                    }`} placeholder="Enter Password"
+                                            />
+                                            <ErrorMessage
+                                                name="password"
+                                                component="div"
+                                                className="text-danger"
+                                            />
+                                        </div>
+                                        <div >
+                                            <button
+                                                type="submit"
+                                                className="submit_btn"
+                                                disabled={isSubmitting}
+                                            >
+                                                Login {isSubmitting && (
+                                                    <div class="spinner-border spinner-border-sm" role="status">
+                                                        <span class="sr-only"></span>
+                                                    </div>
+                                                )}
+                                            </button>
+                                            {/* <div >
+                                                <input type="submit" value="Create Account" disabled={isSubmitting} /> {isSubmitting && (
+                                                    <div class="spinner-border" role="status">
+                                                        <span class="sr-only"></span>
+                                                    </div>
+                                                )}
+                                            </div> */}
+                                        </div>
+                                    </Form>
+                                )}
+                            </Formik>
                         </div>
                     </div>
                 </div>
@@ -167,97 +153,8 @@ function Signin({ isAuthenticated, setIsAuthenticated }) {
                     <p>© 2022 All Rights Reserved</p>
                 </div>
             </footer>
-            <ToastContainer />
         </>
     );
 }
 
 export default Signin;
-
-
-
-
-// function Header() {
-//     return (
-//         <header>
-//             <div className="container">
-//                 <div className="header_nav">
-//                     <nav className="navbar navbar-expand-lg navbar-light">
-//                         <div className="container-fluid">
-//                             <a className="navbar-brand" href="#"><img className="img-fluid" src="assets/images/logo.png" alt="" /></a>
-//                             <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-//                                 <span className="navbar-toggler-icon"></span>
-//                             </button>
-//                             <div className="collapse navbar-collapse navigation" id="navbarNavDropdown">
-//                                 <ul className="navbar-nav">
-//                                     <li>
-//                                         <a aria-current="page" href="/">Home</a>
-//                                     </li>
-//                                     <li>
-//                                         <a href="#">Our Services</a>
-//                                     </li>
-//                                     <li>
-//                                         <a href="#">Our Story</a>
-//                                     </li>
-//                                     <li>
-//                                         <a href="#">Contact Us</a>
-//                                     </li>
-//                                     <li>
-//                                         <a href="#">My Account</a>
-//                                     </li>
-//                                 </ul>
-//                             </div>
-//                         </div>
-//                     </nav>
-//                 </div>
-//             </div>
-//         </header>
-//     );
-// }
-
-// function Signin() {
-//     return (
-//         <section className="title_head">
-//             <div className="container">
-//                 <h1>Login</h1>
-//                 <div className="color_bg">
-//                     <div className="sign_up">
-//                         <form action="">
-//                             <div className="mb-3">
-//                                 <label htmlFor="exampleFormControlInput12" className="form-label">Email Address</label>
-//                                 <input type="Email" className="form-control" id="exampleFormControlInput12" placeholder="peterehat+oppotest@gmail.com" />
-//                             </div>
-//                             <div className="mb-3 password-group">
-//                                 <label htmlFor="exampleFormControlInput13" className="form-label">Password</label>
-//                                 <input type="password" className="form-control" id="exampleFormControlInput13" placeholder="**************" />
-//                             </div>
-//                             <div className="submit_btn">
-//                                 <input type="submit" value="Create Account" />
-//                             </div>
-//                         </form>
-//                     </div>
-//                 </div>
-//             </div>
-//         </section>
-//     );
-// }
-
-// function Footer() {
-//     return (
-//         <footer>
-//             <div className="container">
-//                 <p>© 2022 All Rights Reserved</p>
-//             </div>
-//         </footer>
-//     );
-// }
-
-// function App() {
-//     return (
-//         <div>
-//             <Header />
-//             <Signin />
-//             <Footer />
-//         </div>
-//     );
-// }

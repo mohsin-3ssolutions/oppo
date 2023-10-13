@@ -3,10 +3,9 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import { emailPatternValidator } from '../utils';
-import Logo from "../assets/images/logo.png"
-import FacebookImageSrc from "../assets/images/facebook.png"
-import GoogleImageSrc from "../assets/images/google.png"
-import AppleImageSrc from "../assets/images/apple.png"
+// import Logo from "../assets/images/logo.png"
+
+import DefaultLayout from './reusableComponents/defaultLayout';
 
 function OwnerSignUp({ isAuthenticated, setIsAuthenticated }) {
     const [agreeCheck, setAgreeCheck] = useState(true);
@@ -173,122 +172,90 @@ function OwnerSignUp({ isAuthenticated, setIsAuthenticated }) {
     }, [formData, errorState]);
     return (
         <>
-            <header>
-                <div className="container">
-                    <div className="header_nav">
-                        <nav className="navbar navbar-expand-lg navbar-light">
-                            <div className="container-fluid">
-                                <a className="navbar-brand" href="#"><img className="img-fluid" src={Logo} alt="" /></a>
-                                <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                                    <span className="navbar-toggler-icon"></span>
-                                </button>
-                                <div className="collapse navbar-collapse navigation" id="navbarNavDropdown">
-                                    <ul className="navbar-nav">
-                                        <li>
-                                            <a aria-current="page" href="/">Home</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Our Services</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Our Story</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Contact Us</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">My Account</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </nav>
+            <DefaultLayout>
+                <section class="title_head">
+                    <div class="container">
+                        <h1>Owner Sign-Up</h1>
                     </div>
-                </div>
-            </header>
-            <section class="title_head">
-                <div class="container">
-                    <h1>Owner Sign-Up</h1>
-                </div>
-            </section>
-            <section className="form_style margin-top">
-                <div className="container">
-                    <div className="color_bg">
-                        <div className="sign_up">
-                            <h3>Add Company Details</h3>
-                            <p>Already have an account? <a href="/signin" className="log_in">Log In</a></p>
-                            <ul className="social_links">
-                                <li><a href=""><img src={FacebookImageSrc} alt="Facebook" /></a></li>
-                                <li><a href=""><img src={GoogleImageSrc} alt="Google" /></a></li>
-                                <li><a href=""><img src={AppleImageSrc} alt="Apple" /></a></li>
-                            </ul>
-                            <form >
-                                <div class="input-group gap-2 justify-content-between">
-                                    <div class="mb-3 w-48">
-                                        <label style={{ ...(errorState.firstName ? { color: "red" } : {}) }} for="exampleFormControlInput1" class="form-label">First Name </label>
-                                        <input name="firstName" onChange={handleInputChange} style={{ ...(errorState.firstName ? { borderColor: "red" } : {}) }} type="text" class="form-control" id="exampleFormControlInput1" placeholder="Enter First Name" />
+                </section>
+                <section className="form_style margin-top">
+                    <div className="container">
+                        <div className="color_bg">
+                            <div className="sign_up">
+                                <h3>Add Company Details</h3>
+                                <p>Already have an account? <a href="/signin" className="log_in">Log In</a></p>
+                                <ul className="social_links">
+                                <li><a href=""><img src="/assets/images/facebook.png" alt="Facebook" /></a></li>
+                                <li><a href=""><img src="/assets/images/google.png" alt="Google" /></a></li>
+                                <li><a href=""><img src="/assets/images/apple.png" alt="Apple" /></a></li>
+                                </ul>
+                                <form >
+                                    <div class="input-group gap-2 justify-content-between">
+                                        <div class="mb-3 w-48">
+                                            <label style={{ ...(errorState.firstName ? { color: "red" } : {}) }} for="exampleFormControlInput1" class="form-label">First Name </label>
+                                            <input name="firstName" onChange={handleInputChange} style={{ ...(errorState.firstName ? { borderColor: "red" } : {}) }} type="text" class="form-control" id="exampleFormControlInput1" placeholder="Enter First Name" />
+                                        </div>
+                                        <div class="mb-3 w-48">
+                                            <label style={{ ...(errorState.lastName ? { color: "red" } : {}) }} for="exampleFormControlInput11" class="form-label">Last Name </label>
+                                            <input name="lastName" onChange={handleInputChange} style={{ ...(errorState.lastName ? { borderColor: "red" } : {}) }} type="text" class="form-control" id="exampleFormControlInput11" placeholder="Enter Last Name" />
+                                        </div>
                                     </div>
-                                    <div class="mb-3 w-48">
-                                        <label style={{ ...(errorState.lastName ? { color: "red" } : {}) }} for="exampleFormControlInput11" class="form-label">Last Name </label>
-                                        <input name="lastName" onChange={handleInputChange} style={{ ...(errorState.lastName ? { borderColor: "red" } : {}) }} type="text" class="form-control" id="exampleFormControlInput11" placeholder="Enter Last Name" />
-                                    </div>
-                                </div>
-                                <div className="mb-3">
-                                    <label style={{ ...(errorState.business ? { color: "red" } : {}) }} className="form-label">Business Name</label>
-                                    <input
-                                        name="business"
-                                        onChange={handleInputChange}
-                                        type="text"
-                                        style={{ ...(errorState.business ? { borderColor: "red" } : {}) }} className="form-control" id="exampleFormControlInput1" placeholder="Enter Company Name" />
-                                </div>
-                                <div class="input-group gap-2 justify-content-between">
-                                    <div class="mb-3 w-48">
-                                        <label style={{ ...(errorState.yearsInBusiness ? { color: "red" } : {}) }} for="exampleFormControlInput1" class="form-label">Years in Business</label>
-                                        <input name="yearsInBusiness"
+                                    <div className="mb-3">
+                                        <label style={{ ...(errorState.business ? { color: "red" } : {}) }} className="form-label">Business Name</label>
+                                        <input
+                                            name="business"
                                             onChange={handleInputChange}
                                             type="text"
-                                            style={{ ...(errorState.yearsInBusiness ? { borderColor: "red" } : {}) }} class="form-control" id="exampleFormControlInput1" placeholder="Enter Years in Business" />
+                                            style={{ ...(errorState.business ? { borderColor: "red" } : {}) }} className="form-control" id="exampleFormControlInput1" placeholder="Enter Company Name" />
                                     </div>
-                                    <div class="mb-3 w-48">
-                                        <label style={{ ...(errorState.companySize ? { color: "red" } : {}) }} for="exampleFormControlInput11" class="form-label">Company Size</label>
-                                        <input name="companySize"
-                                            onChange={handleInputChange}
-                                            type="text"
-                                            style={{ ...(errorState.companySize ? { borderColor: "red" } : {}) }} class="form-control" id="exampleFormControlInput11" placeholder="Enter Company Size" />
+                                    <div class="input-group gap-2 justify-content-between">
+                                        <div class="mb-3 w-48">
+                                            <label style={{ ...(errorState.yearsInBusiness ? { color: "red" } : {}) }} for="exampleFormControlInput1" class="form-label">Years in Business</label>
+                                            <input name="yearsInBusiness"
+                                                onChange={handleInputChange}
+                                                type="text"
+                                                style={{ ...(errorState.yearsInBusiness ? { borderColor: "red" } : {}) }} class="form-control" id="exampleFormControlInput1" placeholder="Enter Years in Business" />
+                                        </div>
+                                        <div class="mb-3 w-48">
+                                            <label style={{ ...(errorState.companySize ? { color: "red" } : {}) }} for="exampleFormControlInput11" class="form-label">Company Size</label>
+                                            <input name="companySize"
+                                                onChange={handleInputChange}
+                                                type="text"
+                                                style={{ ...(errorState.companySize ? { borderColor: "red" } : {}) }} class="form-control" id="exampleFormControlInput11" placeholder="Enter Company Size" />
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div className="mb-3">
-                                    <label style={{ ...(errorState.email ? { color: "red" } : {}) }} className="form-label">Email</label>
-                                    <input
-                                        name="email"
-                                        style={{ ...(errorState.email ? { borderColor: "red" } : {}) }}
-                                        onChange={handleInputChange} type="Email" className="form-control" id="exampleFormControlInput12" placeholder="Enter Email" />
-                                </div>
-                                <div className="mb-3 password-group">
-                                    <label style={{ ...(errorState.password ? { color: "red" } : {}) }} className="form-label">Password</label>
-                                    <input
-                                        name="password"
-                                        onChange={(e) => calculatePasswordStrength(e.target.value)}
-                                        type="password"
-                                        style={{ ...(errorState.password ? { borderColor: "red" } : {}) }} className="form-control" id="exampleFormControlInput13" placeholder="Enter Password" />
-                                </div>
-                                <div className="mb-3">
-                                    <label className="form-label strength_pwd">Password Strength</label>
-                                    <div className="strenght_field">
-                                        <span style={{ background: passwordStrengthBar[passwordStrength][0] }} /> <span style={{ background: passwordStrengthBar[passwordStrength][1] }} /> <span style={{ background: passwordStrengthBar[passwordStrength][2] }} /> <span style={{ background: passwordStrengthBar[passwordStrength][3] }} />
+                                    <div className="mb-3">
+                                        <label style={{ ...(errorState.email ? { color: "red" } : {}) }} className="form-label">Email</label>
+                                        <input
+                                            name="email"
+                                            style={{ ...(errorState.email ? { borderColor: "red" } : {}) }}
+                                            onChange={handleInputChange} type="Email" className="form-control" id="exampleFormControlInput12" placeholder="Enter Email" />
                                     </div>
-                                </div>
-                                <div className="form-check">
-                                    <input className="form-check-input" type="checkbox" checked={agreeCheck} onChange={(e) => setAgreeCheck(!agreeCheck)} value="true" id="flexCheckDefault" />
-                                    <label className="form-check-label" >
-                                        By creating account you agree to our <a href="">Privacy Policy</a> <a href="">Terms of Service</a> and <a href="">Notification Setting</a>
-                                    </label>
-                                </div>
-                                <div className="submit_btn">
-                                    {/* <input disabled={!agreeCheck} onClick={handleSubmit} type="submit" value="Create Account" /> */}
-                                    <input disabled={!agreeCheck} onClick={() => navigate("/signup")} type="submit" value="Create Account" />
-                                    {/* {
+                                    <div className="mb-3 password-group">
+                                        <label style={{ ...(errorState.password ? { color: "red" } : {}) }} className="form-label">Password</label>
+                                        <input
+                                            name="password"
+                                            onChange={(e) => calculatePasswordStrength(e.target.value)}
+                                            type="password"
+                                            style={{ ...(errorState.password ? { borderColor: "red" } : {}) }} className="form-control" id="exampleFormControlInput13" placeholder="Enter Password" />
+                                    </div>
+                                    <div className="mb-3">
+                                        <label className="form-label strength_pwd">Password Strength</label>
+                                        <div className="strenght_field">
+                                            <span style={{ background: passwordStrengthBar[passwordStrength][0] }} /> <span style={{ background: passwordStrengthBar[passwordStrength][1] }} /> <span style={{ background: passwordStrengthBar[passwordStrength][2] }} /> <span style={{ background: passwordStrengthBar[passwordStrength][3] }} />
+                                        </div>
+                                    </div>
+                                    <div className="form-check">
+                                        <input className="form-check-input" type="checkbox" checked={agreeCheck} onChange={(e) => setAgreeCheck(!agreeCheck)} value="true" id="flexCheckDefault" />
+                                        <label className="form-check-label" >
+                                            By creating account you agree to our <a href="">Privacy Policy</a> <a href="">Terms of Service</a> and <a href="">Notification Setting</a>
+                                        </label>
+                                    </div>
+                                    <div className="submit_btn">
+                                        {/* <input disabled={!agreeCheck} onClick={handleSubmit} type="submit" value="Create Account" /> */}
+                                        <input disabled={!agreeCheck} onClick={() => navigate("/signup")} type="submit" value="Create Account" />
+                                        {/* {
                                         (agreeCheck) ?
                                         <input disabled={!agreeCheck} onClick={handleSubmit} type="submit" value="Create Account" />
                                         :
@@ -300,17 +267,15 @@ function OwnerSignUp({ isAuthenticated, setIsAuthenticated }) {
                                             />
                                     } */}
 
-                                </div>
-                            </form>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </section>
-            <footer>
-                <div className="container">
-                    <p>© 2022 All Rights Reserved</p>
-                </div>
-            </footer>
+                </section>
+            </DefaultLayout>
+
+
             <ToastContainer />
         </>
     );
