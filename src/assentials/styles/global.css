@@ -1785,7 +1785,8 @@ animation-iteration-count: 1; */
     font-weight: 600;
 }
 .filter_project form select {
-    background: url("../../../public/images/dropdown.png") no-repeat, #fff;
+    /* background: url("../../../public/images/dropdown.png") no-repeat, #fff; */
+    background: url("../../../public/assets/images/dropdown.png") no-repeat, #fff;
     background-position: calc(100% - 8px);
     padding-right: 19px;
     width: 24%;
