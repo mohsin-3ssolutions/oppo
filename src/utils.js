@@ -19,11 +19,11 @@ const getUserStatus = (data) => {
     } else if (moment(data.created_at).utc().format() > moment(data.created_at).subtract(14, 'days').utc().format()) {
         subscriptionStatus = userStatus.trail;
     } else {
-        subscriptionStatus = userStatus.trailExpired;
+        subscriptionStatus = userStatus.subscribed;
     }
 
-    // return subscriptionStatus;
-    return userStatus.trailExpired;
+    return subscriptionStatus;
+    // return userStatus.trailExpired;
 };
 
 const verifyAuthToken = () => async (dispatch) => { // Use Redux Thunk

@@ -303,6 +303,7 @@ header .container-fluid {
 .form_style .w-48 {
     width: 49%;
 }
+
 .form_style .StripeElement {
     color: #050605;
     font-weight: 400;
@@ -315,6 +316,7 @@ header .container-fluid {
     border: 1px solid #dee2e6;
     margin-bottom: 10px;
 }
+
 .color_red {
     color: red;
 }
@@ -762,25 +764,31 @@ footer p {
 .project_status .dropdown button::after {
     display: none;
 }
+
 .MuiPaper-root {
     border-radius: 20px;
-    box-shadow: 0px 5px 30px rgba(0,0,0,0.14);
+    box-shadow: 0px 5px 30px rgba(0, 0, 0, 0.14);
 }
+
 .MuiPaper-root::-webkit-scrollbar {
     width: 8px;
     border-radius: 10px;
 }
+
 .MuiPaper-root::-webkit-scrollbar-track {
     background: #f1f1f1;
     border-radius: 10px;
 }
+
 .MuiPaper-root::-webkit-scrollbar-thumb {
-    background: #888; 
+    background: #888;
     border-radius: 10px;
 }
+
 .MuiPaper-root::-webkit-scrollbar-thumb:hover {
-    background: #555; 
+    background: #555;
 }
+
 .project_status p {
     color: #707070;
     margin-bottom: 0;
@@ -1672,6 +1680,7 @@ animation-iteration-count: 1; */
 .project_main_banner .plan_content ul li p {
     width: calc(100% - 200px);
 }
+
 .project_top_banner .creat_btn {
     padding: 10px 27px;
     font-size: 16px;
@@ -1687,28 +1696,34 @@ animation-iteration-count: 1; */
     background-color: #B1903F;
     transition: ease-in-out 0.5s;
 }
+
 .project_top_banner .creat_btn:hover {
     color: #fff;
     border-color: #050605;
     background-color: #050605;
 }
+
 .project_top_banner .banner_heading {
     margin-bottom: 0px;
     text-align: left;
     font-size: 42px;
 }
+
 .project_top_banner .sub_head {
     text-align: left;
     color: #707070;
     font-size: 36px;
     margin-bottom: 0;
 }
+
 .project_top_banner {
     margin-top: 80px;
 }
+
 .project_top_banner .row {
     align-items: center;
 }
+
 .project_slider {
     position: relative;
     display: flex;
@@ -1716,6 +1731,7 @@ animation-iteration-count: 1; */
     margin-top: 50px;
     flex-wrap: wrap;
 }
+
 .slider_btn {
     display: flex;
     align-items: center;
@@ -1724,43 +1740,54 @@ animation-iteration-count: 1; */
     left: 0;
     width: 100%;
 }
+
 .slider_btn img {
     width: 50px;
 }
+
 .project_slides {
     width: 100%;
 }
+
 .find_project_banner ul li:not(:last-child) {
     margin-bottom: 24px;
 }
+
 .find_project_banner ul .project_detail {
     border-radius: 5px;
-    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
 }
+
 .find_project_banner .search_form {
     margin-bottom: 40px;
 }
+
 .find_project_banner {
     margin-bottom: 60px;
 }
+
 .find_project_banner ul.project_status li:not(:last-child) {
     margin-bottom: 0px;
 }
 
 /********** Sub css **********/
 .project_boxes li .project_detail {
-    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
     border-radius: 5px;
 }
+
 .project_boxes li:not(:last-child) {
     margin-bottom: 24px;
 }
+
 .project_boxes {
     padding: 24px;
 }
+
 .project_name_banner .color_bg {
     margin-bottom: 80px;
 }
+
 .theater_banner .new_project .color_bg {
     padding-bottom: 62px;
 }
@@ -1770,6 +1797,7 @@ animation-iteration-count: 1; */
     flex-wrap: wrap;
     margin-top: 40px;
 }
+
 .filter_project form {
     max-width: 100%;
     width: 100%;
@@ -1784,13 +1812,16 @@ animation-iteration-count: 1; */
     font-size: 22px;
     font-weight: 600;
 }
+
 .filter_project form select {
-    background: url("../../../public/images/dropdown.png") no-repeat, #fff;
+    background: url("../../../public/assets/images/dropdown.png") no-repeat, #fff;
     background-position: calc(100% - 8px);
     padding-right: 19px;
     width: 24%;
 }
-.filter_project form select:focus, .filter_project form select:focus-visible {
+
+.filter_project form select:focus,
+.filter_project form select:focus-visible {
     box-shadow: none;
     outline: none;
 }
