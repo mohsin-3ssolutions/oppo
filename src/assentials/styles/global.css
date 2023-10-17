@@ -80,6 +80,7 @@ body {
     overflow-x: hidden;
     background-color: #FBFBFB;
     font-family: 'Helvetica' !important;
+    min-height: 100vh;
 }
 
 ul {
