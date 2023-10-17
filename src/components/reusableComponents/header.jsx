@@ -1,10 +1,14 @@
-import { MenuItem } from '@mui/base';
-import { Avatar, IconButton, ListItemIcon, Menu, Tooltip } from '@mui/material';
+import { Avatar, IconButton, ListItemIcon, Menu, Tooltip, MenuItem } from '@mui/material';
 import { Box } from '@mui/system';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import PaymentIcon from '@mui/icons-material/Payment';
+
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 function Header() {
     const [anchorEl, setAnchorEl] = React.useState(null);
+    const navigate = useNavigate();
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -12,6 +16,18 @@ function Header() {
     const handleClose = () => {
         setAnchorEl(null);
     };
+    const handleNavigate = () => {
+        navigate('/payment')
+    };
+
+
+    const nameIcon = useSelector((state) => {
+        return state?.userProfileSlice?.userData?.data?.fname;
+    });
+
+    if (nameIcon && nameIcon.length > 0) {
+        var firstLetter = nameIcon[0].toUpperCase(); // Convert to uppercase
+    }
     return (
         <header>
             <div className="container">
@@ -39,6 +55,9 @@ function Header() {
                                     <li>
                                         <Link to="/account">My Account</Link>
                                     </li>
+
+                                </ul>
+                                <div>
                                     <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
                                         <Tooltip title="Account settings">
                                             <IconButton
@@ -49,7 +68,7 @@ function Header() {
                                                 aria-haspopup="true"
                                                 aria-expanded={open ? 'true' : undefined}
                                             >
-                                                <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+                                                <Avatar sx={{ width: 32, height: 32 }}>{firstLetter}</Avatar>
                                             </IconButton>
                                         </Tooltip>
                                     </Box>
@@ -89,17 +108,27 @@ function Header() {
                                         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                                     >
                                         <MenuItem onClick={handleClose}>
-                                            <Avatar /> Profile
+                                            <ListItemIcon>
+                                                <Avatar fontSize="small" />
+                                            </ListItemIcon>
+                                            Profile
+                                        </MenuItem>
+
+                                        <MenuItem onClick={handleNavigate}>
+                                            <ListItemIcon>
+                                                <PaymentIcon fontSize="small" />
+                                            </ListItemIcon>
+                                            Payment
                                         </MenuItem>
 
                                         <MenuItem onClick={handleClose}>
                                             <ListItemIcon>
-                                                {/* <Logout fontSize="small" /> */}
+                                                <ExitToAppIcon fontSize="small" />
                                             </ListItemIcon>
                                             Logout
                                         </MenuItem>
                                     </Menu>
-                                </ul>
+                                </div>
                             </div>
                         </div>
                     </nav>

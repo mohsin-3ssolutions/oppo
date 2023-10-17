@@ -22,8 +22,8 @@ const getUserStatus = (data) => {
         subscriptionStatus = userStatus.subscribed;
     }
 
-    // return subscriptionStatus;
-    return userStatus.trailExpired;
+    return subscriptionStatus;
+    // return userStatus.trail;
 };
 
 const verifyAuthToken = () => async (dispatch) => { // Use Redux Thunk
