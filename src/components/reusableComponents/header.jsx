@@ -16,8 +16,14 @@ function Header() {
     const handleClose = () => {
         setAnchorEl(null);
     };
+    const handleLogout = () => {
+        setAnchorEl(null);
+        localStorage.removeItem('authToken');
+        navigate('/signin');
+    };
     const handleNavigate = () => {
-        navigate('/payment')
+        setAnchorEl(null);
+        navigate('/payment');
     };
 
 
@@ -121,7 +127,7 @@ function Header() {
                                             Payment
                                         </MenuItem>
 
-                                        <MenuItem onClick={handleClose}>
+                                        <MenuItem onClick={handleLogout}>
                                             <ListItemIcon>
                                                 <ExitToAppIcon fontSize="small" />
                                             </ListItemIcon>
