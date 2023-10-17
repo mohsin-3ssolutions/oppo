@@ -22,8 +22,8 @@ const getUserStatus = (data) => {
         subscriptionStatus = userStatus.subscribed;
     }
 
-    return subscriptionStatus;
-    // return userStatus.trailExpired;
+    // return subscriptionStatus;
+    return userStatus.trailExpired;
 };
 
 const verifyAuthToken = () => async (dispatch) => { // Use Redux Thunk
@@ -62,5 +62,23 @@ const verifyAuthToken = () => async (dispatch) => { // Use Redux Thunk
         }
     }
 };
+
+
+export const LoadingLayout = () => {
+    return (
+        <>
+            <div className="loader">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </>
+    );
+};
+
+export default LoadingLayout;
+
 
 export { emailPatternValidator, verifyAuthToken, userStatus };

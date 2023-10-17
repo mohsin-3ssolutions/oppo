@@ -22,7 +22,12 @@ function Signin({ isAuthenticated, setIsAuthenticated }) {
     });
 
     useEffect(() => {
-        (isAuthenticated && navigate('/account'));
+        // (isAuthenticated && );
+
+        console.log(isAuthenticated, '==========')
+        if (isAuthenticated) {
+            navigate('/')
+        }
     }, [isAuthenticated]);
 
     const handleSubmit = async (values, { setSubmitting }) => {

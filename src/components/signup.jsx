@@ -41,8 +41,7 @@ function Signup({ isAuthenticated, setIsAuthenticated }) {
     };
 
     useEffect(() => {
-        (isAuthenticated && navigate('/payment'));
-
+        (isAuthenticated && navigate('/'));
     }, [isAuthenticated]);
 
 
@@ -139,7 +138,7 @@ function Signup({ isAuthenticated, setIsAuthenticated }) {
                                                 <Field
                                                     name="company_name"
                                                     type="text"
-                                                    placeholder="Enter Email Address"
+                                                    placeholder="Enter Company Name"
                                                     className={`form-control ${touched.company_name && errors.company_name ? "is-invalid" : ""
                                                         }`}
                                                 />
@@ -160,7 +159,8 @@ function Signup({ isAuthenticated, setIsAuthenticated }) {
                                                     name="fname"
                                                     type="text"
                                                     className={`form-control ${touched.fname && errors.fname ? "is-invalid" : ""
-                                                        }`} placeholder="Enter Password"
+                                                        }`}
+                                                    placeholder="Enter Full Name"
                                                 />
                                                 <ErrorMessage
                                                     name="fname"

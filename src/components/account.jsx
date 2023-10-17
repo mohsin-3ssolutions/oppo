@@ -171,7 +171,7 @@ function Account() {
                                                                     }}
                                                                     anchorEl={anchorEl}
                                                                     open={open}
-                                                                    onClose={() => handleClose(options.value[0])}
+                                                                    onClose={() => handleClose(options[0].value)}
                                                                     PaperProps={{
                                                                         style: {
                                                                             maxHeight: ITEM_HEIGHT * 4.5,

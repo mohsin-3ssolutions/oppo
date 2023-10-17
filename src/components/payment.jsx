@@ -115,7 +115,15 @@ function Payment({ setUser, isAuthenticated, user, paymentStatus }) {
                             <div className="color_bg">
                                 <div className="sign_up">
                                     <h3>Payment Plan Details</h3>
+                                    <p className='mb-2'>
+                                        {paymentStatus === "ON_TRIAL"
+                                            ? 'Your payment is on a trial period. If you want to subscribe, please enter your details and click the "Complete Payment" button.'
+                                            : paymentStatus === 'TRIAL_EXPIRED'
+                                                ? 'Your trial has been expired please complete your payment to proceed.'
+                                                : ''}
+                                    </p>
                                     <p className="payment_price"><span className="pe-1">1</span>Owner Account…….…… <span>$29.99/mon</span></p>
+
                                     <Formik
                                         initialValues={initialValues}
                                         validationSchema={validationSchema}
@@ -123,7 +131,7 @@ function Payment({ setUser, isAuthenticated, user, paymentStatus }) {
                                     >
                                         {({ isSubmitting, touched, errors }) => (
                                             <Form>
-                                                <div className="mb-3">
+                                                <div className="mb-3 mt-2">
                                                     <label
 
                                                         className="form-label"
@@ -259,13 +267,7 @@ function Payment({ setUser, isAuthenticated, user, paymentStatus }) {
                                                 >
                                                     Start Trail
                                                 </button> */}
-                                                <p className='my-3'>
-                                                    {paymentStatus === "ON_TRIAL"
-                                                        ? 'Your payment is on a trial period. If you want to subscribe, please enter your details and click the "Complete Payment" button.'
-                                                        : paymentStatus === 'TRIAL_EXPIRED'
-                                                            ? 'Your trial has been expired please complete your payment to proceed.'
-                                                            : ''}
-                                                </p>
+
                                                 <button
                                                     className="submit_btn"
                                                     type="submit"

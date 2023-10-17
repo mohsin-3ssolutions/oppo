@@ -2,7 +2,7 @@ import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Navigate, Route, BrowserRouter as Router, Routes, useNavigate } from 'react-router-dom';
+import { Navigate, Route, BrowserRouter as Router, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
 import 'bootstrap/dist/css/bootstrap.css';
@@ -32,7 +32,8 @@ import { fetchUserProfileDetails } from './store/userProfileSlice/userProfileSli
 
 function App() {
   const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  console.log(isAuthenticated)
   const navigate = useNavigate();
   // const [user, setUser] = useState({
   //   paid: false
@@ -57,24 +58,35 @@ function App() {
     return state?.userProfileSlice?.userData?.data?.status;
   });
 
-  console.log(paymentStatus)
+
+  const location = useLocation();
 
 
   useEffect(() => {
+
     const authenticated = !!localStorage.getItem("authToken");
+
+    if (!authenticated && location.pathname !== '/signup') {
+      navigate('/signin')
+    }
+
     setIsAuthenticated(authenticated);
 
     if (paymentStatus === 'TRIAL_EXPIRED') {
       navigate('/payment', { replace: true });
     } else if (paymentStatus === 'SUBSCRIBED') {
-      navigate('/dashboard', { replace: true });
+      if (location.pathname == '/payment') {
+        navigate('/');
+      } else {
+        navigate(location.pathname);
+      }
     }
   }, [isAuthenticated, paymentStatus, navigate]);
 
   return (
     <div>
       <Routes>
-        <Route path="/" element={<LandingPage />} />
+        <Route path="/" element={<LandingPage isAuthenticated={isAuthenticated} paymentSripe={paymentSripe} />} />
         <Route path="/select-role" element={<SelectRole />} />
         <Route path="/contact-us" element={<ContactUs />} />
         <Route path="/our-services" element={<Services />} />
@@ -97,7 +109,7 @@ function App() {
           }
         />
         <Route path="/payment-completion" element={<ThankYou isAuthenticated={isAuthenticated} />} />
-        <Route path="/dashboard" element={<Dashboard isAuthenticated={isAuthenticated} paymentSripe={paymentSripe} /*user={user}*/ logout={logout} />} />
+        <Route path="/dashboard" element={<Dashboard isAuthenticated={isAuthenticated} paymentSripe={paymentSripe} logout={logout} />} />
         <Route path="/account" element={<Account />} />
       </Routes>
       <ToastContainer />
