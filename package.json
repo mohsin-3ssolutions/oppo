@@ -4,8 +4,10 @@
   "private": true,
   "dependencies": {
     "@babel/core": "^7.16.0",
+    "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
-    "@mui/material": "^5.14.13",
+    "@mui/icons-material": "^5.14.14",
+    "@mui/material": "^5.14.14",
     "@mui/styled-engine-sc": "^6.0.0-alpha.1",
     "@mui/x-date-pickers": "^6.16.1",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.3",

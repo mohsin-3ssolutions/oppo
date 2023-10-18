@@ -6,7 +6,7 @@ import * as Yup from 'yup';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import DefaultLayout from './reusableComponents/defaultLayout';
 
-function Payment({ setUser, isAuthenticated, user }) {
+function Payment({ setUser, isAuthenticated, user, paymentStatus }) {
     console.log("======>", isAuthenticated)
     const stripe = useStripe();
     const elements = useElements();
@@ -115,7 +115,15 @@ function Payment({ setUser, isAuthenticated, user }) {
                             <div className="color_bg">
                                 <div className="sign_up">
                                     <h3>Payment Plan Details</h3>
+                                    <p className='mb-2'>
+                                        {paymentStatus === "ON_TRIAL"
+                                            ? 'Welcome to our trial experience which will expire in 2 weeks from your signup. Please complete Payment and continue your journey!"'
+                                            : paymentStatus === 'TRIAL_EXPIRED'
+                                                ? 'Your trial period is over. Please complete Payment and continue your journey.'
+                                                : ''}
+                                    </p>
                                     <p className="payment_price"><span className="pe-1">1</span>Owner Account…….…… <span>$29.99/mon</span></p>
+
                                     <Formik
                                         initialValues={initialValues}
                                         validationSchema={validationSchema}
@@ -123,7 +131,7 @@ function Payment({ setUser, isAuthenticated, user }) {
                                     >
                                         {({ isSubmitting, touched, errors }) => (
                                             <Form>
-                                                <div className="mb-3">
+                                                <div className="mb-3 mt-2">
                                                     <label
 
                                                         className="form-label"
@@ -252,14 +260,13 @@ function Payment({ setUser, isAuthenticated, user }) {
                                                     </div>
                                                 </div>
 
-
-                                                <button
+                                                {/* <button
                                                     className="submit_btn"
                                                     // type="submit"
-                                                    // disabled={isSubmitting}
+                                                    disabled={paymentStatus == "ON_TRIAL"}
                                                 >
                                                     Start Trail
-                                                </button>
+                                                </button> */}
 
                                                 <button
                                                     className="submit_btn"
@@ -268,10 +275,6 @@ function Payment({ setUser, isAuthenticated, user }) {
                                                 >
                                                     Complete Payment
                                                 </button>
-                                                <div class="creat_btn mb-5">
-                                                        <button>Complete Payment</button>
-                                                        <button>Find a Project</button>
-                                                </div>
                                             </Form>
                                         )}
                                     </Formik>
