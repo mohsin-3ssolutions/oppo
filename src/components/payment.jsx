@@ -117,9 +117,9 @@ function Payment({ setUser, isAuthenticated, user, paymentStatus }) {
                                     <h3>Payment Plan Details</h3>
                                     <p className='mb-2'>
                                         {paymentStatus === "ON_TRIAL"
-                                            ? 'Your payment is on a trial period. If you want to subscribe, please enter your details and click the "Complete Payment" button.'
+                                            ? 'Welcome to our trial experience which will expire in 2 weeks from your signup. Please complete Payment and continue your journey!"'
                                             : paymentStatus === 'TRIAL_EXPIRED'
-                                                ? 'Your trial has been expired please complete your payment to proceed.'
+                                                ? 'Your trial period is over. Please complete Payment and continue your journey.'
                                                 : ''}
                                     </p>
                                     <p className="payment_price"><span className="pe-1">1</span>Owner Account…….…… <span>$29.99/mon</span></p>
