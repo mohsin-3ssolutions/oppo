@@ -12,7 +12,7 @@ export default function LandingPage({ isAuthenticated, paymentSripe }) {
     const navigate = useNavigate();
 
     useEffect(() => {
-        ((!isAuthenticated) && navigate('/signin'));
+        // ((!isAuthenticated) && navigate('/signin'));
         { paymentSripe == "" && navigate('/payment') }
         // const paid = localStorage.getItem('paid')?.length ? true : false;
         // ((isAuthenticated && paid) ? navigate('/dashboard') : navigate('/payment'));

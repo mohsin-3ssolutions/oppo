@@ -3,11 +3,13 @@ import { Box } from '@mui/system';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import PaymentIcon from '@mui/icons-material/Payment';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 function Header() {
-    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [isAuthenticated, setIsAuthenticated] = useState(true);
+
     const navigate = useNavigate();
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -28,6 +30,13 @@ function Header() {
     if (nameIcon && nameIcon.length > 0) {
         var firstLetter = nameIcon[0].toUpperCase(); // Convert to uppercase
     }
+
+    useEffect(() => {
+        const authenticated = !!localStorage.getItem("authToken");
+        setIsAuthenticated(authenticated);
+
+    }, [isAuthenticated]);
+
     return (
         <header>
             <div className="container">
@@ -52,12 +61,16 @@ function Header() {
                                     <li>
                                         <Link to="/contact-us">Contact Us</Link>
                                     </li>
-                                    <li>
+                                    {isAuthenticated && <li>
                                         <Link to="/account">My Account</Link>
                                     </li>
-
+                                    }
+                                    {!isAuthenticated && <li>
+                                        <Link to="/signin">Login</Link>
+                                    </li>
+                                    }
                                 </ul>
-                                <div>
+                                {isAuthenticated && <div>
                                     <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
                                         <Tooltip title="Account settings">
                                             <IconButton
@@ -128,7 +141,8 @@ function Header() {
                                             Logout
                                         </MenuItem>
                                     </Menu>
-                                </div>
+                                </div>}
+
                             </div>
                         </div>
                     </nav>

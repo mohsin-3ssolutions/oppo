@@ -41,7 +41,9 @@ function Signup({ isAuthenticated, setIsAuthenticated }) {
     };
 
     useEffect(() => {
-        (isAuthenticated && navigate('/'));
+        if (isAuthenticated) {
+            navigate('/')
+        }
     }, [isAuthenticated]);
 
 

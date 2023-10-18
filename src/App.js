@@ -32,7 +32,7 @@ import { fetchUserProfileDetails } from './store/userProfileSlice/userProfileSli
 
 function App() {
   const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   console.log(isAuthenticated)
   const navigate = useNavigate();
   // const [user, setUser] = useState({
@@ -66,7 +66,7 @@ function App() {
 
     const authenticated = !!localStorage.getItem("authToken");
 
-    if (!authenticated && location.pathname !== '/signup') {
+    if (!authenticated && location.pathname == '/account') {
       navigate('/signin')
     }
 
