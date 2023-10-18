@@ -46,7 +46,6 @@ function Signup({ isAuthenticated, setIsAuthenticated }) {
         }
     }, [isAuthenticated]);
 
-
     // const handleSubmit = async (values, { setSubmitting }) => {
     const handleSubmit = async (values) => {
         console.log(values)
