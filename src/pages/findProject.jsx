@@ -1,5 +1,5 @@
 import React from 'react'
-import DefaultLayout from './reusableComponents/defaultLayout'
+import DefaultLayout from '../reusableComponents/defaultLayout'
 
 export default function FindProject() {
     return (

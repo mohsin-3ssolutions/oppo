@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import DefaultLayout from './reusableComponents/defaultLayout'
+import DefaultLayout from '../reusableComponents/defaultLayout'
 // import { Link } from 'react-router-dom'
 
 export default function SubContractor() {

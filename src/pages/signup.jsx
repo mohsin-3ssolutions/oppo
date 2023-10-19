@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { emailPatternValidator } from '../utils';
 import { Formik, Form, Field, ErrorMessage, useFormikContext } from 'formik';
 import * as Yup from 'yup';
-import DefaultLayout from './reusableComponents/defaultLayout';
+import DefaultLayout from '../reusableComponents/defaultLayout';
 
 function Signup({ isAuthenticated, setIsAuthenticated }) {
     const [passwordStrength, setPasswordStrength] = useState("default");
@@ -16,6 +16,7 @@ function Signup({ isAuthenticated, setIsAuthenticated }) {
         email: "",
         password: "",
         privacePolicy: true,
+        role: ""
         // passwordStrength: 'default',
     };
 
@@ -29,7 +30,8 @@ function Signup({ isAuthenticated, setIsAuthenticated }) {
         fname: Yup.string()
             .required('Full Name is required'),
         privacePolicy: Yup.string()
-            .required('Privace Policy Name is required')
+            .required('Privace Policy Name is required'),
+        role: Yup.string().required('Role is required') // Add validation for the "role" field
     });
 
     const passwordStrengthBar = {
@@ -188,6 +190,22 @@ function Signup({ isAuthenticated, setIsAuthenticated }) {
                                                     component="div"
                                                     className="text-danger"
                                                 />
+                                            </div>
+
+                                            <div className="mb-3">
+                                                <label className="form-label">
+                                                    Role
+                                                </label>
+                                                <Field
+                                                    name="role"
+                                                    as="select" // Use select element for dropdown
+                                                    className={`form-select ${touched.role && errors.role ? "is-invalid" : ""}`}
+                                                >
+                                                    <option value="" label="Select a role" />
+                                                    <option value="general-contractor" label="General Contractor" />
+                                                    <option value="sub-contractor" label="Sub-Contractor" />
+                                                </Field>
+                                                <ErrorMessage name="role" component="div" className="text-danger" />
                                             </div>
 
                                             <div className="mb-3 password-group">

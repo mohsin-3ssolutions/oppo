@@ -15,19 +15,19 @@ import './assentials/js/slick.js';
 import "./assentials/styles/global.css";
 import './assentials/styles/responsive.css';
 
-import Account from './components/account.jsx';
-import Dashboard from "./components/dashboard.jsx";
-import LandingPage from './components/landingPage.jsx';
-import Payment from "./components/payment.jsx";
-import SelectRole from "./components/paymentPlans.jsx";
-import SignIn from "./components/signin.jsx";
-import SignUp from "./components/signup.jsx";
-import ThankYou from "./components/thankyou.jsx";
+import Account from './pages/account.jsx';
+import Dashboard from "./pages/dashboard.jsx";
+import LandingPage from './pages/landingPage.jsx';
+import Payment from "./pages/payment.jsx";
+import SelectRole from "./pages/paymentPlans.jsx";
+import SignIn from "./pages/signin.jsx";
+import SignUp from "./pages/signup.jsx";
+import ThankYou from "./pages/thankyou.jsx";
 import { verifyAuthToken } from './utils.js';
-import ContactUs from './components/contactUs.jsx';
-import FindProject from './components/findProject';
-import Services from './components/services.jsx';
-import Story from './components/story.jsx';
+import ContactUs from './pages/contactUs.jsx';
+import FindProject from './pages/findProject';
+import Services from './pages/services.jsx';
+import Story from './pages/story.jsx';
 import { fetchUserProfileDetails } from './store/userProfileSlice/userProfileSlice.js';
 
 function App() {

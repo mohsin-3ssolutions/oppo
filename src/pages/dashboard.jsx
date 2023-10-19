@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import DefaultLayout from './reusableComponents/defaultLayout';
+import DefaultLayout from '../reusableComponents/defaultLayout';
 
 function Dashboard({ user, isAuthenticated, paymentSripe }) {
     const navigate = useNavigate();

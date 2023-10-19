@@ -6,7 +6,7 @@ import { emailPatternValidator } from '../utils';
 import FacebookImageSrc from "../assets/images/facebook.png"
 import GoogleImageSrc from "../assets/images/google.png"
 import AppleImageSrc from "../assets/images/apple.png"
-import DefaultLayout from './reusableComponents/defaultLayout';
+import DefaultLayout from '../reusableComponents/defaultLayout';
 
 function SubContractorSignUp({ isAuthenticated, setIsAuthenticated }) {
     const [agreeCheck, setAgreeCheck] = useState(true);
