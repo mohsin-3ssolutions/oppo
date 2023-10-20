@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import * as Yup from 'yup';
 import { emailPatternValidator } from '../utils';
-import DefaultLayout from './reusableComponents/defaultLayout';
+import DefaultLayout from '../reusableComponents/defaultLayout';
 
 function Signin({ isAuthenticated, setIsAuthenticated }) {
     const navigate = useNavigate();

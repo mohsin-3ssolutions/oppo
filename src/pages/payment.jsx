@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import * as Yup from 'yup';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import DefaultLayout from './reusableComponents/defaultLayout';
+import DefaultLayout from '../reusableComponents/defaultLayout';
 
 function Payment({ setUser, isAuthenticated, user, paymentStatus }) {
     console.log("======>", isAuthenticated)

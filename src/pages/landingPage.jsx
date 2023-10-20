@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import DefaultLayout from './reusableComponents/defaultLayout'
+import DefaultLayout from '../reusableComponents/defaultLayout'
 import { Link, useNavigate } from 'react-router-dom'
 
 export default function LandingPage({ isAuthenticated, paymentSripe }) {
