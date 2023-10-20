@@ -144,6 +144,8 @@ function Account() {
                                 </li>
                             </ul>
                             <div className="tab-content" id="gcTabContent">
+
+
                                 <div className="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
                                     <div className="about_projects">
                                         <div className="color_bg">
@@ -171,7 +173,7 @@ function Account() {
                                                                     }}
                                                                     anchorEl={anchorEl}
                                                                     open={open}
-                                                                    onClose={() => handleClose(options.value[0])}
+                                                                    onClose={() => handleClose(options[0].value)}
                                                                     PaperProps={{
                                                                         style: {
                                                                             maxHeight: ITEM_HEIGHT * 4.5,
@@ -201,6 +203,8 @@ function Account() {
                                         </div>
                                     </div>
                                 </div>
+
+
                                 <div className="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                                     <div className="about_projects" style={{ display: "none" }}>
                                         <div className="color_bg">
@@ -642,6 +646,8 @@ function Account() {
                                         </div>
                                     </div>
                                 </div>
+
+
                                 <div className="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
                                     <div className="color_bg">
                                         <div className="project_detail">
@@ -655,6 +661,8 @@ function Account() {
                                         </div>
                                     </div>
                                 </div>
+
+                                
                                 <div className="tab-pane fade" id="mycontact" role="tabpanel" aria-labelledby="contact-tab">
                                     <div className="about_projects">
                                         <div className="color_bg">
@@ -773,6 +781,17 @@ function Account() {
                         </div>
                     </div>
                 </section>
+
+
+
+
+
+
+
+
+
+
+
                 <section className="profile_banner">
                     <div className="container">
                         <div className="new_project project_name_banner">

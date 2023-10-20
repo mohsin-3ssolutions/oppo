@@ -1,43 +1,43 @@
 import { Elements } from '@stripe/react-stripe-js';
-import './App.css';
-import './assentials/js/bootstrap.bundle.min.js';
 import { loadStripe } from '@stripe/stripe-js';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import { Navigate, Route, BrowserRouter as Router, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
+
+import 'bootstrap/dist/css/bootstrap.css';
 import 'react-toastify/dist/ReactToastify.css';
+import './App.css';
+import './assentials/js/bootstrap.bundle.min.js';
+import './assentials/js/custom.js';
+import './assentials/js/jquery.min.js';
+import './assentials/js/slick.js';
 import "./assentials/styles/global.css";
 import './assentials/styles/responsive.css';
-import 'bootstrap/dist/css/bootstrap.css';
-// import { useNavigate } from 'react-router-dom';
+
 import Account from './components/account.jsx';
 import Dashboard from "./components/dashboard.jsx";
+import LandingPage from './components/landingPage.jsx';
 import Payment from "./components/payment.jsx";
 import SelectRole from "./components/paymentPlans.jsx";
 import SignIn from "./components/signin.jsx";
 import SignUp from "./components/signup.jsx";
-import LandingPage from './components/landingPage.jsx';
 import ThankYou from "./components/thankyou.jsx";
 import { verifyAuthToken } from './utils.js';
-
-import { fetchUserProfileDetails } from './store/userProfileSlice/userProfileSlice.js';
 import ContactUs from './components/contactUs.jsx';
-import Services from './components/services.jsx';
-import './assentials/js/custom.js'
-import './assentials/js/jquery.min.js';
-import './assentials/js/slick.js';
-import Story from './components/story.jsx';
 import FindProject from './components/findProject';
-import ChartComponent from './components/ganttchart';
+import Services from './components/services.jsx';
+import Story from './components/story.jsx';
+import { fetchUserProfileDetails } from './store/userProfileSlice/userProfileSlice.js';
 
 function App() {
   const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState({
-    // isAuthenticated: false,
-    paid: false
-  });
+  console.log(isAuthenticated)
+  const navigate = useNavigate();
+  // const [user, setUser] = useState({
+  //   paid: false
+  // });
 
   const logout = () => {
     localStorage.removeItem('authToken');
@@ -53,16 +53,40 @@ function App() {
     return state?.userProfileSlice?.userData?.data?.stripe_customer_id;
   });
 
+
+  const paymentStatus = useSelector((state) => {
+    return state?.userProfileSlice?.userData?.data?.status;
+  });
+
+
+  const location = useLocation();
+
+
   useEffect(() => {
-    console.log({ 123456: process.env });
+
     const authenticated = !!localStorage.getItem("authToken");
+
+    if (!authenticated && location.pathname == '/account') {
+      navigate('/signin')
+    }
+
     setIsAuthenticated(authenticated);
-  }, [isAuthenticated, user]);
+
+    if (paymentStatus === 'TRIAL_EXPIRED') {
+      navigate('/payment', { replace: true });
+    } else if (paymentStatus === 'SUBSCRIBED') {
+      if (location.pathname == '/payment') {
+        navigate('/');
+      } else {
+        navigate(location.pathname);
+      }
+    }
+  }, [isAuthenticated, paymentStatus, navigate]);
 
   return (
-    <Router>
+    <div>
       <Routes>
-        <Route path="/" element={<LandingPage />} />
+        <Route path="/" element={<LandingPage isAuthenticated={isAuthenticated} paymentSripe={paymentSripe} />} />
         <Route path="/select-role" element={<SelectRole />} />
         <Route path="/contact-us" element={<ContactUs />} />
         <Route path="/our-services" element={<Services />} />
@@ -72,18 +96,24 @@ function App() {
 
         <Route path="/signin" element={<SignIn isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />} />
         <Route path="/signup" element={<SignUp isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />} />
-        <Route path="/signin" element={<SignIn isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />} />
-        <Route path="/payment" element={
-          <Elements stripe={stripePromise}>
-            <Payment isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} user={user} setUser={setUser} />
-          </Elements>
-        } />
+        <Route
+          path="/payment"
+          element={
+            paymentStatus === 'SUBSCRIBED' ? (
+              <Navigate to="/" replace />
+            ) : (
+              <Elements stripe={stripePromise}>
+                <Payment isAuthenticated={isAuthenticated} paymentStatus={paymentStatus} setIsAuthenticated={setIsAuthenticated} />
+              </Elements>
+            )
+          }
+        />
         <Route path="/payment-completion" element={<ThankYou isAuthenticated={isAuthenticated} />} />
-        <Route path="/dashboard" element={<Dashboard isAuthenticated={isAuthenticated} paymentSripe={paymentSripe} user={user} logout={logout} />} />
+        <Route path="/dashboard" element={<Dashboard isAuthenticated={isAuthenticated} paymentSripe={paymentSripe} logout={logout} />} />
         <Route path="/account" element={<Account />} />
       </Routes>
       <ToastContainer />
-    </Router>
+    </div>
   );
 }
 

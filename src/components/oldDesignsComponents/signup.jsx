@@ -36,7 +36,7 @@ const SignUp = ({ isAuthenticated, setIsAuthenticated }) => {
     // console.log("errorState has changed:", errorState);
     // console.log("isAuthenticated ::::::::::", isAuthenticated);
 
-    (isAuthenticated && navigate('/account'));
+    (isAuthenticated && navigate('/'));
 
   }, [isAuthenticated, errorState]);
 

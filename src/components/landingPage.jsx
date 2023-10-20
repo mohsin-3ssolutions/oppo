@@ -1,20 +1,30 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import DefaultLayout from './reusableComponents/defaultLayout'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
-export default function LandingPage() {
+export default function LandingPage({ isAuthenticated, paymentSripe }) {
     const [activeStep, setActiveStep] = useState('step1');
 
     const toggleVisibility = (step) => {
         setActiveStep(step);
     };
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        // ((!isAuthenticated) && navigate('/signin'));
+        { paymentSripe == "" && navigate('/payment') }
+        // const paid = localStorage.getItem('paid')?.length ? true : false;
+        // ((isAuthenticated && paid) ? navigate('/dashboard') : navigate('/payment'));
+    }, []);
+
     return (
         <DefaultLayout>
             <section className="home_banner">
                 <div className="container">
                     <div className="home_content">
                         <h1>OPPO. an opportunity to connect, organize, and bid projects simply.</h1>
-                        <a href="/select-role" className="globle_btn">Get Started</a>
+                        {isAuthenticated == false ? <Link to="/select-role" className="globle_btn">Get Started</Link> : <Link to="/account" className="globle_btn">Go to your Acount</Link>}
                     </div>
                 </div>
             </section>

@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
@@ -14,6 +16,10 @@ export const userProfileSlice = createSlice({
     fetchUserProfileDetails: (state, action) => {
       console.log("login action: ", action);
       state.userData = action.payload;
+      // state.userData = {
+      //   ...action.payload,
+      //   new_created_at: 'moment(action.payload.created_at).format()'
+      // };
     }
 
   },
