@@ -253,7 +253,7 @@ function Signup({ isAuthenticated, setIsAuthenticated }) {
                                                     disabled={isSubmitting}
                                                 >
                                                     Create Account {isSubmitting && (
-                                                        <div className="spinner-border spinner-border-sm" role="status">
+                                                        <div className="spinner-border spinner-border-sm" >
                                                             <span className="sr-only"></span>
                                                         </div>
                                                     )}

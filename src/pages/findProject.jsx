@@ -1,12 +1,47 @@
 import React, { useEffect, useState } from 'react'
 import DefaultLayout from '../reusableComponents/defaultLayout'
+import ReactPaginate from 'react-paginate';
 
 export default function FindProject() {
-    const [projects, setprojects] = useState([])
-    const fetchProjects = async () => {
-        const token = localStorage.getItem('authToken');
-        let url = process.env.REACT_APP_BASE_URL;
+    const [projects, setprojects] = useState([]),
+        [count, setCount] = useState(0),
+        [pageCount, setPageCount] = useState(0)
 
+    const fetchData = async () => {
+        let url = process.env.REACT_APP_BASE_URL;
+        const token = localStorage.getItem('authToken');
+        const requestOptions = {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        };
+        const data = fetch(
+            url +
+            `/projects_list?page_num_start=1&page_size=20`,
+            requestOptions
+        )
+            .then(async (res) => {
+                let body = await res.json();
+                console.log(body)
+                if (body.data.length > 0) {
+                    setCount(body.data.length / 10);
+                    setPageCount(body.data.length);
+                    setprojects(body?.data)
+                }
+            })
+            .catch((err) => { });
+        return data;
+    };
+
+    useEffect(() => {
+        fetchData()
+    }, [])
+
+    const fetchPaginatedData = async (currentPage) => {
+        let url = process.env.REACT_APP_BASE_URL;
+        const token = localStorage.getItem('authToken');
         const requestOptions = {
             method: "GET",
             headers: {
@@ -16,16 +51,18 @@ export default function FindProject() {
         };
         const res = await fetch(
             url +
-            `/projects_list?page_num_start=1&page_size=20`,
+            `/projects_list?page_num_start=${currentPage}&page_size=10`,
             requestOptions
         );
         const data = await res.json();
-        setprojects(data?.data)
+        return data;
     };
 
-    useEffect(() => {
-        fetchProjects()
-    }, [])
+    const handlePageClick = async (data) => {
+        let currentPage = data.selected + 1;
+        const dataFromServer = await fetchPaginatedData(currentPage);
+        setprojects(dataFromServer?.data);
+    };
 
     console.log(projects, '===============')
     return (
@@ -86,6 +123,25 @@ export default function FindProject() {
 
 
                     </ul>
+                    <ReactPaginate
+                        previousLabel={"Prev"}
+                        nextLabel={"Next"}
+                        breakLabel={"..."}
+                        pageCount={count}
+                        marginPagesDisplayed={2}
+                        pageRangeDisplayed={3}
+                        onPageChange={handlePageClick}
+                        containerClassName={"pagination"}
+                        pageClassName={"page-item"}
+                        pageLinkClassName={"item-link"}
+                        previousClassName={"page-item"}
+                        previousLinkClassName={"item-link"}
+                        nextClassName={"page-item"}
+                        nextLinkClassName={"item-link"}
+                        breakClassName={"page-item"}
+                        breakLinkClassName={"item-link"}
+                        activeClassName={"active"}
+                    />
 
                 </div>
             </section>

@@ -19,30 +19,31 @@ import FindProject from './pages/findProject';
 import Services from './pages/services.jsx';
 import Story from './pages/story.jsx';
 import { fetchUserProfileDetails } from './store/userProfileSlice/userProfileSlice.js';
+import SubContractor from './pages/subContractor.jsx';
 
 const AppRouter = ({ isAuthenticated, setIsAuthenticated, paymentStatus }) => {
-    const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
-    console.log(isAuthenticated)
-    const location = useLocation();
-    const navigate = useNavigate();
-  
-    const logout = () => {
-      localStorage.removeItem('authToken');
-      setIsAuthenticated(false);
-    }
-    const dispatch = useDispatch();
-    useEffect(() => {
-      dispatch(verifyAuthToken(fetchUserProfileDetails))
-    }, []);
-  
-    const paymentSripe = useSelector((state) => {
-      return state?.userProfileSlice?.userData?.data?.stripe_customer_id;
-    });
-    const userRole = useSelector((state) => {
-      return state?.userProfileSlice?.userData?.data?.role;
-    });
-  
-    return (
+  const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
+  console.log(isAuthenticated)
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const logout = () => {
+    localStorage.removeItem('authToken');
+    setIsAuthenticated(false);
+  }
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(verifyAuthToken(fetchUserProfileDetails))
+  }, []);
+
+  const paymentSripe = useSelector((state) => {
+    return state?.userProfileSlice?.userData?.data?.stripe_customer_id;
+  });
+  const userRole = useSelector((state) => {
+    return state?.userProfileSlice?.userData?.data?.role;
+  });
+
+  return (
     <div>
       <Routes>
         <Route path="/" element={<LandingPage isAuthenticated={isAuthenticated} paymentSripe={paymentSripe} />} />
@@ -70,10 +71,13 @@ const AppRouter = ({ isAuthenticated, setIsAuthenticated, paymentStatus }) => {
         <Route path="/payment-completion" element={<ThankYou isAuthenticated={isAuthenticated} />} />
         <Route path="/dashboard" element={<Dashboard isAuthenticated={isAuthenticated} paymentSripe={paymentSripe} logout={logout} />} />
         <Route path="/account" element={<Account />} />
+        <Route path="/subcontractor-account" element={<SubContractor />} />
+        <Route path="/owner-account" element={<SubContractor />} />
+
       </Routes>
       <ToastContainer />
     </div>
-    );
+  );
 }
 
 export default AppRouter;

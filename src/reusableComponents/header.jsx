@@ -33,6 +33,10 @@ function Header() {
         return state?.userProfileSlice?.userData?.data?.fname;
     });
 
+    const profileData = useSelector((state) => {
+        return state?.userProfileSlice?.userData?.data;
+    });
+
     if (nameIcon && nameIcon.length > 0) {
         var firstLetter = nameIcon[0].toUpperCase(); // Convert to uppercase
     }
@@ -43,6 +47,7 @@ function Header() {
 
     }, [isAuthenticated]);
 
+    console.log(profileData)
     return (
         <header>
             <div className="container">
@@ -67,10 +72,19 @@ function Header() {
                                     <li>
                                         <Link to="/contact-us">Contact Us</Link>
                                     </li>
-                                    {isAuthenticated && <li>
+                                    {isAuthenticated && profileData?.role == 'general_contractor' && <li>
                                         <Link to="/account">My Account</Link>
                                     </li>
                                     }
+                                    {isAuthenticated && profileData?.role == 'owner' && <li>
+                                        <Link to="/owner-account">My Account</Link>
+                                    </li>
+                                    }
+                                    {isAuthenticated && profileData?.role == 'sub_contractor' && <li>
+                                        <Link to="/subcontractor-account">My Account</Link>
+                                    </li>
+                                    }
+
                                     {!isAuthenticated && <li>
                                         <Link to="/signin">Login</Link>
                                     </li>

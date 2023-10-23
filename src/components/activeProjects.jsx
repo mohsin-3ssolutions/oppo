@@ -5,9 +5,14 @@ import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import moment from 'moment';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+import { ColorRing } from 'react-loader-spinner';
 export default function ActiveProjects() {
   const [startDate, setStartDate] = useState(null);
   const [completionDate, setCompletionDate] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  let navigate = useNavigate()
 
   const handleStartDateChange = (date) => {
     // console.log(date.$d)
@@ -22,7 +27,6 @@ export default function ActiveProjects() {
     console.log(formattedDate);
     setCompletionDate(formattedDate);
   };
-
 
   const initialValues = {
     project_name: '',
@@ -77,6 +81,8 @@ export default function ActiveProjects() {
     values.project_end_date = completionDate;
     values.project_type = 'commercial';
 
+    setLoading(true);
+
     console.log(values.permit_doc);
     const token = localStorage.getItem('authToken');
     if (token) {
@@ -115,13 +121,18 @@ export default function ActiveProjects() {
             console.log({ data, message, success });
             if (success) {
               toast.success('Project created successfully!', { autoClose: 3000 });
+              navigate('/find-a-project')
             } else {
-              toast.error('Registration failed!' + message, { autoClose: 3000 });
+              toast.error('Something went wrong!' + message, { autoClose: 3000 });
             }
+          }).finally(() => {
+            // Set loading back to false when the API request is complete
+            setLoading(false);
           });
       } catch (error) {
         console.error('An error occurred:', error);
         toast.error('An error occurred.' + error, { autoClose: 3000 });
+        setLoading(false);
       }
     }
   };
@@ -296,7 +307,15 @@ export default function ActiveProjects() {
                 </div>
               </div>
               <div className="creat_btn">
-                <button type="submit" className='globle_submit'>Submit</button>\
+                <button type="submit" className='globle_submit' disabled={loading}> Submit {loading && <ColorRing
+                  visible={true}
+                  height="35"
+                  width="35"
+                  ariaLabel="blocks-loading"
+                  wrapperStyle={{}}
+                  wrapperClass="blocks-wrapper"
+                  colors={['white', 'white', 'white', 'white', 'white', 'white']}
+                />}</button>
               </div>
               {/* <divv className="creat_btn">
                 <a href="">Update Project</a>
