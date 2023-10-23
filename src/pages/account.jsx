@@ -12,10 +12,6 @@ import Profile from '../components/profile';
 
 function Account() {
 
-
-
-
-
     return (
         <>
             <DefaultLayout>
