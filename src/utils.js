@@ -6,6 +6,12 @@ import { fetchUserProfileDetails } from './store/userProfileSlice/userProfileSli
 const baseURL = process.env.REACT_APP_BASE_URL || 'here_should_be_base_url';
 const emailPatternValidator = /^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
+const userRoles = { // 'owner', 'general_contractor', 'sub_contractor'
+    owner: 'owner',
+    generalContractor: 'general_contractor',
+    subContractor: 'sub_contractor'
+}
+
 const userStatus = {
     trail: 'ON_TRIAL',
     trailExpired: 'TRIAL_EXPIRED',
@@ -80,4 +86,4 @@ export const LoadingLayout = () => {
 export default LoadingLayout;
 
 
-export { emailPatternValidator, verifyAuthToken, userStatus };
+export { emailPatternValidator, verifyAuthToken, userStatus, userRoles };
