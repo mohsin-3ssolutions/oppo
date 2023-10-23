@@ -1,7 +1,33 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import DefaultLayout from '../reusableComponents/defaultLayout'
 
 export default function FindProject() {
+    const [projects, setprojects] = useState([])
+    const fetchProjects = async () => {
+        const token = localStorage.getItem('authToken');
+        let url = process.env.REACT_APP_BASE_URL;
+
+        const requestOptions = {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        };
+        const res = await fetch(
+            url +
+            `/projects_list?page_num_start=1&page_size=20`,
+            requestOptions
+        );
+        const data = await res.json();
+        setprojects(data?.data)
+    };
+
+    useEffect(() => {
+        fetchProjects()
+    }, [])
+
+    console.log(projects, '===============')
     return (
         <DefaultLayout>
             <section class="inner_banner account_banner">
@@ -40,60 +66,27 @@ export default function FindProject() {
                         </form>
                     </div>
                     <ul>
-                        <li>
-                            <div class="project_detail">
-                                <div class="project_head">
-                                    <h2>Project Name <span>Start Date</span></h2>
-                                    <ul class="project_status">
-                                        <li>
-                                            <p class="view_count"><img src="assets/images/view.png" alt=""/><span>100</span></p>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <p><strong>Project Description:</strong> General contractors will manage the build process of a movie theater, overseeing site preparation, excavation, electrical, plumbing, HVAC, and finishing work. They will collaborate with specialists to ensure timely, budget-friendly, and quality project completion. The theater will offer advanced audio-visual equipment, comfortable seating, and safety protocols to deliver a first-class entertainment experience.</p>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="project_detail">
-                                <div class="project_head">
-                                    <h2>Project Name <span>Start Date</span></h2>
-                                    <ul class="project_status">
-                                        <li>
-                                            <p class="view_count"><img src="assets/images/view.png" alt=""/><span>100</span></p>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <p><strong>Project Description:</strong> General contractors will manage the build process of a movie theater, overseeing site preparation, excavation, electrical, plumbing, HVAC, and finishing work. They will collaborate with specialists to ensure timely, budget-friendly, and quality project completion. The theater will offer advanced audio-visual equipment, comfortable seating, and safety protocols to deliver a first-class entertainment experience.</p>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="project_detail">
-                                <div class="project_head">
-                                    <h2>Project Name <span>Start Date</span></h2>
-                                    <ul class="project_status">
-                                        <li>
-                                            <p class="view_count"><img src="assets/images/view.png" alt=""/><span>100</span></p>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <p><strong>Project Description:</strong> General contractors will manage the build process of a movie theater, overseeing site preparation, excavation, electrical, plumbing, HVAC, and finishing work. They will collaborate with specialists to ensure timely, budget-friendly, and quality project completion. The theater will offer advanced audio-visual equipment, comfortable seating, and safety protocols to deliver a first-class entertainment experience.</p>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="project_detail">
-                                <div class="project_head">
-                                    <h2>Project Name <span>Start Date</span></h2>
-                                    <ul class="project_status">
-                                        <li>
-                                            <p class="view_count"><img src="assets/images/view.png" alt=""/><span>100</span></p>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <p><strong>Project Description:</strong> General contractors will manage the build process of a movie theater, overseeing site preparation, excavation, electrical, plumbing, HVAC, and finishing work. They will collaborate with specialists to ensure timely, budget-friendly, and quality project completion. The theater will offer advanced audio-visual equipment, comfortable seating, and safety protocols to deliver a first-class entertainment experience.</p>
-                            </div>
-                        </li>
+                        {
+                            projects.map((data, index) => (
+                                <li key={index}>
+                                    <div class="project_detail">
+                                        <div class="project_head">
+                                            <h2>{data.project_name}<span>{data.project_start_date}</span></h2>
+                                            <ul class="project_status">
+                                                <li>
+                                                    <p class="view_count"><img src="assets/images/view.png" alt="" /><span>100</span></p>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <p><strong>Project Description: </strong> {data.project_description}</p>
+                                    </div>
+                                </li>
+                            ))
+                        }
+
+
                     </ul>
-                    
+
                 </div>
             </section>
         </DefaultLayout>

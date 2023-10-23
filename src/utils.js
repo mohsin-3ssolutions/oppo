@@ -32,7 +32,6 @@ const verifyAuthToken = () => async (dispatch) => { // Use Redux Thunk
     if (token) {
         try {
             // toast.success('Authentication!', { autoClose: 3000 });
-
             const response = await fetch(`${baseURL}/user_profile`, {
                 method: 'GET',
                 headers: {

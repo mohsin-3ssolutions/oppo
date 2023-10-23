@@ -202,8 +202,9 @@ function Signup({ isAuthenticated, setIsAuthenticated }) {
                                                     className={`form-select ${touched.role && errors.role ? "is-invalid" : ""}`}
                                                 >
                                                     <option value="" label="Select a role" />
-                                                    <option value="general-contractor" label="General Contractor" />
-                                                    <option value="sub-contractor" label="Sub-Contractor" />
+                                                    <option value="owner" label="Owner" />
+                                                    <option value="general_contractor" label="General Contractor" />
+                                                    <option value="sub_contractor" label="Sub-Contractor" />
                                                 </Field>
                                                 <ErrorMessage name="role" component="div" className="text-danger" />
                                             </div>

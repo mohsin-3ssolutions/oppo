@@ -30,11 +30,24 @@ export default function Profile() {
         selectedServices: [],
         scope: '',
         pastContractorsWorkedWith: '',
+        w9Form: ''
     };
 
-    const handleSubmit = (values) => {
+    const handleSubmit = (values, { setSubmitting }) => {
         // Handle form submission here
         console.log(values);
+        // Access the uploaded files from the input fields
+        const w9FormFile = values.w9Form[0];
+        const workersCompFormFile = values.workersCompForm[0];
+        const profilePictureFile = values.profilePicture[0];
+
+        // You can now handle the files as needed
+        console.log('W9 Form File:', w9FormFile);
+        console.log('Worker’s Comp Form File:', workersCompFormFile);
+        console.log('Profile Picture File:', profilePictureFile);
+
+        // Reset the form submission state
+        setSubmitting(false);
     };
     return (
         <div>
@@ -47,7 +60,7 @@ export default function Profile() {
                                 initialValues={initialValues}
                                 validationSchema={validationSchema}
                                 onSubmit={handleSubmit}
-                            >
+                            >{({ values, setFieldValue }) => (
                                 <Form>
                                     <div className="row">
                                         <div className="col-lg-4 col-md-6">
@@ -87,12 +100,6 @@ export default function Profile() {
                                                     />
                                                     <ErrorMessage name="ein" component="div" className="text-danger" />
                                                 </div>
-                                                {/* <div className="mb-3">
-                                                    <label for="exampleFormControlInput13" className="form-label">Licensed Work States</label>
-                                                    <select name="" className="form-control" id="">
-                                                        <option value=""></option>
-                                                    </select>
-                                                </div> */}
                                                 <div className="mb-3">
                                                     <label className="form-label">Licensed Work States</label>
                                                     <Field as="select" name="licensedWorkStates" className="form-control">
@@ -135,21 +142,51 @@ export default function Profile() {
                                                     <ErrorMessage name="numEmployees" component="div" className="text-danger" />
                                                 </div>
                                                 <div className="mb-3">
-                                                    <label for="exampleFormControlInput13" className="form-label">W9 Form (PDF)</label>
+                                                    <label for="w9Form" className="form-label">W9 Form (PDF)</label>
                                                     <div className="upload_files">
-                                                        <input type="file" />
+                                                        {/* <Field
+                                                            type="file"
+                                                            name="w9Form"
+                                                            className="form-control-file"
+                                                            onChange={(e) => {
+                                                                setFieldValue('w9Form', e.currentTarget.files[0]);
+                                                            }}
+                                                        /> */}
+                                                        <input type="file" name="w9Form" onChange={(event) => {
+                                                            setFieldValue("w9Form", event.currentTarget.files[0]);
+                                                        }} />
                                                     </div>
                                                 </div>
                                                 <div className="mb-3">
-                                                    <label for="exampleFormControlInput13" className="form-label">Worker’s Comp Form (PDF)</label>
+                                                    <label for="workersCompForm" className="form-label">Worker’s Comp Form (PDF)</label>
                                                     <div className="upload_files">
-                                                        <input type="file" />
+                                                        {/* <Field
+                                                            type="file"
+                                                            name="workersCompForm"
+                                                            className="form-control-file"
+                                                            onChange={(e) => {
+                                                                setFieldValue('workersCompForm', e.currentTarget.files[0]);
+                                                            }}
+                                                        /> */}
+                                                        <input type="file" name="workersCompForm" onChange={(event) => {
+                                                            setFieldValue("workersCompForm", event.currentTarget.files[0]);
+                                                        }} />
                                                     </div>
                                                 </div>
                                                 <div className="mb-3">
-                                                    <label for="exampleFormControlInput13" className="form-label">Profile Picture</label>
+                                                    <label for="profilePicture" className="form-label">Profile Picture</label>
                                                     <div className="upload_files">
-                                                        <input type="file" />
+                                                        {/* <Field
+                                                            type="file"
+                                                            name="profilePicture"
+                                                            className="form-control-file"
+                                                            onChange={(e) => {
+                                                                setFieldValue('profilePicture', e.currentTarget.files[0]);
+                                                            }}
+                                                        /> */}
+                                                        <input type="file" name="profilePicture" onChange={(event) => {
+                                                            setFieldValue("profilePicture", event.currentTarget.files[0]);
+                                                        }} />
                                                     </div>
                                                 </div>
                                             </div>
@@ -260,6 +297,7 @@ export default function Profile() {
                                     <button type="submit" className="btn btn-primary">Save</button>
 
                                 </Form>
+                            )}
                             </Formik>
 
                         </div>

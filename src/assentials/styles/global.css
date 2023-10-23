@@ -675,6 +675,31 @@ footer p {
     color: #fff;
 }
 
+.globle_submit {
+    padding: 16px 92px;
+    font-size: 16px;
+    /* color: #707070; */
+    color: #fff;
+    border-radius: 6px;
+    /* border: 1px solid #707070; */
+    border: 2px solid #B1903F;
+    background-color: #B1903F;
+    transition: ease-in-out 0.5s;
+    display: inline-block;
+}
+
+.globle_submit:hover {
+    border-color: #050605;
+    background-color: #050605;
+    color: #fff;
+}
+
+.globle_submit:focus,
+.globle_submit:focus-visible {
+    outline: none;
+    box-shadow: none;
+}
+
 .globle_tabs ul.nav-tabs li button,
 .globle_tabs ul.nav-tabs li a {
     color: #050605;
@@ -913,7 +938,7 @@ thead tr {
 
 /********** New Project *******/
 .new_project .color_bg {
-    padding: 42px 42px 152px;
+    padding: 42px 42px 102px;
 }
 
 .new_project h2 {
