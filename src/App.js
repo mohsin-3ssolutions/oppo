@@ -55,11 +55,12 @@ function App() {
   //   return state?.userProfileSlice?.userData?.data?.stripe_customer_id;
   // });
 
-
   const paymentStatus = useSelector((state) => {
     return state?.userProfileSlice?.userData?.data?.status;
   });
-
+  const userRole = useSelector((state) => {
+    return state?.userProfileSlice?.userData?.data?.role;
+  });
 
   useEffect(() => {
     const authenticated = !!localStorage.getItem("authToken");
@@ -79,7 +80,7 @@ function App() {
         navigate(location.pathname);
       }
     }
-  }, [isAuthenticated, paymentStatus, navigate]);
+  }, [isAuthenticated, paymentStatus, navigate, userRole]);
 
   return (
     <AppRouter isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />

@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import DefaultLayout from '../reusableComponents/defaultLayout'
 import ReactPaginate from 'react-paginate';
+import { ThreeDots } from 'react-loader-spinner';
 
 export default function FindProject() {
     const [projects, setprojects] = useState([]),
         [count, setCount] = useState(0),
-        [pageCount, setPageCount] = useState(0)
+        [pageCount, setPageCount] = useState(0),
+        [loading, setLoading] = useState(false);
 
     const fetchData = async () => {
+        setLoading(true)
         let url = process.env.REACT_APP_BASE_URL;
         const token = localStorage.getItem('authToken');
         const requestOptions = {
@@ -32,6 +35,7 @@ export default function FindProject() {
                 }
             })
             .catch((err) => { });
+        setLoading(false)
         return data;
     };
 
@@ -41,6 +45,7 @@ export default function FindProject() {
 
     const fetchPaginatedData = async (currentPage) => {
         let url = process.env.REACT_APP_BASE_URL;
+        setLoading(true)
         const token = localStorage.getItem('authToken');
         const requestOptions = {
             method: "GET",
@@ -55,6 +60,7 @@ export default function FindProject() {
             requestOptions
         );
         const data = await res.json();
+        setLoading(false)
         return data;
     };
 
@@ -64,7 +70,6 @@ export default function FindProject() {
         setprojects(dataFromServer?.data);
     };
 
-    console.log(projects, '===============')
     return (
         <DefaultLayout>
             <section class="inner_banner account_banner">
@@ -102,27 +107,41 @@ export default function FindProject() {
                             </select>
                         </form>
                     </div>
-                    <ul>
-                        {
-                            projects.map((data, index) => (
-                                <li key={index}>
-                                    <div class="project_detail">
-                                        <div class="project_head">
-                                            <h2>{data.project_name}<span>{data.project_start_date}</span></h2>
-                                            <ul class="project_status">
-                                                <li>
-                                                    <p class="view_count"><img src="assets/images/view.png" alt="" /><span>100</span></p>
-                                                </li>
-                                            </ul>
+                    {loading ? (
+                        <h3 className="text-center">
+                            <ThreeDots
+                                height="100"
+                                width="120"
+                                radius="9"
+                                color="#4fa94d"
+                                ariaLabel="three-dots-loading"
+                                wrapperStyle={{}}
+                                visible={true}
+                            />
+                        </h3>
+                    ) :
+                        <ul>
+                            {
+                                projects.map((data, index) => (
+                                    <li key={index}>
+                                        <div class="project_detail">
+                                            <div class="project_head">
+                                                <h2>{data.project_name}<span>{data.project_start_date}</span></h2>
+                                                <ul class="project_status">
+                                                    <li>
+                                                        <p class="view_count"><img src="assets/images/view.png" alt="" /><span>100</span></p>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <p><strong>Project Description: </strong> {data.project_description}</p>
                                         </div>
-                                        <p><strong>Project Description: </strong> {data.project_description}</p>
-                                    </div>
-                                </li>
-                            ))
-                        }
+                                    </li>
+                                ))
+                            }
 
 
-                    </ul>
+                        </ul>
+                    }
                     <ReactPaginate
                         previousLabel={"Prev"}
                         nextLabel={"Next"}

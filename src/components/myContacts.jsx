@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
+import { ThreeDots } from 'react-loader-spinner';
 import ReactPaginate from 'react-paginate';
 
 export default function MyContacts() {
     const [contact, setContact] = useState([]),
         [search, setSearch] = useState(''),
         [count, setCount] = useState(0),
-        [pageCount, setPageCount] = useState(0);
+        [pageCount, setPageCount] = useState(0),
+        [loading, setLoading] = useState(false);
 
     const fetchData = async () => {
         let url = process.env.REACT_APP_BASE_URL;
@@ -38,6 +40,7 @@ export default function MyContacts() {
 
     const fetchPaginatedData = async (currentPage) => {
         let url = process.env.REACT_APP_BASE_URL;
+        setLoading(true)
         const token = localStorage.getItem('authToken');
         const requestOptions = {
             method: "GET",
@@ -52,6 +55,7 @@ export default function MyContacts() {
             requestOptions
         );
         const data = await res.json();
+        setLoading(false)
         return data;
     };
 
@@ -93,14 +97,31 @@ export default function MyContacts() {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {contact.map((contact, index) => (
-                                            <tr key={index}>
-                                                <td>{contact?.fname}</td>
-                                                <td>{contact?.company_name}</td>
-                                                <td>{contact?.phone}</td>
-                                                <td>{contact?.email}</td>
-                                            </tr>
-                                        ))}
+                                        {loading ? (
+                                            <h3 className="text-center">
+                                                <ThreeDots
+                                                    height="100"
+                                                    width="120"
+                                                    radius="9"
+                                                    color="#4fa94d"
+                                                    ariaLabel="three-dots-loading"
+                                                    wrapperStyle={{}}
+                                                    visible={true}
+                                                />
+                                            </h3>
+                                        ) : (
+                                            <>
+                                                {contact.map((contact, index) => (
+                                                    <tr key={index}>
+                                                        <td>{contact?.fname}</td>
+                                                        <td>{contact?.company_name}</td>
+                                                        <td>{contact?.phone}</td>
+                                                        <td>{contact?.email}</td>
+                                                    </tr>
+                                                ))}
+                                            </>
+                                        )}
+
                                         <ReactPaginate
                                             previousLabel={"Prev"}
                                             nextLabel={"Next"}

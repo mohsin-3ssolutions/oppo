@@ -1,9 +1,15 @@
 import React, { useState } from 'react'
 import DefaultLayout from '../reusableComponents/defaultLayout'
+import Welcome from '../reusableComponents/welcome';
+import PendingProjects from '../components/account-components/pendingProjects';
+import ActiveProjects from '../components/account-components/activeProjects';
+import GenttChart from '../components/genttChart';
+import Profile from '../components/profile';
 // import { Link } from 'react-router-dom'
 
 export default function SubContractor() {
     const [activeStep, setActiveStep] = useState('step1');
+    const [showProfile, setShowProfile] = useState(true)
 
     const toggleVisibility = (step) => {
         setActiveStep(step);
@@ -11,18 +17,11 @@ export default function SubContractor() {
     return (
         <>
             <DefaultLayout>
-                <section className="inner_banner account_banner">
-                    <div className="inner_plan_banner">
-                        <div className="container">
-                            <h1>Welcome Back <span> Zach</span></h1>
-                        </div>
-                    </div>
-                </section>
-
+                <Welcome />
                 <section className="gc_homebanner">
                     <div className="container">
                         <div className="globle_tabs">
-                            <ul className="nav nav-tabs" id="gcTab" role="tablist">
+                            <ul className="nav nav-tabs" id="gcTab" role="tablist" onClick={() => { setShowProfile(false) }}>
                                 <li role="presentation">
                                     <a id="home-tab" data-bs-toggle="tab" data-bs-target="#pending" type="button" role="tab" aria-controls="home" aria-selected="true">Pending Projects</a>
                                 </li>
@@ -30,98 +29,13 @@ export default function SubContractor() {
                                     <a id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Active Projects</a>
                                 </li>
                                 <li role="presentation">
-                                    <a id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact_sub" type="button" role="tab" aria-controls="contact" aria-selected="false">Sub Contractor Schedule</a>
+                                    <a id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Sub Contractor Schedule</a>
                                 </li>
                             </ul>
                             <div className="tab-content" id="gcTabContent">
-                                <div className="tab-pane fade" id="pending" role="tabpanel" aria-labelledby="home-tab">
-                                    <div className="about_projects">
-                                        <div className="color_bg">
-                                            <ul className="project_boxes">
-                                                <li>
-                                                    <div className="project_detail">
-                                                        <div className="project_head">
-                                                            <h2>Project Name <span>Oct 12, 2023</span></h2>
-                                                        </div>
-                                                        <p><strong>Project Description:</strong> General contractors will manage the build process of a movie theater, overseeing site preparation, excavation, electrical, plumbing, HVAC, and finishing work. They will collaborate with specialists to ensure timely, budget-friendly, and quality project completion. The theater will offer advanced audio-visual equipment, comfortable seating, and safety protocols to deliver a first-className entertainment experience.</p>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div className="project_detail">
-                                                        <div className="project_head">
-                                                            <h2>Project Name <span>Oct 12, 2023</span></h2>
-                                                        </div>
-                                                        <p><strong>Project Description:</strong> General contractors will manage the build process of a movie theater, overseeing site preparation, excavation, electrical, plumbing, HVAC, and finishing work. They will collaborate with specialists to ensure timely, budget-friendly, and quality project completion. The theater will offer advanced audio-visual equipment, comfortable seating, and safety protocols to deliver a first-className entertainment experience.</p>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div className="project_detail">
-                                                        <div className="project_head">
-                                                            <h2>Project Name <span>Oct 12, 2023</span></h2>
-                                                        </div>
-                                                        <p><strong>Project Description:</strong> General contractors will manage the build process of a movie theater, overseeing site preparation, excavation, electrical, plumbing, HVAC, and finishing work. They will collaborate with specialists to ensure timely, budget-friendly, and quality project completion. The theater will offer advanced audio-visual equipment, comfortable seating, and safety protocols to deliver a first-className entertainment experience.</p>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div className="project_detail">
-                                                        <div className="project_head">
-                                                            <h2>Project Name <span>Oct 12, 2023</span></h2>
-                                                        </div>
-                                                        <p><strong>Project Description:</strong> General contractors will manage the build process of a movie theater, overseeing site preparation, excavation, electrical, plumbing, HVAC, and finishing work. They will collaborate with specialists to ensure timely, budget-friendly, and quality project completion. The theater will offer advanced audio-visual equipment, comfortable seating, and safety protocols to deliver a first-className entertainment experience.</p>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div className="creat_btn mb-5">
-                                            <a href="">Find a Project</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                                    <div className="about_projects">
-                                        <div className="color_bg">
-                                            <ul className="project_boxes">
-                                                <li>
-                                                    <div className="project_detail">
-                                                        <div className="project_head">
-                                                            <h2>Active Project Name <span>Awarded on Oct 2, 2023</span></h2>
-                                                        </div>
-                                                        <p><strong>Project Description:</strong> General contractors will manage the build process of a movie theater, overseeing site preparation, excavation, electrical, plumbing, HVAC, and finishing work. They will collaborate with specialists to ensure timely, budget-friendly, and quality project completion. The theater will offer advanced audio-visual equipment, comfortable seating, and safety protocols to deliver a first-className entertainment experience.</p>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div className="project_detail">
-                                                        <div className="project_head">
-                                                            <h2>Active Project Name <span>Awarded on Oct 2, 2023</span></h2>
-                                                        </div>
-                                                        <p><strong>Project Description:</strong> General contractors will manage the build process of a movie theater, overseeing site preparation, excavation, electrical, plumbing, HVAC, and finishing work. They will collaborate with specialists to ensure timely, budget-friendly, and quality project completion. The theater will offer advanced audio-visual equipment, comfortable seating, and safety protocols to deliver a first-className entertainment experience.</p>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div className="project_detail">
-                                                        <div className="project_head">
-                                                            <h2>Active Project Name <span>Awarded on Oct 2, 2023</span></h2>
-                                                        </div>
-                                                        <p><strong>Project Description:</strong> General contractors will manage the build process of a movie theater, overseeing site preparation, excavation, electrical, plumbing, HVAC, and finishing work. They will collaborate with specialists to ensure timely, budget-friendly, and quality project completion. The theater will offer advanced audio-visual equipment, comfortable seating, and safety protocols to deliver a first-className entertainment experience.</p>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div className="project_detail">
-                                                        <div className="project_head">
-                                                            <h2>Active Project Name <span>Awarded on Oct 2, 2023</span></h2>
-                                                        </div>
-                                                        <p><strong>Project Description:</strong> General contractors will manage the build process of a movie theater, overseeing site preparation, excavation, electrical, plumbing, HVAC, and finishing work. They will collaborate with specialists to ensure timely, budget-friendly, and quality project completion. The theater will offer advanced audio-visual equipment, comfortable seating, and safety protocols to deliver a first-className entertainment experience.</p>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div className="creat_btn mb-5">
-                                            <a href="">Find a Project</a>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div className="tab-pane fade" id="contact_sub" role="tabpanel" aria-labelledby="contact-tab">...</div>
+                                <PendingProjects />
+                                <ActiveProjects />
+                                <GenttChart />
                             </div>
                         </div>
                     </div>
@@ -326,138 +240,7 @@ export default function SubContractor() {
                         </div>
                     </div>
                 </section>
-                <section className="profile_banner theater_banner">
-                    <div className="container">
-                        <div className="new_project project_name_banner">
-                            <div className="color_bg">
-                                <h2>Profile Information</h2>
-                                <form action="">
-                                    <div className="row">
-                                        <div className="col-lg-4 col-md-6">
-                                            <div className="form_style ps-0">
-                                                <div className="mb-3">
-                                                    <label for="exampleFormControlInput1" className="form-label">Project Name</label>
-                                                    <input type="text" className="form-control" id="exampleFormControlInput1" placeholder="XYZ Contractors" />
-                                                </div>
-                                                <div className="mb-3">
-                                                    <label for="exampleFormControlInput12" className="form-label">Years In Business</label>
-                                                    <input type="text" className="form-control" id="exampleFormControlInput12" placeholder="25" />
-                                                </div>
-                                                <div className="mb-3">
-                                                    <label for="exampleFormControlInput11" className="form-label">EIN</label>
-                                                    <input type="text" className="form-control" id="exampleFormControlInput11" placeholder="34-98676" />
-                                                </div>
-                                                <div className="mb-3">
-                                                    <label for="exampleFormControlInput13" className="form-label">Licensed Work States</label>
-                                                    <select name="" className="form-control" id="">
-                                                        <option value=""></option>
-                                                    </select>
-                                                </div>
-                                                <div className="mb-3">
-                                                    <label for="exampleFormControlInput13" className="form-label">Contractor License #</label>
-                                                    <input type="text" className="form-control" placeholder="12983546142" />
-                                                </div>
-                                                <div className="mb-3">
-                                                    <label for="exampleFormControlInput13" className="form-label">Work Capacity (# concurrent jobs)</label>
-                                                    <input type="text" className="form-control" placeholder="5" />
-                                                </div>
-                                                <div className="mb-3">
-                                                    <label for="exampleFormControlInput13" className="form-label">Number of Employees</label>
-                                                    <input type="text" className="form-control" placeholder="22" />
-                                                </div>
-                                                <div className="mb-3">
-                                                    <label for="exampleFormControlInput13" className="form-label">W9 Form (PDF)</label>
-                                                    <div className="upload_files">
-                                                        <input type="file" />
-                                                    </div>
-                                                </div>
-                                                <div className="mb-3">
-                                                    <label for="exampleFormControlInput13" className="form-label">Worker’s Comp Form (PDF)</label>
-                                                    <div className="upload_files">
-                                                        <input type="file" />
-                                                    </div>
-                                                </div>
-                                                <div className="mb-3">
-                                                    <label for="exampleFormControlInput13" className="form-label">Profile Picture</label>
-                                                    <div className="upload_files">
-                                                        <input type="file" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-lg-4 col-md-6">
-                                            <div className="form_style">
-                                                <div className="mb-3">
-                                                    <label for="exampleFormControlInput13" className="form-label">Description/Biography of Company & Services</label>
-                                                    <textarea name="" id="" cols="30" rows="5" className="form-control"></textarea>
-                                                    <hr />
-                                                </div>
-                                                <div className="mb-3">
-                                                    <label for="flexCheckDefault11" className="form-label">Select Services You Provide</label>
-                                                    <div className="upload_files">
-                                                        <ul>
-                                                            <li>
-                                                                <div className="form-check">
-                                                                    <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-                                                                    <label className="form-check-label" for="flexCheckDefault">
-                                                                        Commercial
-                                                                    </label>
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <div className="form-check">
-                                                                    <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault1" />
-                                                                    <label className="form-check-label" for="flexCheckDefault1">
-                                                                        Residential
-                                                                    </label>
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <div className="form-check">
-                                                                    <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault2" />
-                                                                    <label className="form-check-label" for="flexCheckDefault2">
-                                                                        Federal
-                                                                    </label>
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <div className="form-check">
-                                                                    <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault3" />
-                                                                    <label className="form-check-label" for="flexCheckDefault3">
-                                                                        Road Construction & Industrial
-                                                                    </label>
-                                                                </div>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-
-                                                </div>
-                                                <div className="mb-3">
-                                                    <label for="exampleFormControlInput13" className="form-label">Identify Scope</label>
-                                                    <select name="" className="form-control" id="">
-                                                        <option value=""></option>
-                                                    </select>
-                                                </div>
-                                                <div className="mb-3">
-                                                    <label for="exampleFormControlInput13" className="form-label">Past Contractors Worked With</label>
-                                                    <textarea name="" id="" cols="30" rows="5" className="form-control"></textarea>
-                                                    <hr />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-lg-4 col-md-6">
-                                        </div>
-                                    </div>
-
-                                </form>
-                            </div>
-                            <div className="creat_btn">
-                                <a href="">Save</a>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
+                {showProfile && <Profile />}
             </DefaultLayout>
         </>
 

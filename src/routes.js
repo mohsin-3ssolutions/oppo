@@ -26,22 +26,18 @@ const AppRouter = ({ isAuthenticated, setIsAuthenticated, paymentStatus }) => {
   console.log(isAuthenticated)
   const location = useLocation();
   const navigate = useNavigate();
-
-  const logout = () => {
-    localStorage.removeItem('authToken');
-    setIsAuthenticated(false);
-  }
+  const userRole = useSelector((state) => {
+    return state?.userProfileSlice?.userData?.data?.role;
+  });
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(verifyAuthToken(fetchUserProfileDetails))
-  }, []);
+  }, [userRole, dispatch]);
 
   const paymentSripe = useSelector((state) => {
     return state?.userProfileSlice?.userData?.data?.stripe_customer_id;
   });
-  const userRole = useSelector((state) => {
-    return state?.userProfileSlice?.userData?.data?.role;
-  });
+
 
   return (
     <div>
@@ -53,7 +49,6 @@ const AppRouter = ({ isAuthenticated, setIsAuthenticated, paymentStatus }) => {
         <Route path="/our-story" element={<Story />} />
         <Route path="/find-a-project" element={<FindProject />} />
         {/* <Route path="/chart" element={<ChartComponent />} /> */}
-
         <Route path="/signin" element={<SignIn isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />} />
         <Route path="/signup" element={<SignUp isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />} />
         <Route
@@ -69,11 +64,8 @@ const AppRouter = ({ isAuthenticated, setIsAuthenticated, paymentStatus }) => {
           }
         />
         <Route path="/payment-completion" element={<ThankYou isAuthenticated={isAuthenticated} />} />
-        <Route path="/dashboard" element={<Dashboard isAuthenticated={isAuthenticated} paymentSripe={paymentSripe} logout={logout} />} />
-        <Route path="/account" element={<Account />} />
-        <Route path="/subcontractor-account" element={<SubContractor />} />
-        <Route path="/owner-account" element={<SubContractor />} />
-
+        <Route path="/dashboard" element={<Dashboard isAuthenticated={isAuthenticated} paymentSripe={paymentSripe} />} />
+        <Route path="/account" element={userRole == 'owner' || userRole == 'sub_contractor' ? <SubContractor /> : <Account />} />
       </Routes>
       <ToastContainer />
     </div>

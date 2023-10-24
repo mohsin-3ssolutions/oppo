@@ -2,10 +2,12 @@ import { Avatar, IconButton, ListItemIcon, Menu, Tooltip, MenuItem } from '@mui/
 import { Box } from '@mui/system';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import PaymentIcon from '@mui/icons-material/Payment';
-
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { verifyAuthToken } from '../utils';
+import { fetchUserProfileDetails } from '../store/userProfileSlice/userProfileSlice';
+
 function Header() {
     const [anchorEl, setAnchorEl] = useState(null);
     const [isAuthenticated, setIsAuthenticated] = useState(true);
@@ -21,13 +23,16 @@ function Header() {
     const handleLogout = () => {
         setAnchorEl(null);
         localStorage.removeItem('authToken');
-        navigate('/signin');
+        window.location.href = '/signin'
     };
     const handleNavigate = () => {
         setAnchorEl(null);
         navigate('/payment');
     };
-
+    const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(verifyAuthToken(fetchUserProfileDetails))
+    }, [dispatch]);
 
     const nameIcon = useSelector((state) => {
         return state?.userProfileSlice?.userData?.data?.fname;
@@ -72,10 +77,10 @@ function Header() {
                                     <li>
                                         <Link to="/contact-us">Contact Us</Link>
                                     </li>
-                                    {isAuthenticated && profileData?.role == 'general_contractor' && <li>
+                                    <li>
                                         <Link to="/account">My Account</Link>
                                     </li>
-                                    }
+                                    {/* }
                                     {isAuthenticated && profileData?.role == 'owner' && <li>
                                         <Link to="/owner-account">My Account</Link>
                                     </li>
@@ -83,7 +88,7 @@ function Header() {
                                     {isAuthenticated && profileData?.role == 'sub_contractor' && <li>
                                         <Link to="/subcontractor-account">My Account</Link>
                                     </li>
-                                    }
+                                    } */}
 
                                     {!isAuthenticated && <li>
                                         <Link to="/signin">Login</Link>
@@ -140,7 +145,7 @@ function Header() {
                                         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                                         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                                     >
-                                        <MenuItem onClick={handleClose}>
+                                        <MenuItem onClick={() => { window.location.href = '/account' }}>
                                             <ListItemIcon>
                                                 <Avatar fontSize="small" />
                                             </ListItemIcon>
