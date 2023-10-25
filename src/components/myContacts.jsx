@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { ThreeDots } from 'react-loader-spinner';
 import ReactPaginate from 'react-paginate';
+import AddContacts from './addContacts';
 
 export default function MyContacts() {
     const [contact, setContact] = useState([]),
@@ -85,6 +86,10 @@ export default function MyContacts() {
                                 <button><img src="assets/images/search.png" alt="" /></button>
                             </form>
                         </div>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addContacts">
+                            Add Contacts
+                        </button>
+
                         <div className="list_table">
                             <div className="table-responsive">
                                 <table className="table">
@@ -148,6 +153,8 @@ export default function MyContacts() {
                     </div>
                 </div>
             </div>
+
+            <AddContacts />
         </div>
     )
 }

@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { emailPatternValidator } from '../utils';
 import { Formik, Form, Field, ErrorMessage, useFormikContext } from 'formik';
 import * as Yup from 'yup';
@@ -10,6 +10,12 @@ import DefaultLayout from '../reusableComponents/defaultLayout';
 function Signup({ isAuthenticated, setIsAuthenticated }) {
     const [passwordStrength, setPasswordStrength] = useState("default");
     const navigate = useNavigate();
+
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+
+    const role = queryParams.get('role');
+
     const initialValues = {
         company_name: "",
         fname: "",
@@ -31,7 +37,7 @@ function Signup({ isAuthenticated, setIsAuthenticated }) {
             .required('Full Name is required'),
         privacePolicy: Yup.string()
             .required('Privace Policy Name is required'),
-        role: Yup.string().required('Role is required') // Add validation for the "role" field
+        // role: Yup.string().required('Role is required') // Add validation for the "role" field
     });
 
     const passwordStrengthBar = {
@@ -51,6 +57,7 @@ function Signup({ isAuthenticated, setIsAuthenticated }) {
     // const handleSubmit = async (values, { setSubmitting }) => {
     const handleSubmit = async (values) => {
         console.log(values)
+        values.role = role;
         try {
             fetch('https://opo.jjtestsite.us/api/register', {
                 method: 'POST',
@@ -192,7 +199,7 @@ function Signup({ isAuthenticated, setIsAuthenticated }) {
                                                 />
                                             </div>
 
-                                            <div className="mb-3">
+                                            {/* <div className="mb-3">
                                                 <label className="form-label">
                                                     Role
                                                 </label>
@@ -207,7 +214,7 @@ function Signup({ isAuthenticated, setIsAuthenticated }) {
                                                     <option value="sub_contractor" label="Sub-Contractor" />
                                                 </Field>
                                                 <ErrorMessage name="role" component="div" className="text-danger" />
-                                            </div>
+                                            </div> */}
 
                                             <div className="mb-3 password-group">
                                                 <label

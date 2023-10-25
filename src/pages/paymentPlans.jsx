@@ -1,8 +1,10 @@
 import React from 'react';
 import DefaultLayout from '../reusableComponents/defaultLayout';
+import { useNavigate } from 'react-router-dom';
 
 
 function SelectRole() {
+    let navigate = useNavigate()
     return (
         <>
             <DefaultLayout>
@@ -44,7 +46,7 @@ function SelectRole() {
                                                 </li>
                                             </ul>
                                             <div className="creat_btn">
-                                                <a href="/signup">Select</a>
+                                                <a onClick={() => { navigate("/signup?role=owner") }}>Select</a>
                                                 {/* <a href="/owner-signup">Select</a> */}
                                             </div>
                                         </div>
@@ -68,7 +70,7 @@ function SelectRole() {
                                                 </li>
                                             </ul>
                                             <div className="creat_btn">
-                                                <a href="/signup">Select</a>
+                                                <a onClick={() => { navigate("/signup?role=general_contractor") }}>Select</a>
                                                 {/* <a href="/general-contractor-signup">Select</a> */}
                                             </div>
                                         </div>
@@ -91,8 +93,7 @@ function SelectRole() {
                                                 </li>
                                             </ul>
                                             <div className="creat_btn">
-                                                <a href="/signup">Select</a>
-                                                {/* <a href="/sub-contractor-signup">Select</a> */}
+                                                <a onClick={() => { navigate("/signup?role=sub_contractor") }}>Select</a>                                                {/* <a href="/sub-contractor-signup">Select</a> */}
                                             </div>
                                         </div>
                                     </div>
