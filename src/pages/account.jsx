@@ -1,35 +1,24 @@
 import React, { useState, useEffect } from 'react';
-
-
 import DefaultLayout from '../reusableComponents/defaultLayout';
-
 import OutForBid from '../components/outForBid';
 import ActiveProjects from '../components/activeProjects';
 import GenttChart from '../components/genttChart';
 import MyContacts from '../components/myContacts';
 import Profile from '../components/profile';
-
+import Welcome from '../reusableComponents/welcome';
 
 function Account() {
 
-
-
-
+    const [showProfile, setShowProfile] = useState(true)
 
     return (
         <>
             <DefaultLayout>
-                <section className="inner_banner account_banner">
-                    <div className="inner_plan_banner">
-                        <div className="container">
-                            <h1>Welcome Back <span> Zach</span></h1>
-                        </div>
-                    </div>
-                </section>
+                <Welcome />
                 <section className="gc_homebanner">
                     <div className="container">
                         <div className="globle_tabs">
-                            <ul className="nav nav-tabs" id="gcTab" role="tablist">
+                            <ul className="nav nav-tabs" id="gcTab" role="tablist" onClick={() => { setShowProfile(false) }}>
                                 <li role="presentation">
                                     <a id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Out for Bid</a>
                                 </li>
@@ -56,7 +45,8 @@ function Account() {
                     </div>
                 </section>
 
-                <Profile />
+                {showProfile && <Profile />}
+
             </DefaultLayout>
 
         </>
