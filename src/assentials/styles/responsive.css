@@ -91,7 +91,7 @@
         width: 100%;
         top: 89px;
         left: 0;
-        z-index: 9;
+        z-index: 999;
     }
     header .navbar-nav {
         gap: 0;
@@ -314,6 +314,19 @@
     .filter_project form {
         gap: 15px 0;
     }
+    .add_contact .globle_submit {
+        order: 1;
+        margin-top: 25px;
+    }
+    .add_contact .search_form {
+        width: 100%;
+    }
+    .add_contact .search_form form {
+        max-width: 100%;
+    }
+    .add_contact {
+        justify-content: center;
+    }
 }
 @media screen and (max-width: 575px) {
     /* .plan_content {
@@ -416,7 +429,9 @@
     .sub_head {
         font-size: 36px;
     }
-
+    .filter_project form select {
+        width: 100%;
+    }
 }
 @media screen and (max-width: 350px) {
     .strenght_field span {

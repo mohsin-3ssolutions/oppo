@@ -69,7 +69,7 @@ export default function GenttChart() {
     }, []);
 
     return (
-        <div className="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+        <div className="tab-pane fade gant_tab" id="contact" role="tabpanel" aria-labelledby="contact-tab">
             <div className="color_bg">
                 <div className="project_detail">
                     <div>

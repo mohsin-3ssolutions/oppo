@@ -1887,6 +1887,8 @@ animation-iteration-count: 1; */
     align-items: center;
     justify-content: center;
     gap: 0 10px;
+    width: 100%;
+    margin-top: 35px;
 }
 
 
@@ -1900,18 +1902,29 @@ animation-iteration-count: 1; */
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: 0 !important;
 }
 
 .pagination li.active {
     color: #fff;
-    background-color: #0e8444;
+    background-color: #b1903f;
 }
-
+.pagination li.active {
+    color: #fff;
+}
+.pagination li {
+    background-color: #000;
+}
+.pagination li a {
+    color: #fff;
+}
 .pagination li:hover {
     color: #fff;
-    background-color: #0e8444;
+    background-color: #B1903F;
 }
-
+.pagination li:hover a {
+    color: #fff;
+}
 .item-link {
     color: #000;
 }
@@ -1919,4 +1932,19 @@ animation-iteration-count: 1; */
 .item-link:hover {
     cursor: pointer;
     color: wheat;
+}
+.gant_tab, .contact_tab, .bid_tab {
+    margin-bottom: 70px;
+}
+.add_contact {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+.add_contact .search_form {
+    width: 450px;
+}
+.profile_btn {
+    display: flex;
 }

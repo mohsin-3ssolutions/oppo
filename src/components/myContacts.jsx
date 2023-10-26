@@ -71,25 +71,26 @@ export default function MyContacts() {
     }, [search])
 
     return (
-        <div className="tab-pane fade" id="mycontact" role="tabpanel" aria-labelledby="contact-tab">
+        <div className="tab-pane fade contact_tab" id="mycontact" role="tabpanel" aria-labelledby="contact-tab">
             <div className="about_projects">
                 <div className="color_bg">
                     <div className="contact_list">
-                        <div className="search_form">
-                            <form action="">
-                                <input
-                                    type="search"
-                                    placeholder="Search"
-                                    value={search}
-                                    onChange={(e) => setSearch(e.target.value)}
-                                />
-                                <button><img src="assets/images/search.png" alt="" /></button>
-                            </form>
+                        <div className='add_contact'>
+                            <button type="button" class="globle_submit" data-bs-toggle="modal" data-bs-target="#addContacts">
+                                Add Contacts
+                            </button>
+                            <div className="search_form">
+                                <form action="">
+                                    <input
+                                        type="search"
+                                        placeholder="Search"
+                                        value={search}
+                                        onChange={(e) => setSearch(e.target.value)}
+                                    />
+                                    <button><img src="assets/images/search.png" alt="" /></button>
+                                </form>
+                            </div>
                         </div>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addContacts">
-                            Add Contacts
-                        </button>
-
                         <div className="list_table">
                             <div className="table-responsive">
                                 <table className="table">
@@ -127,27 +128,28 @@ export default function MyContacts() {
                                             </>
                                         )}
 
-                                        <ReactPaginate
-                                            previousLabel={"Prev"}
-                                            nextLabel={"Next"}
-                                            breakLabel={"..."}
-                                            pageCount={count}
-                                            marginPagesDisplayed={2}
-                                            pageRangeDisplayed={3}
-                                            onPageChange={handlePageClick}
-                                            containerClassName={"pagination"}
-                                            pageClassName={"page-item"}
-                                            pageLinkClassName={"item-link"}
-                                            previousClassName={"page-item"}
-                                            previousLinkClassName={"item-link"}
-                                            nextClassName={"page-item"}
-                                            nextLinkClassName={"item-link"}
-                                            breakClassName={"page-item"}
-                                            breakLinkClassName={"item-link"}
-                                            activeClassName={"active"}
-                                        />
+                                        
                                     </tbody>
                                 </table>
+                                <ReactPaginate
+                                    previousLabel={"Prev"}
+                                    nextLabel={"Next"}
+                                    breakLabel={"..."}
+                                    pageCount={count}
+                                    marginPagesDisplayed={2}
+                                    pageRangeDisplayed={3}
+                                    onPageChange={handlePageClick}
+                                    containerClassName={"pagination"}
+                                    pageClassName={"page-item"}
+                                    pageLinkClassName={"item-link"}
+                                    previousClassName={"page-item"}
+                                    previousLinkClassName={"item-link"}
+                                    nextClassName={"page-item"}
+                                    nextLinkClassName={"item-link"}
+                                    breakClassName={"page-item"}
+                                    breakLinkClassName={"item-link"}
+                                    activeClassName={"active"}
+                                />
                             </div>
                         </div>
                     </div>

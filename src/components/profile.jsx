@@ -294,8 +294,9 @@ export default function Profile() {
                                         <div className="col-lg-4 col-md-6">
                                         </div>
                                     </div>
-                                    <button type="submit" className="btn btn-primary">Save</button>
-
+                                    <div className='text-center'>
+                                        <button type="submit" className="globle_submit mt-5">Save</button>
+                                    </div>
                                 </Form>
                             )}
                             </Formik>

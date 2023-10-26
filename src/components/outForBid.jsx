@@ -35,7 +35,7 @@ export default function OutForBid() {
     };
 
     return (
-        <div className="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
+        <div className="tab-pane fade bid_tab" id="home" role="tabpanel" aria-labelledby="home-tab">
             <div className="about_projects">
                 <div className="color_bg">
                     <div className="project_detail">
