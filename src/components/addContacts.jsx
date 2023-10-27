@@ -1,26 +1,75 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import { toast } from 'react-toastify';
 
-export default function AddContacts() {
+export default function AddContacts({ onDataReceived, modalType, dataToUpdate, updateContact }) {
+    console.log(modalType)
+    console.log(dataToUpdate)
+    const [initialValues, setInitialValues] = useState({
+        name: "",
+        business_name: "",
+        phone_number: "",
+        email: "",
+    });
+
     const validationSchema = Yup.object().shape({
         name: Yup.string().required('Name is required'),
-        businessName: Yup.string().required('Business Name is required'),
-        phoneNumber: Yup.string().required('Phone Number is required'),
+        business_name: Yup.string().required('Business Name is required'),
+        phone_number: Yup.string().required('Phone Number is required'),
         email: Yup.string().email('Invalid email').required('Email is required'),
     });
-    const initialValues = {
-        name: "",
-        businessName: "",
-        phoneNumber: "",
-        email: "",
 
+    useEffect(() => {
+        if (modalType === 'update' && dataToUpdate) {
+            const updatedInitialValues = { ...dataToUpdate };
+            setInitialValues(updatedInitialValues);
+        }
+    }, [modalType, dataToUpdate]);
+    const handleSubmit = async (values, { resetForm }) => {
+        // modalType == 'update' ? 
+        let path;
+        if (modalType == 'update') {
+            path = `update_contact/${dataToUpdate.id}`
+        } else {
+            path = 'create_contact'
+        }
+        let url = process.env.REACT_APP_BASE_URL;
+        const token = localStorage.getItem('authToken');
+        try {
+            fetch(`${url}/${path}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify(values),
+            }).then((response) => {
+                return response.json();
+            })
+                .then(({ data, message, success }) => {
+                    console.log({ data, message, success });
+                    if (success) {
+                        if (modalType !== 'update') {
+                            onDataReceived(data);
+                        }
+                        if (modalType === 'update') {
+                            updateContact(data);
+                        }
+                        toast.success('Contact added successfully!', { autoClose: 3000 });
+                        resetForm();
+                    } else {
+                        toast.error('Something wnet wrong!' + message, { autoClose: 3000 });
+                    }
+                });
+        } catch (error) {
+            console.error('An error occurred:', error);
+            toast.error('An error occurred.' + error, { autoClose: 3000 });
+        }
+        finally {
+            // setSubmitting(false);
+        }
     };
-
-    const handleSubmit = async (values) => {
-        console.log(values)
-    };
-
     return (
         <div class="modal fade" id="addContacts" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -32,6 +81,7 @@ export default function AddContacts() {
                     <div class="modal-body">
                         <Formik
                             initialValues={initialValues}
+                            enableReinitialize={true}
                             validationSchema={validationSchema}
                             onSubmit={handleSubmit}
                         >
@@ -43,15 +93,14 @@ export default function AddContacts() {
                                 </div>
 
                                 <div className="form-group my-3">
-                                    <label htmlFor="businessName">Business Name</label>
-                                    <Field type="text" id="businessName" name="businessName" className="form-control" />
-                                    <ErrorMessage name="businessName" component="div" className="text-danger" />
+                                    <label htmlFor="business_name">Business Name</label>
+                                    <Field type="text" id="business_name" name="business_name" className="form-control" />
+                                    <ErrorMessage name="business_name" component="div" className="text-danger" />
                                 </div>
-
                                 <div className="form-group my-3">
-                                    <label htmlFor="phoneNumber">Phone Number</label>
-                                    <Field type="text" id="phoneNumber" name="phoneNumber" className="form-control" />
-                                    <ErrorMessage name="phoneNumber" component="div" className="text-danger" />
+                                    <label htmlFor="phone_number">Phone Number</label>
+                                    <Field type="number" id="phone_number" name="phone_number" className="form-control" />
+                                    <ErrorMessage name="phone_number" component="div" className="text-danger" />
                                 </div>
 
                                 <div className="form-group my-3">

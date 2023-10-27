@@ -58,8 +58,9 @@ function Signup({ isAuthenticated, setIsAuthenticated }) {
     const handleSubmit = async (values) => {
         console.log(values)
         values.role = role;
+        let url = process.env.REACT_APP_BASE_URL;
         try {
-            fetch('https://opo.jjtestsite.us/api/register', {
+            fetch(`${url}/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -67,11 +68,9 @@ function Signup({ isAuthenticated, setIsAuthenticated }) {
                 body: JSON.stringify(values),
             }).then((response) => {
 
-                return response.json(); // Use response.json() for JSON data
-                // If the response is plain text, you can use response.text() instead
+                return response.json(); 
             })
                 .then(({ data, message, success }) => {
-                    // console.log(res); // This will log the parsed response data
                     console.log({ data, message, success }); // This will log the parsed response data
                     if (success) {
                         localStorage.setItem("authToken", data?.token);

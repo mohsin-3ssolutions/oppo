@@ -2,14 +2,22 @@ import React, { useEffect, useState } from 'react'
 import { ThreeDots } from 'react-loader-spinner';
 import ReactPaginate from 'react-paginate';
 import AddContacts from './addContacts';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { toast } from 'react-toastify';
 
 export default function MyContacts() {
     const [contact, setContact] = useState([]),
         [search, setSearch] = useState(''),
         [count, setCount] = useState(0),
         [pageCount, setPageCount] = useState(0),
-        [loading, setLoading] = useState(false);
+        [loading, setLoading] = useState(false),
+        [parentData, setParentData] = useState(null),
+        [modalType, setModalType] = useState(''),
+        [dataToUpdate, setDataToUpdate] = useState(null);
 
+    const receiveDataFromAddContacts = (data) => {
+        setContact((prevContact) => [data, ...prevContact]);
+    };
     const fetchData = async () => {
         let url = process.env.REACT_APP_BASE_URL;
         const token = localStorage.getItem('authToken');
@@ -20,9 +28,10 @@ export default function MyContacts() {
                 Authorization: `Bearer ${token}`,
             },
         };
+
         const data = fetch(
             url +
-            `/users?search=${search}&page_num_start=1&page_size=20`,
+            `/contact_list?search=${search}&page_num_start=1&page_size=10`,
             requestOptions
         )
             .then(async (res) => {
@@ -38,7 +47,6 @@ export default function MyContacts() {
         return data;
     };
 
-
     const fetchPaginatedData = async (currentPage) => {
         let url = process.env.REACT_APP_BASE_URL;
         setLoading(true)
@@ -52,7 +60,7 @@ export default function MyContacts() {
         };
         const res = await fetch(
             url +
-            `/users?search=${search}&page_num_start=${currentPage}&page_size=20`,
+            `/contact_list?search=${search}&page_num_start=${currentPage}&page_size=10`,
             requestOptions
         );
         const data = await res.json();
@@ -70,6 +78,58 @@ export default function MyContacts() {
         fetchData()
     }, [search])
 
+    const handleDelete = (contact) => {
+        console.log(contact);
+
+        let url = process.env.REACT_APP_BASE_URL;
+        setLoading(true);
+        const token = localStorage.getItem('authToken');
+        const requestOptions = {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        };
+
+        fetch(url + `/delete_contact/${contact.id}`, requestOptions)
+            .then((res) => {
+                if (res.ok) {
+                    return res.json();
+                } else {
+                    throw new Error("Error deleting contact");
+                }
+            })
+            .then(() => {
+                // Assuming the deletion was successful, you can now remove the contact from the state.
+                // Create a new contact array excluding the deleted contact.
+                setContact((prevContact) => prevContact.filter(item => item.id !== contact.id));
+                setLoading(false);
+                toast.success('Contact added successfully!', { autoClose: 3000 });
+            })
+            .catch((error) => {
+                console.error("Error deleting contact:", error);
+                setLoading(false);
+            });
+    };
+
+    const handleUpdate = (contact) => {
+        setModalType('update')
+        setDataToUpdate(contact)
+    }
+
+    const updateContact = (updatedContact) => {
+        setContact((prevContacts) => {
+            return prevContacts.map((contact) => {
+                if (contact.id === updatedContact.id) {
+                    return updatedContact;
+                }
+                return contact;
+            });
+        });
+    };
+
+
     return (
         <div className="tab-pane fade" id="mycontact" role="tabpanel" aria-labelledby="contact-tab">
             <div className="about_projects">
@@ -86,7 +146,7 @@ export default function MyContacts() {
                                 <button><img src="assets/images/search.png" alt="" /></button>
                             </form>
                         </div>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addContacts">
+                        <button onClick={() => { setModalType('add'); setDataToUpdate(null); }} type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addContacts">
                             Add Contacts
                         </button>
 
@@ -99,6 +159,7 @@ export default function MyContacts() {
                                             <th scope="col">Business Name</th>
                                             <th scope="col">Phone Number</th>
                                             <th scope="col">Email</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -118,15 +179,23 @@ export default function MyContacts() {
                                             <>
                                                 {contact.map((contact, index) => (
                                                     <tr key={index}>
-                                                        <td>{contact?.fname}</td>
-                                                        <td>{contact?.company_name}</td>
-                                                        <td>{contact?.phone}</td>
+                                                        <td>{contact?.name}</td>
+                                                        <td>{contact?.business_name}</td>
+                                                        <td>{contact?.phone_number}</td>
                                                         <td>{contact?.email}</td>
+                                                        <td><div class="dropdown">
+                                                            <div type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                <MoreVertIcon />
+                                                            </div>
+                                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                                                <li><button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#addContacts" onClick={() => { handleUpdate(contact) }}>Update</button></li>
+                                                                <li><button class="dropdown-item" type="button" onClick={() => { handleDelete(contact) }}>Delete</button></li>
+                                                            </ul>
+                                                        </div></td>
                                                     </tr>
                                                 ))}
                                             </>
                                         )}
-
                                         <ReactPaginate
                                             previousLabel={"Prev"}
                                             nextLabel={"Next"}
@@ -154,7 +223,7 @@ export default function MyContacts() {
                 </div>
             </div>
 
-            <AddContacts />
+            <AddContacts onDataReceived={receiveDataFromAddContacts} modalType={modalType} dataToUpdate={dataToUpdate} updateContact={updateContact} />
         </div>
     )
 }
