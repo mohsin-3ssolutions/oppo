@@ -40,7 +40,7 @@ export default function SubContractor() {
                         </div>
                     </div>
                 </section>
-                <section className="theater_banner">
+                {/* <section className="theater_banner">
                     <div className="container">
                         <div className="new_project" >
                             <div className="color_bg">
@@ -239,7 +239,7 @@ export default function SubContractor() {
                             </div>
                         </div>
                     </div>
-                </section>
+                </section> */}
                 {showProfile && <Profile />}
             </DefaultLayout>
         </>
