@@ -33,16 +33,16 @@ export default function MyContacts() {
 
         const data = fetch(
             url +
-            `/contact_list?search=${search}&page_num_start=1&page_size=20`,
+            `/contact_list?search=${search}&page_num_start=1&page_size=10`,
             requestOptions
         )
             .then(async (res) => {
                 let body = await res.json();
                 console.log(body)
-                if (body.data.length > 0) {
-                    setCount(body.data.length / 10);
-                    setPageCount(body.data.length);
-                    setContact(body?.data)
+                if (body.data.contact.length > 0) {
+                    setCount(body.data.totalContact / 10);
+                    setPageCount(body.data.totalContact);
+                    setContact(body?.data.contact)
                 }
             })
             .catch((err) => { });
@@ -73,7 +73,7 @@ export default function MyContacts() {
     const handlePageClick = async (data) => {
         let currentPage = data.selected + 1;
         const dataFromServer = await fetchPaginatedData(currentPage);
-        setContact(dataFromServer?.data);
+        setContact(dataFromServer?.data.contact);
     };
 
     useEffect(() => {
@@ -131,7 +131,6 @@ export default function MyContacts() {
         });
     };
 
-
     return (
         <div className="tab-pane fade contact_tab" id="mycontact" role="tabpanel" aria-labelledby="contact-tab">
             <div className="about_projects">
@@ -167,17 +166,19 @@ export default function MyContacts() {
                                     </thead>
                                     <tbody>
                                         {loading ? (
-                                            <h3 className="text-center">
-                                                <ThreeDots
-                                                    height="100"
-                                                    width="120"
-                                                    radius="9"
-                                                    color="#4fa94d"
-                                                    ariaLabel="three-dots-loading"
-                                                    wrapperStyle={{}}
-                                                    visible={true}
-                                                />
-                                            </h3>
+                                            <tr>
+                                                <td className="text-center loader_style " colspan="12">
+                                                    <ThreeDots
+                                                        height="100"
+                                                        width="120"
+                                                        radius="9"
+                                                        color="#000"
+                                                        ariaLabel="three-dots-loading"
+                                                        wrapperStyle={{}}
+                                                        visible={true}
+                                                    />
+                                                </td>
+                                            </tr>
                                         ) : (
                                             <>
                                                 {contact.map((contact, index) => (

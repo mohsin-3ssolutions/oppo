@@ -28,10 +28,10 @@ export default function FindProject() {
             .then(async (res) => {
                 let body = await res.json();
                 console.log(body)
-                if (body.data.length > 0) {
-                    setCount(body.data.length / 10);
-                    setPageCount(body.data.length);
-                    setprojects(body?.data)
+                if (body.data.projects.length > 0) {
+                    setCount(body.data.projectsCount / 10);
+                    setPageCount(body.data.projectsCount);
+                    setprojects(body?.data?.projects)
                 }
             })
             .catch((err) => { });
@@ -67,7 +67,7 @@ export default function FindProject() {
     const handlePageClick = async (data) => {
         let currentPage = data.selected + 1;
         const dataFromServer = await fetchPaginatedData(currentPage);
-        setprojects(dataFromServer?.data);
+        setprojects(dataFromServer?.data?.projects);
     };
 
     return (
@@ -108,7 +108,7 @@ export default function FindProject() {
                         </form>
                     </div>
                     {loading ? (
-                        <h3 className="text-center">
+                        <h3 className="text-center justify-content-center">
                             <ThreeDots
                                 height="100"
                                 width="120"
@@ -138,8 +138,6 @@ export default function FindProject() {
                                     </li>
                                 ))
                             }
-
-
                         </ul>
                     }
                     <ReactPaginate

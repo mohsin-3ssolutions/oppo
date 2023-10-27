@@ -1985,3 +1985,8 @@ animation-iteration-count: 1; */
 .profile_btn {
     display: flex;
 }
+.loader_style > div {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
