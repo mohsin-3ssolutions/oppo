@@ -109,7 +109,7 @@ export default function AddContacts({ onDataReceived, modalType, dataToUpdate, u
                                     <ErrorMessage name="email" component="div" className="text-danger" />
                                 </div>
 
-                                <button type="submit" className="btn btn-primary mt-3" data-bs-dismiss="modal">Save changes</button>
+                                <button type="submit" className="submit-btn mt-3" data-bs-dismiss="modal">Save changes</button>
                             </Form>
                         </Formik>
                     </div>

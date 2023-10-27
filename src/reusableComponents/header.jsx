@@ -60,9 +60,7 @@ function Header() {
                     <nav className="navbar navbar-expand-lg navbar-light">
                         <div className="container-fluid">
                             <a className="navbar-brand" href="#"><img className="img-fluid" src="/assets/images/logo.png" alt="" /></a>
-                            <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                                <span className="navbar-toggler-icon"></span>
-                            </button>
+                            
                             <div className="collapse navbar-collapse navigation" id="navbarNavDropdown">
                                 <ul className="navbar-nav">
                                     <li>
@@ -95,7 +93,14 @@ function Header() {
                                     </li>
                                     }
                                 </ul>
-                                {isAuthenticated && <div>
+                                
+
+                            </div>
+                            <div className='profile_btn'>
+                            <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                                <span className="navbar-toggler-icon"></span>
+                            </button>
+                            {isAuthenticated && <div>
                                     <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
                                         <Tooltip title="Account settings">
                                             <IconButton
@@ -167,7 +172,6 @@ function Header() {
                                         </MenuItem>
                                     </Menu>
                                 </div>}
-
                             </div>
                         </div>
                     </nav>

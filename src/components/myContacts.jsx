@@ -4,6 +4,8 @@ import ReactPaginate from 'react-paginate';
 import AddContacts from './addContacts';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { toast } from 'react-toastify';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function MyContacts() {
     const [contact, setContact] = useState([]),
@@ -31,7 +33,7 @@ export default function MyContacts() {
 
         const data = fetch(
             url +
-            `/contact_list?search=${search}&page_num_start=1&page_size=10`,
+            `/contact_list?search=${search}&page_num_start=1&page_size=20`,
             requestOptions
         )
             .then(async (res) => {
@@ -131,25 +133,26 @@ export default function MyContacts() {
 
 
     return (
-        <div className="tab-pane fade" id="mycontact" role="tabpanel" aria-labelledby="contact-tab">
+        <div className="tab-pane fade contact_tab" id="mycontact" role="tabpanel" aria-labelledby="contact-tab">
             <div className="about_projects">
                 <div className="color_bg">
                     <div className="contact_list">
-                        <div className="search_form">
-                            <form action="">
-                                <input
-                                    type="search"
-                                    placeholder="Search"
-                                    value={search}
-                                    onChange={(e) => setSearch(e.target.value)}
-                                />
-                                <button><img src="assets/images/search.png" alt="" /></button>
-                            </form>
+                        <div className='add_contact'>
+                            <button type="button" class="globle_submit" data-bs-toggle="modal" data-bs-target="#addContacts">
+                                Add Contacts
+                            </button>
+                            <div className="search_form">
+                                <form action="">
+                                    <input
+                                        type="search"
+                                        placeholder="Search"
+                                        value={search}
+                                        onChange={(e) => setSearch(e.target.value)}
+                                    />
+                                    <button><img src="assets/images/search.png" alt="" /></button>
+                                </form>
+                            </div>
                         </div>
-                        <button onClick={() => { setModalType('add'); setDataToUpdate(null); }} type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addContacts">
-                            Add Contacts
-                        </button>
-
                         <div className="list_table">
                             <div className="table-responsive">
                                 <table className="table">
@@ -188,41 +191,42 @@ export default function MyContacts() {
                                                                 <MoreVertIcon />
                                                             </div>
                                                             <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                                                <li><button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#addContacts" onClick={() => { handleUpdate(contact) }}>Update</button></li>
-                                                                <li><button class="dropdown-item" type="button" onClick={() => { handleDelete(contact) }}>Delete</button></li>
+                                                                <li><button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#addContacts" onClick={() => { handleUpdate(contact) }}><EditIcon color='gray' /> Update</button></li>
+                                                                <li><button class="dropdown-item" type="button" onClick={() => { handleDelete(contact) }}><DeleteIcon color='gray' /> Delete</button></li>
                                                             </ul>
                                                         </div></td>
                                                     </tr>
                                                 ))}
                                             </>
                                         )}
-                                        <ReactPaginate
-                                            previousLabel={"Prev"}
-                                            nextLabel={"Next"}
-                                            breakLabel={"..."}
-                                            pageCount={count}
-                                            marginPagesDisplayed={2}
-                                            pageRangeDisplayed={3}
-                                            onPageChange={handlePageClick}
-                                            containerClassName={"pagination"}
-                                            pageClassName={"page-item"}
-                                            pageLinkClassName={"item-link"}
-                                            previousClassName={"page-item"}
-                                            previousLinkClassName={"item-link"}
-                                            nextClassName={"page-item"}
-                                            nextLinkClassName={"item-link"}
-                                            breakClassName={"page-item"}
-                                            breakLinkClassName={"item-link"}
-                                            activeClassName={"active"}
-                                        />
+
+
                                     </tbody>
                                 </table>
+                                <ReactPaginate
+                                    previousLabel={"Prev"}
+                                    nextLabel={"Next"}
+                                    breakLabel={"..."}
+                                    pageCount={count}
+                                    marginPagesDisplayed={2}
+                                    pageRangeDisplayed={3}
+                                    onPageChange={handlePageClick}
+                                    containerClassName={"pagination"}
+                                    pageClassName={"page-item"}
+                                    pageLinkClassName={"item-link"}
+                                    previousClassName={"page-item"}
+                                    previousLinkClassName={"item-link"}
+                                    nextClassName={"page-item"}
+                                    nextLinkClassName={"item-link"}
+                                    breakClassName={"page-item"}
+                                    breakLinkClassName={"item-link"}
+                                    activeClassName={"active"}
+                                />
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
             <AddContacts onDataReceived={receiveDataFromAddContacts} modalType={modalType} dataToUpdate={dataToUpdate} updateContact={updateContact} />
         </div>
     )

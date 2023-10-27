@@ -700,6 +700,31 @@ footer p {
     box-shadow: none;
 }
 
+.submit-btn {
+    padding: 8px 32px;
+    font-size: 16px;
+    /* color: #707070; */
+    color: #fff;
+    border-radius: 6px;
+    /* border: 1px solid #707070; */
+    border: 2px solid #B1903F;
+    background-color: #B1903F;
+    transition: ease-in-out 0.5s;
+    display: inline-block;
+}
+
+.submit-btn:hover {
+    border-color: #050605;
+    background-color: #050605;
+    color: #fff;
+}
+
+.submit-btn:focus,
+.submit-btn:focus-visible {
+    outline: none;
+    box-shadow: none;
+}
+
 .globle_tabs ul.nav-tabs li button,
 .globle_tabs ul.nav-tabs li a {
     color: #050605;
@@ -1887,6 +1912,8 @@ animation-iteration-count: 1; */
     align-items: center;
     justify-content: center;
     gap: 0 10px;
+    width: 100%;
+    margin-top: 35px;
 }
 
 
@@ -1900,16 +1927,33 @@ animation-iteration-count: 1; */
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: 0 !important;
 }
 
 .pagination li.active {
     color: #fff;
-    background-color: #0e8444;
+    background-color: #b1903f;
+}
+
+.pagination li.active {
+    color: #fff;
+}
+
+.pagination li {
+    background-color: #000;
+}
+
+.pagination li a {
+    color: #fff;
 }
 
 .pagination li:hover {
     color: #fff;
-    background-color: #0e8444;
+    background-color: #B1903F;
+}
+
+.pagination li:hover a {
+    color: #fff;
 }
 
 .item-link {
@@ -1919,4 +1963,25 @@ animation-iteration-count: 1; */
 .item-link:hover {
     cursor: pointer;
     color: wheat;
+}
+
+.gant_tab,
+.contact_tab,
+.bid_tab {
+    margin-bottom: 70px;
+}
+
+.add_contact {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.add_contact .search_form {
+    width: 450px;
+}
+
+.profile_btn {
+    display: flex;
 }
