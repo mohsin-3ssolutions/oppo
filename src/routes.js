@@ -20,6 +20,7 @@ import Services from './pages/services.jsx';
 import Story from './pages/story.jsx';
 import { fetchUserProfileDetails } from './store/userProfileSlice/userProfileSlice.js';
 import SubContractor from './pages/subContractor.jsx';
+import Projectdetail from './pages/projectdetail.jsx';
 
 const AppRouter = ({ isAuthenticated, setIsAuthenticated, paymentStatus }) => {
   const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
@@ -44,6 +45,7 @@ const AppRouter = ({ isAuthenticated, setIsAuthenticated, paymentStatus }) => {
       <Routes>
         <Route path="/" element={<LandingPage isAuthenticated={isAuthenticated} paymentSripe={paymentSripe} />} />
         <Route path="/select-role" element={<SelectRole />} />
+        <Route path="/project-details" element={<Projectdetail />} />
         <Route path="/contact-us" element={<ContactUs />} />
         <Route path="/our-services" element={<Services />} />
         <Route path="/our-story" element={<Story />} />

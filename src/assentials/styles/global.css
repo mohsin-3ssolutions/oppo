@@ -1945,6 +1945,7 @@ animation-iteration-count: 1; */
 
 .pagination li a {
     color: #fff;
+    padding: 10px;
 }
 
 .pagination li:hover {
@@ -1984,4 +1985,87 @@ animation-iteration-count: 1; */
 
 .profile_btn {
     display: flex;
+}
+
+
+/*********** detail page ***********/
+
+.view_product_content {
+    padding: 30px;
+    background: #f7f7f7;
+    border-radius: 10px;
+}
+.view_product_content .project_status p {
+    color: #000;
+    font-weight: 600;
+    font-size: 16px;
+}
+.view_product_content .project_status p span {
+    font-weight: 400;
+}
+.view_product_content h3 {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 0;
+}
+.work_list {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+.work_list li {
+    flex: 1 0 229px;
+}
+.work_banner {
+    padding-top: 80px;
+}
+.work_banner h1 {
+    text-align: center;
+    font-size: 46px;
+    margin-bottom: 40px;
+}
+.work_list {
+    max-width: 991px;
+    margin: 50px auto 40px;
+    list-style: none;
+    padding-top: 15px;
+    background-color: #dee4e7;
+    padding: 20px;
+    border-radius: 15px;
+}
+.work_list li {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    padding-left: 20px;
+}
+.work_list li:not(:last-child) {
+    margin-bottom: 15px;
+}
+.work_list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 7px;
+    width: 8px;
+    height: 8px;
+    background-color: #000;
+    border-radius: 50%;
+}
+.work_list p {
+    font-size: 16px;
+    color: #000;
+    margin-bottom: 0;
+}
+.view_product_content .black_btn {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+.view_product_content .black_btn a:hover {
+    background-color: #000;
+    border-color: #000;
+    color: #fff;
 }
