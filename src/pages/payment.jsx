@@ -5,6 +5,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import * as Yup from 'yup';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import DefaultLayout from '../reusableComponents/defaultLayout';
+import { useSelector } from 'react-redux';
+import moment from 'moment';
 
 function Payment({ setUser, isAuthenticated, user, paymentStatus }) {
     console.log("======>", isAuthenticated)
@@ -26,6 +28,11 @@ function Payment({ setUser, isAuthenticated, user, paymentStatus }) {
         city: Yup.string().required('City is required'),
         state: Yup.string().required('State is required'),
         zip: Yup.string().required('Zip is required'),
+    });
+
+    
+    const createdDate = useSelector((state) => {
+        return state?.userProfileSlice?.userData?.data?.created_at;
     });
 
     const handleSubmit = async (values, { setSubmitting }) => {
@@ -117,7 +124,8 @@ function Payment({ setUser, isAuthenticated, user, paymentStatus }) {
                                     <h3>Payment Plan Details</h3>
                                     <p className='mb-2'>
                                         {paymentStatus === "ON_TRIAL"
-                                            ? 'Welcome to our trial experience which will expire in 2 weeks from your signup. Please complete Payment and continue your journey!"'
+                                            // ? 'Welcome to our trial experience which will expire in 2 weeks from your signup. Please complete Payment and continue your journey!"'
+                                            ? `Welcome to our trial experience which will expire on ${moment(createdDate).add(14, 'days').utc().format()}. Please complete Payment and continue your journey!"`
                                             : paymentStatus === 'TRIAL_EXPIRED'
                                                 ? 'Your trial period is over. Please complete Payment and continue your journey.'
                                                 : ''}
