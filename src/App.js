@@ -83,7 +83,7 @@ function App() {
   }, [isAuthenticated, paymentStatus, navigate, userRole]);
 
   return (
-    <AppRouter isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />
+    <AppRouter isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} paymentStatus={paymentStatus} />
     // <div>
     //   <Routes>
     //     <Route path="/" element={<LandingPage isAuthenticated={isAuthenticated} paymentSripe={paymentSripe} />} />

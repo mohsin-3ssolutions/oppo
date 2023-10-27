@@ -302,9 +302,6 @@ export default function Profile() {
                             </Formik>
 
                         </div>
-                        <div className="creat_btn">
-                            <a href="">Save</a>
-                        </div>
                     </div>
                 </div>
             </section>

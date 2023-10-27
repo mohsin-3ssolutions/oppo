@@ -60,7 +60,7 @@ function Header() {
                     <nav className="navbar navbar-expand-lg navbar-light">
                         <div className="container-fluid">
                             <a className="navbar-brand" href="#"><img className="img-fluid" src="/assets/images/logo.png" alt="" /></a>
-                            
+
                             <div className="collapse navbar-collapse navigation" id="navbarNavDropdown">
                                 <ul className="navbar-nav">
                                     <li>
@@ -75,9 +75,10 @@ function Header() {
                                     <li>
                                         <Link to="/contact-us">Contact Us</Link>
                                     </li>
-                                    <li>
+                                    {isAuthenticated && <li>
                                         <Link to="/account">My Account</Link>
-                                    </li>
+                                    </li>}
+
                                     {/* }
                                     {isAuthenticated && profileData?.role == 'owner' && <li>
                                         <Link to="/owner-account">My Account</Link>
@@ -93,14 +94,14 @@ function Header() {
                                     </li>
                                     }
                                 </ul>
-                                
+
 
                             </div>
                             <div className='profile_btn'>
-                            <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                                <span className="navbar-toggler-icon"></span>
-                            </button>
-                            {isAuthenticated && <div>
+                                <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                                    <span className="navbar-toggler-icon"></span>
+                                </button>
+                                {isAuthenticated && <div>
                                     <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
                                         <Tooltip title="Account settings">
                                             <IconButton
