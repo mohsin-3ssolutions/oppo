@@ -32,41 +32,43 @@ function Signin({ isAuthenticated, setIsAuthenticated }) {
     }, [isAuthenticated]);
 
     const handleSubmit = async (values, { setSubmitting }) => {
-        console.log(values)
         try {
-            // if (hasError) throw Error("Has some validation errors.");
-            setSubmitting(true)
+            setSubmitting(true); // Set submitting state when form submission begins
+
             const requestData = {
                 email: values.email,
                 password: values.password,
             };
 
-            fetch('https://opo.jjtestsite.us/api/login', {
+            const response = await fetch('https://opo.jjtestsite.us/api/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(requestData),
-            }).then((response) => {
-                return response.json();
-            })
-                .then(({ data, message, success }) => {
-                    // console.log(res); // This will log the parsed response data
-                    console.log({ data, message, success }); // This will log the parsed response data
-                    if (success) {
-                        localStorage.setItem("authToken", data?.token);
-                        toast.success('Loggedin successfully!', { autoClose: 3000 });
-                        setIsAuthenticated(true);
-                        navigate("/account");
-                    } else {
-                        toast.error('Login failed!' + message, { autoClose: 3000 });
-                    }
-                });
+            });
+
+            if (response.ok) {
+                const { data, message, success } = await response.json();
+                if (success) {
+                    localStorage.setItem('authToken', data?.token);
+                    toast.success('Logged in successfully!', { autoClose: 3000 });
+                    setIsAuthenticated(true);
+                    navigate('/account');
+                } else {
+                    toast.error('Login failed! ' + message, { autoClose: 3000 });
+                }
+            } else {
+                throw new Error('Network response was not ok.');
+            }
         } catch (error) {
             console.error('An error occurred:', error);
             toast.error('An error occurred.' + error, { autoClose: 3000 });
+        } finally {
+            setSubmitting(false); // Ensure submitting state is set to false even if an error occurs
         }
     };
+
 
     return (
         <>

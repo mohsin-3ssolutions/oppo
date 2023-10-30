@@ -55,38 +55,40 @@ function Signup({ isAuthenticated, setIsAuthenticated }) {
     }, [isAuthenticated]);
 
     // const handleSubmit = async (values, { setSubmitting }) => {
-    const handleSubmit = async (values) => {
-        console.log(values)
+    const handleSubmit = async (values, { setSubmitting }) => {
         values.role = role;
         let url = process.env.REACT_APP_BASE_URL;
+
         try {
-            fetch(`${url}/register`, {
+            setSubmitting(true); // Start the submission, show loader
+
+            const response = await fetch(`${url}/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(values),
-            }).then((response) => {
+            });
 
-                return response.json(); 
-            })
-                .then(({ data, message, success }) => {
-                    console.log({ data, message, success }); // This will log the parsed response data
-                    if (success) {
-                        localStorage.setItem("authToken", data?.token);
-                        toast.success('Registration successful!', { autoClose: 3000 });
-                        setIsAuthenticated(true);
-                        navigate("/payment");
-                    } else {
-                        toast.error('Registration failed!' + message, { autoClose: 3000 });
-                    }
-                });
+            if (response.ok) {
+                const { data, message, success } = await response.json();
+
+                if (success) {
+                    localStorage.setItem("authToken", data?.token);
+                    toast.success('Registration successful!', { autoClose: 3000 });
+                    setIsAuthenticated(true);
+                    navigate("/payment");
+                } else {
+                    toast.error('Registration failed!' + message, { autoClose: 3000 });
+                }
+            } else {
+                throw new Error('Network response was not ok.');
+            }
         } catch (error) {
             console.error('An error occurred:', error);
             toast.error('An error occurred.' + error, { autoClose: 3000 });
-        }
-        finally {
-            // setSubmitting(false);
+        } finally {
+            setSubmitting(false); // Complete the submission, hide loader
         }
     };
 
