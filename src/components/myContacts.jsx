@@ -161,10 +161,18 @@ export default function MyContacts() {
                                             <th scope="col">Business Name</th>
                                             <th scope="col">Phone Number</th>
                                             <th scope="col">Email</th>
-                                            <th></th>
+                                            <th scope="col"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        {contact.length == 0 && <tr>
+                                            <td className="text-center loader_style " colspan="12">
+                                                <h2>Add Contact to start connecting! No contacts yet.</h2>
+                                                <h3>Let's build your network</h3>
+                                            </td>
+                                        </tr>
+                                        }
+
                                         {loading ? (
                                             <tr>
                                                 <td className="text-center loader_style " colspan="12">
@@ -200,11 +208,9 @@ export default function MyContacts() {
                                                 ))}
                                             </>
                                         )}
-
-
                                     </tbody>
                                 </table>
-                                <ReactPaginate
+                                {contact.length > 0 && <ReactPaginate
                                     previousLabel={"Prev"}
                                     nextLabel={"Next"}
                                     breakLabel={"..."}
@@ -222,7 +228,8 @@ export default function MyContacts() {
                                     breakClassName={"page-item"}
                                     breakLinkClassName={"item-link"}
                                     activeClassName={"active"}
-                                />
+                                />}
+
                             </div>
                         </div>
                     </div>

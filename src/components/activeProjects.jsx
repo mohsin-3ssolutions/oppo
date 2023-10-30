@@ -31,6 +31,7 @@ export default function ActiveProjects() {
   const initialValues = {
     project_name: '',
     email: '',
+    price: '',
     project_rep: '',
     phone: '',
     project_description: '',
@@ -54,6 +55,7 @@ export default function ActiveProjects() {
     email: Yup.string().email('Invalid email').required('Email is required'),
     project_rep: Yup.string().required('Project Rep is required'),
     phone: Yup.string().required('Phone Number is required'),
+    price: Yup.string().required('Price is required'),
     project_description: Yup.string(),
     past_work: Yup.string(),
     designer: Yup.string(),
@@ -81,6 +83,10 @@ export default function ActiveProjects() {
     values.project_end_date = completionDate;
     values.project_type = 'commercial';
 
+    if (moment(startDate).isAfter(completionDate)) {
+      toast.error('Start date must be before the completion date.', { autoClose: 3000 });
+      return; // Prevent submission if the condition is not met
+    }
     setLoading(true);
 
     console.log(values.permit_doc);
@@ -94,6 +100,7 @@ export default function ActiveProjects() {
         formData.append('project_rep', values.project_rep);
         formData.append('email', values.email);
         formData.append('phone', parseInt(values.phone, 10));
+        formData.append('price', parseInt(values.price, 10));
         formData.append('plan', values.plan);
         formData.append('past_work', values.past_work);
         formData.append('designer', values.designer);
@@ -163,6 +170,11 @@ export default function ActiveProjects() {
                       <label htmlFor="email" className="form-label">Email</label>
                       <Field type="email" className="form-control" id="email" name="email" />
                       <ErrorMessage name="email" component="div" className="text-danger" />
+                    </div>
+                    <div className="mb-3">
+                      <label htmlFor="price" className="form-label">Base Price</label>
+                      <Field type="text" className="form-control" id="price" name="price" />
+                      <ErrorMessage name="price" component="div" className="text-danger" />
                     </div>
                     <div className="mb-3">
                       <label htmlFor="project_rep" className="form-label">Project Rep</label>

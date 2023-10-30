@@ -116,6 +116,12 @@ export default function OutForBid() {
     return (
         <div className="tab-pane fade bid_tab" id="home" role="tabpanel" aria-labelledby="home-tab">
             <div className="about_projects">
+                {projects.length == 0 && <div>
+                    <div className="text-center">
+                        <h3>No projects to show.</h3>
+                    </div>
+                </div>
+                }
                 {projects.map((project, index) => (
                     <div className="color_bg" key={index}>
                         <div className="project_detail">
@@ -171,8 +177,7 @@ export default function OutForBid() {
                         </div>
                     </div>
                 ))}
-
-                <ReactPaginate
+                {projects.length > 0 && <ReactPaginate
                     previousLabel={"Prev"}
                     nextLabel={"Next"}
                     breakLabel={"..."}
@@ -190,7 +195,9 @@ export default function OutForBid() {
                     breakClassName={"page-item"}
                     breakLinkClassName={"item-link"}
                     activeClassName={"active"}
-                />
+                />}
+
+
                 <div className="creat_btn">
                     <Link to="/find-a-project">Find a Project</Link>
                     <a href="">Post a Project</a>
