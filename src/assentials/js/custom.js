@@ -20,3 +20,19 @@ function hideNonVisibleDivs() {
     }
   }
 }
+// jQuery(document).ready(function($){
+//   var swiper_nav = new Swiper(".detail_swiper_nav", {
+//     loop: false,
+//     spaceBetween: 10,
+//     slidesPerView: 4,
+//     freeMode: true,
+//     watchSlidesProgress: true,
+//   });
+//   var swiper2 = new Swiper(".detail_swiper", {
+//     loop: false,
+//     spaceBetween: 10,
+//     thumbs: {
+//       swiper: swiper_nav,
+//     },
+//   });
+// });

@@ -11,8 +11,9 @@ import './App.css';
 import './assentials/js/bootstrap.bundle.min.js';
 import './assentials/js/custom.js';
 import './assentials/js/jquery.min.js';
-import './assentials/js/slick.js';
+import './assentials/js/swiper-bundle.min.js';
 import "./assentials/styles/global.css";
+import "./assentials/styles/swiper-bundle.min.css";
 import './assentials/styles/responsive.css';
 
 import Account from './pages/account.jsx';

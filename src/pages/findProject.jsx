@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react'
 import DefaultLayout from '../reusableComponents/defaultLayout'
 import ReactPaginate from 'react-paginate';
 import { ThreeDots } from 'react-loader-spinner';
+import { useNavigate } from 'react-router-dom';
 
 export default function FindProject() {
     const [projects, setprojects] = useState([]),
         [count, setCount] = useState(0),
         [pageCount, setPageCount] = useState(0),
         [loading, setLoading] = useState(false);
+    let navigate = useNavigate();
 
     const fetchData = async () => {
         setLoading(true)
@@ -123,7 +125,7 @@ export default function FindProject() {
                         <ul>
                             {
                                 projects.map((data, index) => (
-                                    <li key={index}>
+                                    <li key={index} onClick={() => { navigate(`/project-details?id=${data.id}`) }} >
                                         <div class="project_detail">
                                             <div class="project_head">
                                                 <h2>{data.project_name}<span>{data.project_start_date}</span></h2>

@@ -432,6 +432,15 @@
     .filter_project form select {
         width: 100%;
     }
+    .view_product_content .black_btn a {
+        display: block;
+        width: 100%;
+        text-align: center;
+    }
+    .view_product_content .project_status {
+        flex-wrap: wrap;
+        gap: 15px;
+    }
 }
 @media screen and (max-width: 350px) {
     .strenght_field span {

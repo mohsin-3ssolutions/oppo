@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { IconButton, Menu, MenuItem } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
 
 
 export default function OutForBid() {
-
+    let navigate = useNavigate()
     const [projects, setprojects] = useState([]),
         [count, setCount] = useState(0),
         [pageCount, setPageCount] = useState(0),
@@ -123,7 +123,7 @@ export default function OutForBid() {
                 </div>
                 }
                 {projects.map((project, index) => (
-                    <div className="color_bg" key={index}>
+                    <div onClick={() => { navigate('/project-details') }} className="color_bg" key={index}>
                         <div className="project_detail">
                             <div className="project_head">
                                 <h2>{project.project_name}<span>{project.project_start_date}</span></h2>
