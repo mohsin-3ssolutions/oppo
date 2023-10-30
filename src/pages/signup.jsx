@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { emailPatternValidator } from '../utils';
+import { emailPatternValidator, userRoles } from '../utils';
 import { Formik, Form, Field, ErrorMessage, useFormikContext } from 'formik';
 import * as Yup from 'yup';
 import DefaultLayout from '../reusableComponents/defaultLayout';
@@ -14,7 +14,7 @@ function Signup({ isAuthenticated, setIsAuthenticated }) {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
 
-    const role = queryParams.get('role');
+    const role = queryParams.get('role') ? queryParams.get('role') : userRoles.subContractor ;
 
     const initialValues = {
         company_name: "",
@@ -127,6 +127,7 @@ function Signup({ isAuthenticated, setIsAuthenticated }) {
                             <div className="sign_up">
                                 <h3>Add Company Details</h3>
                                 <p>Already have an account? <a href="/signin" className="log_in">Log In</a></p>
+                                <p>Signing up with <strong>{role.charAt(0).toUpperCase() + role.slice(1)}</strong> Role.  To change role visit<a href="/select-role" className="log_in">Select Role</a></p>
                                 <ul className="social_links">
                                     <li><a href=""><img src="/assets/images/facebook.png" alt="Facebook" /></a></li>
                                     <li><a href=""><img src="/assets/images/google.png" alt="Google" /></a></li>
