@@ -67,7 +67,7 @@ const AppRouter = ({ isAuthenticated, setIsAuthenticated, paymentStatus }) => {
         />
         <Route path="/payment-completion" element={<ThankYou isAuthenticated={isAuthenticated} />} />
         <Route path="/dashboard" element={<Dashboard isAuthenticated={isAuthenticated} paymentSripe={paymentSripe} />} />
-        <Route path="/account?tabId=0" element={userRole == 'owner' || userRole == 'sub_contractor' ? <SubContractor /> : <Account />} />
+        <Route path="/account" element={userRole == 'owner' || userRole == 'sub_contractor' ? <SubContractor /> : <Account />} />
       </Routes>
       <ToastContainer />
     </div>
