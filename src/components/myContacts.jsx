@@ -137,7 +137,7 @@ export default function MyContacts() {
                 <div className="color_bg">
                     <div className="contact_list">
                         <div className='add_contact'>
-                            <button type="button" class="globle_submit" data-bs-toggle="modal" data-bs-target="#addContacts">
+                            <button type="button" class="globle_submit" data-bs-toggle="modal" data-bs-target="#addContacts" onClick={() => { setModalType('add') }}>
                                 Add Contacts
                             </button>
                             <div className="search_form">
@@ -148,7 +148,7 @@ export default function MyContacts() {
                                         value={search}
                                         onChange={(e) => setSearch(e.target.value)}
                                     />
-                                    <button><img src="assets/images/search.png" alt="" /></button>
+                                    {/* <button><img src="assets/images/search.png" alt="" /></button> */}
                                 </form>
                             </div>
                         </div>

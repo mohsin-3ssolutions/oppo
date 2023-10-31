@@ -14,7 +14,7 @@ function Signup({ isAuthenticated, setIsAuthenticated }) {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
 
-    const role = queryParams.get('role') ? queryParams.get('role') : userRoles.subContractor ;
+    const role = queryParams.get('role') ? queryParams.get('role') : userRoles.subContractor;
 
     const initialValues = {
         company_name: "",

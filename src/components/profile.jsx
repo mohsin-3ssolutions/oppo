@@ -1,8 +1,16 @@
 import React from 'react'
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import { toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
 
-export default function Profile() {
+export default function Profile({ userData }) {
+
+    const userRole = useSelector((state) => {
+        return state?.userProfileSlice?.userData?.data?.role;
+    });
+
+
 
     const validationSchema = Yup.object().shape({
         projectName: Yup.string().required('Project Name is required'),
@@ -19,36 +27,74 @@ export default function Profile() {
     });
 
     const initialValues = {
-        projectName: '',
-        yearsInBusiness: '',
-        ein: '',
-        licensedWorkStates: '',
-        contractorLicense: '',
-        workCapacity: '',
-        numEmployees: '',
-        description: '',
+        projectName: userData ? userData.company_name : '',
+        yearsInBusiness: userData ? userData.business_year : '',
+        ein: userData ? userData.ein : '',
+        licensedWorkStates: userData ? userData.licensed_states_of_work : '',
+        contractorLicense: userData ? userData.contractor_license : '',
+        workCapacity: userData ? userData.work_capacity : '',
+        numEmployees: userData ? userData.company_name : '',
+        description: userData ? userData.company_name : '',
         selectedServices: [],
-        scope: '',
-        pastContractorsWorkedWith: '',
-        w9Form: ''
+        scope: userData ? userData.identify_scope : '',
+        pastContractorsWorkedWith: userData ? userData.past_contractors : '',
+        w9Form: userData ? userData.w9_form : '',
     };
 
-    const handleSubmit = (values, { setSubmitting }) => {
-        // Handle form submission here
-        console.log(values);
-        // Access the uploaded files from the input fields
-        const w9FormFile = values.w9Form[0];
-        const workersCompFormFile = values.workersCompForm[0];
-        const profilePictureFile = values.profilePicture[0];
+    const handleSubmit = async (values, { setSubmitting }) => {
+        try {
+            const token = localStorage.getItem('authToken');
+            const url = process.env.REACT_APP_BASE_URL;
 
-        // You can now handle the files as needed
-        console.log('W9 Form File:', w9FormFile);
-        console.log('Worker’s Comp Form File:', workersCompFormFile);
-        console.log('Profile Picture File:', profilePictureFile);
+            if (token) {
+                const formData = new FormData();
+                formData.append('role', userRole);
+                formData.append('company_name', values.projectName);
+                formData.append('business_year', values.yearsInBusiness);
+                formData.append('ein', values.ein);
+                formData.append('licensed_states_of_work', values.licensedWorkStates);
+                formData.append('contractor_license', 'yes');
+                formData.append('work_capacity', values.workCapacity);
+                formData.append('biography', values.description);
+                formData.append('number_of_employees', values.numEmployees);
+                formData.append('worker_comp', values.workersCompForm);
+                formData.append('w9_form', values.w9Form);
+                formData.append('profile_image', values.profilePicture);
+                formData.append('company_name', values.projectName);
+                formData.append('commercial_services', 1);
+                formData.append('residential_services', 1);
+                formData.append('federal_services', 1);
+                formData.append('road_and_industrial_construction', 1);
+                formData.append('identify_scope', values.scope);
+                formData.append('past_contractors', values.pastContractorsWorkedWith);
 
-        // Reset the form submission state
-        setSubmitting(false);
+                const response = await fetch(`${url}/update_contractor_profile`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    },
+                    body: formData,
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    toast.success('Profile updated successfully!', { autoClose: 3000 });
+                    // navigate('/find-a-project')
+                    window.location.reload()
+                } else {
+                    toast.error('Something went wrong!' + data.message, { autoClose: 3000 });
+                }
+            }
+        } catch (error) {
+            console.error('An error occurred:', error);
+            toast.error('An error occurred.' + error, { autoClose: 3000 });
+        } finally {
+            // Reset the form submission state
+            setSubmitting(false);
+        }
     };
+
     return (
         <div>
             <section className="profile_banner">
@@ -60,7 +106,7 @@ export default function Profile() {
                                 initialValues={initialValues}
                                 validationSchema={validationSchema}
                                 onSubmit={handleSubmit}
-                            >{({ values, setFieldValue }) => (
+                            >{({ isSubmitting, values, setFieldValue }) => (
                                 <Form>
                                     <div className="row">
                                         <div className="col-lg-4 col-md-6">
@@ -295,7 +341,11 @@ export default function Profile() {
                                         </div>
                                     </div>
                                     <div className='text-center'>
-                                        <button type="submit" className="globle_submit mt-5">Save</button>
+                                        <button type="submit" disabled={isSubmitting} className="globle_submit mt-5">Save {isSubmitting && (
+                                            <div class="spinner-border spinner-border-sm" role="status">
+                                                <span class="sr-only"></span>
+                                            </div>
+                                        )}</button>
                                     </div>
                                 </Form>
                             )}

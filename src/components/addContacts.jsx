@@ -6,6 +6,9 @@ import { toast } from 'react-toastify';
 export default function AddContacts({ onDataReceived, modalType, dataToUpdate, updateContact }) {
     console.log(modalType)
     console.log(dataToUpdate)
+    if (modalType == 'add') {
+        dataToUpdate = null
+    }
     const [initialValues, setInitialValues] = useState({
         name: "",
         business_name: "",
@@ -24,6 +27,13 @@ export default function AddContacts({ onDataReceived, modalType, dataToUpdate, u
         if (modalType === 'update' && dataToUpdate) {
             const updatedInitialValues = { ...dataToUpdate };
             setInitialValues(updatedInitialValues);
+        } else if (modalType === 'add') {
+            setInitialValues({  // Reset initialValues to empty object when not 'update'
+                name: "",
+                business_name: "",
+                phone_number: "",
+                email: "",
+            });
         }
     }, [modalType, dataToUpdate]);
     const handleSubmit = async (values, { resetForm }) => {

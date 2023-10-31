@@ -200,7 +200,7 @@ export default function OutForBid() {
 
                 <div className="creat_btn">
                     <Link to="/find-a-project">Find a Project</Link>
-                    <a href="">Post a Project</a>
+                    <a >Post a Project</a>
                 </div>
             </div>
         </div>

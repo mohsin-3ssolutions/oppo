@@ -6,10 +6,18 @@ import GenttChart from '../components/genttChart';
 import MyContacts from '../components/myContacts';
 import Profile from '../components/profile';
 import Welcome from '../reusableComponents/welcome';
+import { useSelector } from 'react-redux';
 
 function Account() {
 
+    const userData = useSelector((state) => {
+        return state?.userProfileSlice?.userData?.data;
+    });
+
+
     const [showProfile, setShowProfile] = useState(true)
+    console.log(userData, '=========')
+
 
     return (
         <>
@@ -45,7 +53,7 @@ function Account() {
                     </div>
                 </section>
 
-                {showProfile && <Profile />}
+                {(showProfile && userData) && <Profile userData={userData} />}
 
             </DefaultLayout>
 
