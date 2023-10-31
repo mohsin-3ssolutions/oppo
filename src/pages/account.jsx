@@ -7,6 +7,7 @@ import MyContacts from '../components/myContacts';
 import Profile from '../components/profile';
 import Welcome from '../reusableComponents/welcome';
 import { useLocation, useNavigate } from 'react-router-dom';
+// import { useSelector } from 'react-redux';
 
 function Account() {
     const location = useLocation();
@@ -25,6 +26,14 @@ function Account() {
         setActiveTab(tabId);
         navigate(`/account?tabId=${tabId}`);
     };
+    // const userData = useSelector((state) => {
+    //     return state?.userProfileSlice?.userData?.data;
+    // });
+
+
+    // const [showProfile, setShowProfile] = useState(true)
+    // console.log(userData, '=========')
+
 
     return (
         <>
@@ -85,6 +94,7 @@ function Account() {
                 activeTab === 3 ? <GenttChart />:
                 activeTab === 4 && <MyContacts />
                 }
+                 {/* {(showProfile && userData) && <Profile userData={userData} />} */}
 
             </DefaultLayout>
 

@@ -2095,3 +2095,7 @@ animation-iteration-count: 1; */
     border-color: #000;
     color: #fff;
 }
+
+.cursor-pointer:hover {
+    cursor: pointer;
+}
