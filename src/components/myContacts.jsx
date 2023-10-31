@@ -23,6 +23,7 @@ export default function MyContacts() {
     const fetchData = async () => {
         let url = process.env.REACT_APP_BASE_URL;
         const token = localStorage.getItem('authToken');
+        setLoading(true)
         const requestOptions = {
             method: "GET",
             headers: {
@@ -43,9 +44,10 @@ export default function MyContacts() {
                     setCount(body.data.totalContact / 10);
                     setPageCount(body.data.totalContact);
                     setContact(body?.data.contact)
+                    setLoading(false)
                 }
             })
-            .catch((err) => { });
+            .catch((err) => { setLoading(false) });
         return data;
     };
 
@@ -154,7 +156,7 @@ export default function MyContacts() {
                             </div>
                         </div>
                         <div className="list_table">
-                            <div className="table-responsive">
+                            <div className="table-responsive-for-contacts">
                                 <table className="table">
                                     <thead>
                                         <tr>

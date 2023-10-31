@@ -2000,6 +2000,11 @@ animation-iteration-count: 1; */
     overflow-x: hidden;
 }
 
+.table-responsive-for-contacts {
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
 /*********** detail page ***********/
 
 .view_product_content {

@@ -10,10 +10,10 @@ export default function OutForBid() {
     const [projects, setprojects] = useState([]),
         [count, setCount] = useState(0),
         [pageCount, setPageCount] = useState(0),
-        [loading, setLoading] = useState(false);
+        [loading, setLoading] = useState(true);
 
     const fetchData = async () => {
-        setLoading(true)
+        // setLoading(true);
         let url = process.env.REACT_APP_BASE_URL;
         const token = localStorage.getItem('authToken');
         const requestOptions = {
@@ -35,15 +35,16 @@ export default function OutForBid() {
                     setCount(body.data.projectsCount / 10);
                     setPageCount(body.data.projectsCount);
                     setprojects(body?.data?.projects)
+                    setLoading(false)
                 }
             })
-            .catch((err) => { });
-        setLoading(false)
+            .catch((err) => { setLoading(false) });
         return data;
     };
 
     useEffect(() => {
-        fetchData()
+        setLoading(true);
+        fetchData();
     }, [])
 
     const fetchPaginatedData = async (currentPage) => {
@@ -113,17 +114,22 @@ export default function OutForBid() {
         setSelectedOptions({ ...selectedOptions, [project.id]: null });
     };
 
+    useEffect(() => {
+        console.log('[[[[[[[[[[[[[[[[[{loading}]]]]]]]]]]]]]]]]]');
+        console.log({ loading });
+        console.log('[[[[[[[[[[[[[[[[[{loading}]]]]]]]]]]]]]]]]]');
+    }, [loading])
 
     return (
         // <div > //className="tab-pane fade bid_tab" id="home" role="tabpanel" aria-labelledby="home-tab"
-        <div className='container'> 
+        <div className='container'>
             <div className="about_projects">
-                {projects.length == 0 && <div>
+                {/* {(projects.length == 0 && loading == true) && <div>
                     <div className="text-center">
                         <h3>No projects to show.</h3>
                     </div>
                 </div>
-                }
+                } */}
                 {loading ? <div className="text-center loader_style">
                     <ThreeDots
                         height="100"
@@ -135,63 +141,69 @@ export default function OutForBid() {
                         visible={true}
                     />
                 </div> : (
-                    <>
-                        {projects.map((project, index) => (
-                            <div onClick={() => { navigate('/project-details') }} className="color_bg" key={index}>
-                                <div className="project_detail">
-                                    <div className="project_head">
-                                        <h2>{project.project_name}<span>{project.project_start_date}</span></h2>
-                                        <ul className="project_status">
-                                            <li>
-                                                <div>
-                                                    <p
-                                                        aria-label="more"
-                                                        id="long-button"
-                                                        aria-controls={open ? 'long-menu' : undefined}
-                                                        aria-expanded={open ? 'true' : undefined}
-                                                        aria-haspopup="true"
-                                                        onClick={(e) => handleClick(e, project)}
-                                                        className='cursor-pointer'
-                                                    >
-                                                        Job Status: <span>{project.jobStatus}</span>
-                                                    </p>
-                                                    <Menu
-                                                        id="long-menu"
-                                                        MenuListProps={{
-                                                            'aria-labelledby': 'long-button',
-                                                        }}
-                                                        anchorEl={selectedOptions[project.id]}
-                                                        open={Boolean(selectedOptions[project.id])}
-                                                        onClose={() => handleClose(options[0].value, project)}
-                                                        PaperProps={{
-                                                            style: {
-                                                                maxHeight: ITEM_HEIGHT * 4.5,
-                                                                width: '20ch',
-                                                            },
-                                                        }}
-                                                    >
-                                                        {options.map((option) => (
-                                                            <MenuItem
-                                                                key={option.value}
-                                                                selected={option.value === project.jobStatus}
-                                                                onClick={() => { handleClose(option.value, project) }}
-                                                            >
-                                                                {option.value}
-                                                            </MenuItem>
-                                                        ))}
-                                                    </Menu>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <p className="view_count mt-2"><img src="assets/images/view.png" alt="" /><span>100</span></p>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <p><strong>Project Description:</strong>{project.project_description}</p>
-                                </div>
+                    (projects.length == 0) ?
+                        <div>
+                            <div className="text-center">
+                                <h3>No projects to show.</h3>
                             </div>
-                        ))}
-                    </>
+                        </div> :
+                        <>
+                            {projects.map((project, index) => (
+                                <div onClick={() => { navigate('/project-details') }} className="color_bg" key={index}>
+                                    <div className="project_detail">
+                                        <div className="project_head">
+                                            <h2>{project.project_name}<span>{project.project_start_date}</span></h2>
+                                            <ul className="project_status">
+                                                <li>
+                                                    <div>
+                                                        <p
+                                                            aria-label="more"
+                                                            id="long-button"
+                                                            aria-controls={open ? 'long-menu' : undefined}
+                                                            aria-expanded={open ? 'true' : undefined}
+                                                            aria-haspopup="true"
+                                                            onClick={(e) => handleClick(e, project)}
+                                                            className='cursor-pointer'
+                                                        >
+                                                            Job Status: <span>{project.jobStatus}</span>
+                                                        </p>
+                                                        <Menu
+                                                            id="long-menu"
+                                                            MenuListProps={{
+                                                                'aria-labelledby': 'long-button',
+                                                            }}
+                                                            anchorEl={selectedOptions[project.id]}
+                                                            open={Boolean(selectedOptions[project.id])}
+                                                            onClose={() => handleClose(options[0].value, project)}
+                                                            PaperProps={{
+                                                                style: {
+                                                                    maxHeight: ITEM_HEIGHT * 4.5,
+                                                                    width: '20ch',
+                                                                },
+                                                            }}
+                                                        >
+                                                            {options.map((option) => (
+                                                                <MenuItem
+                                                                    key={option.value}
+                                                                    selected={option.value === project.jobStatus}
+                                                                    onClick={() => { handleClose(option.value, project) }}
+                                                                >
+                                                                    {option.value}
+                                                                </MenuItem>
+                                                            ))}
+                                                        </Menu>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <p className="view_count mt-2"><img src="assets/images/view.png" alt="" /><span>100</span></p>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <p><strong>Project Description:</strong>{project.project_description}</p>
+                                    </div>
+                                </div>
+                            ))}
+                        </>
                 )
 
                 }
@@ -216,8 +228,8 @@ export default function OutForBid() {
                 />}
 
 
-                <div className="creat_btn">
-                    <Link to="/find-a-project">Find a Project</Link>
+                <div className="creat_btn text-center mt-5">
+                    <Link to="/find-a-project" className='me-4'>Find a Project</Link>
                     <a href="/account?tabId=2">Post a Project</a>
                 </div>
             </div>

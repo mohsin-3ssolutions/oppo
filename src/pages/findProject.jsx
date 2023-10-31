@@ -34,10 +34,11 @@ export default function FindProject() {
                     setCount(body.data.projectsCount / 10);
                     setPageCount(body.data.projectsCount);
                     setprojects(body?.data?.projects)
+                    setLoading(false)
                 }
             })
-            .catch((err) => { });
-        setLoading(false)
+            .catch((err) => { setLoading(false) });
+
         return data;
     };
 
@@ -110,17 +111,17 @@ export default function FindProject() {
                         </form>
                     </div>
                     {loading ? (
-                        <h3 className="text-center justify-content-center">
+                        <div className="text-center loader_style">
                             <ThreeDots
                                 height="100"
                                 width="120"
                                 radius="9"
-                                color="#4fa94d"
+                                color="#000"
                                 ariaLabel="three-dots-loading"
                                 wrapperStyle={{}}
                                 visible={true}
                             />
-                        </h3>
+                        </div>
                     ) :
                         <ul>
                             {
