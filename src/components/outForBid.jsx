@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { IconButton, Menu, MenuItem } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
+import { ThreeDots } from 'react-loader-spinner';
 
 
 export default function OutForBid() {
@@ -123,61 +124,77 @@ export default function OutForBid() {
                     </div>
                 </div>
                 }
-                {projects.map((project, index) => (
-                    <div onClick={() => { navigate(`/project-details?id=${project.id}`) }} className="color_bg cursor-pointer" key={index}>
-                        <div className="project_detail">
-                            <div className="project_head">
-                                <h2>{project.project_name}<span>{project.project_start_date}</span></h2>
-                                <ul className="project_status">
-                                    <li>
-                                        <div>
-                                            <p
-                                                aria-label="more"
-                                                id="long-button"
-                                                aria-controls={open ? 'long-menu' : undefined}
-                                                aria-expanded={open ? 'true' : undefined}
-                                                aria-haspopup="true"
-                                                onClick={(e) => handleClick(e, project)}
-                                                className='cursor-pointer'
-                                            >
-                                                Job Status: <span>{project.jobStatus}</span>
-                                            </p>
-                                            <Menu
-                                                id="long-menu"
-                                                MenuListProps={{
-                                                    'aria-labelledby': 'long-button',
-                                                }}
-                                                anchorEl={selectedOptions[project.id]}
-                                                open={Boolean(selectedOptions[project.id])}
-                                                onClose={() => handleClose(options[0].value, project)}
-                                                PaperProps={{
-                                                    style: {
-                                                        maxHeight: ITEM_HEIGHT * 4.5,
-                                                        width: '20ch',
-                                                    },
-                                                }}
-                                            >
-                                                {options.map((option) => (
-                                                    <MenuItem
-                                                        key={option.value}
-                                                        selected={option.value === project.jobStatus}
-                                                        onClick={() => { handleClose(option.value, project) }}
+                {loading ? <div className="text-center loader_style">
+                    <ThreeDots
+                        height="100"
+                        width="120"
+                        radius="9"
+                        color="#000"
+                        ariaLabel="three-dots-loading"
+                        wrapperStyle={{}}
+                        visible={true}
+                    />
+                </div> : (
+                    <>
+                        {projects.map((project, index) => (
+                            <div onClick={() => { navigate('/project-details') }} className="color_bg" key={index}>
+                                <div className="project_detail">
+                                    <div className="project_head">
+                                        <h2>{project.project_name}<span>{project.project_start_date}</span></h2>
+                                        <ul className="project_status">
+                                            <li>
+                                                <div>
+                                                    <p
+                                                        aria-label="more"
+                                                        id="long-button"
+                                                        aria-controls={open ? 'long-menu' : undefined}
+                                                        aria-expanded={open ? 'true' : undefined}
+                                                        aria-haspopup="true"
+                                                        onClick={(e) => handleClick(e, project)}
+                                                        className='cursor-pointer'
                                                     >
-                                                        {option.value}
-                                                    </MenuItem>
-                                                ))}
-                                            </Menu>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <p className="view_count mt-2"><img src="assets/images/view.png" alt="" /><span>100</span></p>
-                                    </li>
-                                </ul>
+                                                        Job Status: <span>{project.jobStatus}</span>
+                                                    </p>
+                                                    <Menu
+                                                        id="long-menu"
+                                                        MenuListProps={{
+                                                            'aria-labelledby': 'long-button',
+                                                        }}
+                                                        anchorEl={selectedOptions[project.id]}
+                                                        open={Boolean(selectedOptions[project.id])}
+                                                        onClose={() => handleClose(options[0].value, project)}
+                                                        PaperProps={{
+                                                            style: {
+                                                                maxHeight: ITEM_HEIGHT * 4.5,
+                                                                width: '20ch',
+                                                            },
+                                                        }}
+                                                    >
+                                                        {options.map((option) => (
+                                                            <MenuItem
+                                                                key={option.value}
+                                                                selected={option.value === project.jobStatus}
+                                                                onClick={() => { handleClose(option.value, project) }}
+                                                            >
+                                                                {option.value}
+                                                            </MenuItem>
+                                                        ))}
+                                                    </Menu>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <p className="view_count mt-2"><img src="assets/images/view.png" alt="" /><span>100</span></p>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <p><strong>Project Description:</strong>{project.project_description}</p>
+                                </div>
                             </div>
-                            <p><strong>Project Description:</strong>{project.project_description}</p>
-                        </div>
-                    </div>
-                ))}
+                        ))}
+                    </>
+                )
+
+                }
                 {projects.length > 0 && <ReactPaginate
                     previousLabel={"Prev"}
                     nextLabel={"Next"}
