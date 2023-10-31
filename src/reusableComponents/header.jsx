@@ -76,7 +76,7 @@ function Header() {
                                         <Link to="/contact-us">Contact Us</Link>
                                     </li>
                                     {isAuthenticated && <li>
-                                        <Link to="/account">My Account</Link>
+                                        <Link to="/account?tabId=0">My Account</Link>
                                     </li>}
 
                                     {/* }
@@ -151,7 +151,7 @@ function Header() {
                                         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                                         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                                     >
-                                        <MenuItem onClick={() => { window.location.href = '/account' }}>
+                                        <MenuItem onClick={() => { window.location.href = '/account?tabId=0' }}>
                                             <ListItemIcon>
                                                 <Avatar fontSize="small" />
                                             </ListItemIcon>

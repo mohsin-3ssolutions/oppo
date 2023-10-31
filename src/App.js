@@ -66,7 +66,7 @@ function App() {
   useEffect(() => {
     const authenticated = !!localStorage.getItem("authToken");
 
-    if (!authenticated && location.pathname == '/account') {
+    if (!authenticated && location.pathname == '/account?tabId=0') {
       navigate('/signin')
     }
 

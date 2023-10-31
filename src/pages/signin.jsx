@@ -54,7 +54,7 @@ function Signin({ isAuthenticated, setIsAuthenticated }) {
                     localStorage.setItem('authToken', data?.token);
                     toast.success('Logged in successfully!', { autoClose: 3000 });
                     setIsAuthenticated(true);
-                    navigate('/account');
+                    navigate('/account?tabId=0');
                 } else {
                     toast.error('Login failed! ' + message, { autoClose: 3000 });
                 }

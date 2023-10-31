@@ -148,7 +148,8 @@ export default function ActiveProjects() {
   return (
 
 
-    <div className="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+    // <div className="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+    <div className='container'>
       <div className="new_project project_name_banner">
         <div className="color_bg">
           <h2>Start a New Project</h2>

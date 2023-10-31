@@ -108,7 +108,7 @@ function Payment({ setUser, isAuthenticated, user, paymentStatus }) {
 
         const paid = localStorage.getItem('paid')?.length ? true : false;
         if (authenticated && paid) {
-            navigate('/account')
+            navigate('/account?tabId=0')
         }
         // ((isAuthenticated && paid) && navigate('/dashboard'));
     }, []);

@@ -132,7 +132,8 @@ export default function MyContacts() {
     };
 
     return (
-        <div className="tab-pane fade contact_tab" id="mycontact" role="tabpanel" aria-labelledby="contact-tab">
+        // <div className="tab-pane fade contact_tab" id="mycontact" role="tabpanel" aria-labelledby="contact-tab">
+        <div className='container'>
             <div className="about_projects">
                 <div className="color_bg">
                     <div className="contact_list">

@@ -114,7 +114,8 @@ export default function OutForBid() {
 
 
     return (
-        <div className="tab-pane fade bid_tab" id="home" role="tabpanel" aria-labelledby="home-tab">
+        // <div > //className="tab-pane fade bid_tab" id="home" role="tabpanel" aria-labelledby="home-tab"
+        <div className='container'> 
             <div className="about_projects">
                 {projects.length == 0 && <div>
                     <div className="text-center">
@@ -200,7 +201,7 @@ export default function OutForBid() {
 
                 <div className="creat_btn">
                     <Link to="/find-a-project">Find a Project</Link>
-                    <a href="">Post a Project</a>
+                    <a href="/account?tabId=2">Post a Project</a>
                 </div>
             </div>
         </div>
