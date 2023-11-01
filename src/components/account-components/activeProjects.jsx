@@ -2,7 +2,8 @@ import React from 'react'
 
 export default function ActiveProjects() {
     return (
-        <div className="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+        // <div className="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+        <div className="container">
             <div className="about_projects">
                 <div className="color_bg">
                     <ul className="project_boxes">

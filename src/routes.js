@@ -43,16 +43,15 @@ const AppRouter = ({ isAuthenticated, setIsAuthenticated, paymentStatus }) => {
   return (
     <div>
       <Routes>
-        <Route path="/" element={<LandingPage isAuthenticated={isAuthenticated} paymentSripe={paymentSripe} />} />
-        <Route path="/select-role" element={<SelectRole />} />
-        <Route path="/project-details" element={<Projectdetail />} />
-        <Route path="/contact-us" element={<ContactUs />} />
-        <Route path="/our-services" element={<Services />} />
-        <Route path="/our-story" element={<Story />} />
-        <Route path="/find-a-project" element={<FindProject />} />
-        {/* <Route path="/chart" element={<ChartComponent />} /> */}
+        {/* <Route path="/" element={<LandingPage isAuthenticated={isAuthenticated} paymentSripe={paymentSripe} />} />
         <Route path="/signin" element={<SignIn isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />} />
         <Route path="/signup" element={<SignUp isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />} />
+        <Route path="/select-role" element={<SelectRole />} />
+        <Route path="/contact-us" element={<ContactUs />} />
+        <Route path="/our-services" element={<Services />} />
+        <Route path="/our-story" element={<Story />} /> */}
+        <Route path="/find-a-project" element={<FindProject />} />
+        <Route path="/project-details" element={<Projectdetail />} />
         <Route
           path="/payment"
           element={
@@ -69,7 +68,6 @@ const AppRouter = ({ isAuthenticated, setIsAuthenticated, paymentStatus }) => {
         <Route path="/dashboard" element={<Dashboard isAuthenticated={isAuthenticated} paymentSripe={paymentSripe} />} />
         <Route path="/account" element={userRole == 'owner' || userRole == 'sub_contractor' ? <SubContractor /> : <Account />} />
       </Routes>
-      <ToastContainer />
     </div>
   );
 }

@@ -2,7 +2,8 @@ import React from 'react'
 
 export default function PendingProjects() {
     return (
-        <div className="tab-pane fade" id="pending" role="tabpanel" aria-labelledby="home-tab">
+        // <div className="tab-pane fade" id="pending" role="tabpanel" aria-labelledby="home-tab">
+        <div className="container">
             <div className="about_projects">
                 <div className="color_bg">
                     <ul className="project_boxes">

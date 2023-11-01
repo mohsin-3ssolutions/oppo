@@ -79,7 +79,7 @@ function Payment({ setUser, isAuthenticated, user, paymentStatus }) {
                     .then(({ data, message, success }) => {
                         if (success) {
                             toast.success('Payment successfully Done!', { autoClose: 3000 });
-                            localStorage.setItem('paid', true);
+                            // localStorage.setItem('paid', true);
                             navigate('/payment-completion');
                         } else {
                             toast.error('Payment failed! Kindly, try again.' + message, {

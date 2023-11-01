@@ -35,7 +35,7 @@ import AppRouter from './routes';
 function App() {
   const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  console.log(isAuthenticated)
+  const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
   // const [user, setUser] = useState({
@@ -56,6 +56,7 @@ function App() {
   //   return state?.userProfileSlice?.userData?.data?.stripe_customer_id;
   // });
 
+  console.log(isAuthenticated)
   const paymentStatus = useSelector((state) => {
     return state?.userProfileSlice?.userData?.data?.status;
   });
@@ -64,9 +65,14 @@ function App() {
   });
 
   useEffect(() => {
-    const authenticated = !!localStorage.getItem("authToken");
+    dispatch(verifyAuthToken(fetchUserProfileDetails))
+  }, [userRole, dispatch]);
 
-    if (!authenticated && location.pathname == '/account?tabId=0') {
+  useEffect(() => {
+    const authenticated = !!localStorage.getItem("authToken");
+    if (!!localStorage.getItem("paid")) localStorage.removeItem("paid")
+
+    if (!authenticated && location.pathname.includes('/account')) {
       navigate('/signin')
     }
 
@@ -83,8 +89,24 @@ function App() {
     }
   }, [isAuthenticated, paymentStatus, navigate, userRole]);
 
+  const paymentSripe = useSelector((state) => {
+    return state?.userProfileSlice?.userData?.data?.stripe_customer_id;
+  });
+
   return (
-    <AppRouter isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} paymentStatus={paymentStatus} />
+    <div>
+      <Routes>
+        <Route path="/" element={<LandingPage isAuthenticated={isAuthenticated} paymentSripe={paymentSripe} />} />
+        <Route path="/signin" element={<SignIn isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />} />
+        <Route path="/signup" element={<SignUp isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />} />
+        <Route path="/select-role" element={<SelectRole />} />
+        <Route path="/contact-us" element={<ContactUs />} />
+        <Route path="/our-services" element={<Services />} />
+        <Route path="/our-story" element={<Story />} />
+      </Routes>
+      <AppRouter isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} paymentStatus={paymentStatus} />
+      <ToastContainer />
+    </div>
     // <div>
     //   <Routes>
     //     <Route path="/" element={<LandingPage isAuthenticated={isAuthenticated} paymentSripe={paymentSripe} />} />
