@@ -6,7 +6,6 @@ function Dashboard({ user, isAuthenticated, paymentSripe }) {
     const navigate = useNavigate();
 
     useEffect(() => {
-        console.log("isAuthenticated ::::::::::", isAuthenticated);
         ((!isAuthenticated) && navigate('/signin'));
         { paymentSripe == "" && navigate('/payment') }
         // const paid = localStorage.getItem('paid')?.length ? true : false;

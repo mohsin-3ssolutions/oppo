@@ -14,7 +14,6 @@ export const userProfileSlice = createSlice({
   initialState,
   reducers: {
     fetchUserProfileDetails: (state, action) => {
-      console.log("login action: ", action);
       state.userData = action.payload;
       // state.userData = {
       //   ...action.payload,

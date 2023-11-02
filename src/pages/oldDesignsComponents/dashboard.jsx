@@ -6,7 +6,6 @@ const Dashboard = ({ isAuthenticated, logout }) => {
     const navigate = useNavigate();
     useEffect(() => {
         // console.log("errorState has changed:", errorState);
-        console.log("isAuthenticated ::::::::::", isAuthenticated);
         (!isAuthenticated && navigate('/signin'))
     }, [isAuthenticated]);
 

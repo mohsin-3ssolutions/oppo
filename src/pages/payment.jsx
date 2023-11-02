@@ -101,7 +101,6 @@ function Payment({ setUser, isAuthenticated, user, paymentStatus }) {
         // 
         const authenticated = !!localStorage.getItem("authToken");
 
-        console.log({ authenticated });
         if (!authenticated) {
             navigate('/signin')
         }

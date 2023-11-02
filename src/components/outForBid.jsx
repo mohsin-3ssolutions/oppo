@@ -30,7 +30,6 @@ export default function OutForBid() {
         )
             .then(async (res) => {
                 let body = await res.json();
-                console.log(body)
                 if (body.data.projects.length > 0) {
                     setCount(body.data.projectsCount / 10);
                     setPageCount(body.data.projectsCount);
@@ -74,7 +73,6 @@ export default function OutForBid() {
         setprojects(dataFromServer?.data?.projects);
     };
 
-    console.log(projects, 'projects')
 
 
     const options = [
@@ -114,11 +112,6 @@ export default function OutForBid() {
         setSelectedOptions({ ...selectedOptions, [project.id]: null });
     };
 
-    useEffect(() => {
-        console.log('[[[[[[[[[[[[[[[[[{loading}]]]]]]]]]]]]]]]]]');
-        console.log({ loading });
-        console.log('[[[[[[[[[[[[[[[[[{loading}]]]]]]]]]]]]]]]]]');
-    }, [loading])
 
     return (
         // <div > //className="tab-pane fade bid_tab" id="home" role="tabpanel" aria-labelledby="home-tab"
@@ -149,7 +142,7 @@ export default function OutForBid() {
                         </div> :
                         <>
                             {projects.map((project, index) => (
-                                <div onClick={() => { navigate('/project-details') }} className="color_bg" key={index}>
+                                <div onClick={() => { navigate(`/project-details?id=${project.id}`) }} className="color_bg" key={index}>
                                     <div className="project_detail">
                                         <div className="project_head">
                                             <h2>{project.project_name}<span>{project.project_start_date}</span></h2>

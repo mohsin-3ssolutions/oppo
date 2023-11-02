@@ -17,14 +17,12 @@ export default function ActiveProjects() {
   const handleStartDateChange = (date) => {
     // console.log(date.$d)
     const formattedDate = moment(date.$d).format('YYYY-MM-DD');
-    console.log(formattedDate);
     setStartDate(formattedDate);
     // setStartDate(date.$d);
   };
 
   const handleCompletionDateChange = (date) => {
     const formattedDate = moment(date.$d).format('YYYY-MM-DD');
-    console.log(formattedDate);
     setCompletionDate(formattedDate);
   };
 
@@ -78,7 +76,6 @@ export default function ActiveProjects() {
 
   const handleSubmit = async (values) => {
     let url = process.env.REACT_APP_BASE_URL;
-    console.log(values);
     values.project_start_date = startDate;
     values.project_end_date = completionDate;
     values.project_type = 'commercial';
@@ -89,7 +86,6 @@ export default function ActiveProjects() {
     }
     setLoading(true);
 
-    console.log(values.permit_doc);
     const token = localStorage.getItem('authToken');
     if (token) {
       try {
@@ -125,7 +121,6 @@ export default function ActiveProjects() {
         })
           .then((response) => response.json())
           .then(({ data, message, success }) => {
-            console.log({ data, message, success });
             if (success) {
               toast.success('Project created successfully!', { autoClose: 3000 });
               navigate('/find-a-project')

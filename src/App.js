@@ -56,7 +56,6 @@ function App() {
   //   return state?.userProfileSlice?.userData?.data?.stripe_customer_id;
   // });
 
-  console.log(isAuthenticated)
   const paymentStatus = useSelector((state) => {
     return state?.userProfileSlice?.userData?.data?.status;
   });

@@ -51,7 +51,6 @@ const verifyAuthToken = () => async (dispatch) => { // Use Redux Thunk
             }
 
             const data = await response.json();
-            console.log({ data });
             dispatch(fetchUserProfileDetails({
                 ...data,
                 data: {

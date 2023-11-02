@@ -24,12 +24,16 @@ import Projectdetail from './pages/projectdetail.jsx';
 
 const AppRouter = ({ isAuthenticated, setIsAuthenticated, paymentStatus }) => {
   const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
-  console.log(isAuthenticated)
   const location = useLocation();
   const navigate = useNavigate();
   const userRole = useSelector((state) => {
     return state?.userProfileSlice?.userData?.data?.role;
   });
+
+  const userData = useSelector((state) => {
+    return state?.userProfileSlice?.userData?.data;
+  });
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(verifyAuthToken(fetchUserProfileDetails))
@@ -39,19 +43,20 @@ const AppRouter = ({ isAuthenticated, setIsAuthenticated, paymentStatus }) => {
     return state?.userProfileSlice?.userData?.data?.stripe_customer_id;
   });
 
-
   return (
     <div>
       <Routes>
-        {/* <Route path="/" element={<LandingPage isAuthenticated={isAuthenticated} paymentSripe={paymentSripe} />} />
-        <Route path="/signin" element={<SignIn isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />} />
-        <Route path="/signup" element={<SignUp isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />} />
-        <Route path="/select-role" element={<SelectRole />} />
-        <Route path="/contact-us" element={<ContactUs />} />
-        <Route path="/our-services" element={<Services />} />
-        <Route path="/our-story" element={<Story />} /> */}
-        <Route path="/find-a-project" element={<FindProject />} />
-        <Route path="/project-details" element={<Projectdetail />} />
+        {/* <Route  path="/find-a-project" element={<FindProject />} /> */}
+        <Route
+          path="/find-a-project"
+          element={
+            isAuthenticated ? <FindProject /> : <Navigate to="/signin" replace />
+          }
+        />
+        <Route path="/project-details" element={
+          isAuthenticated ? <Projectdetail /> : <Navigate to="/signin" replace />
+        }
+        />
         <Route
           path="/payment"
           element={
@@ -66,7 +71,7 @@ const AppRouter = ({ isAuthenticated, setIsAuthenticated, paymentStatus }) => {
         />
         <Route path="/payment-completion" element={<ThankYou isAuthenticated={isAuthenticated} />} />
         <Route path="/dashboard" element={<Dashboard isAuthenticated={isAuthenticated} paymentSripe={paymentSripe} />} />
-        <Route path="/account" element={userRole == 'owner' || userRole == 'sub_contractor' ? <SubContractor /> : <Account />} />
+        {userData && <Route path="/account" element={userRole == 'owner' || userRole == 'sub_contractor' ? <SubContractor /> : <Account />} />}
       </Routes>
     </div>
   );

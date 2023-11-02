@@ -24,8 +24,6 @@ function Signin({ isAuthenticated, setIsAuthenticated }) {
 
     useEffect(() => {
         // (isAuthenticated && );
-
-        console.log(isAuthenticated, '==========')
         if (isAuthenticated) {
             navigate('/')
         }
@@ -54,7 +52,7 @@ function Signin({ isAuthenticated, setIsAuthenticated }) {
                     localStorage.setItem('authToken', data?.token);
                     toast.success('Logged in successfully!', { autoClose: 3000 });
                     setIsAuthenticated(true);
-                    navigate('/account?tabId=0');
+                    navigate('/');
                 } else {
                     toast.error('Login failed! ' + message, { autoClose: 3000 });
                 }

@@ -39,7 +39,6 @@ export default function MyContacts() {
         )
             .then(async (res) => {
                 let body = await res.json();
-                console.log(body)
                 if (body.data.contact.length > 0) {
                     setCount(body.data.totalContact / 10);
                     setPageCount(body.data.totalContact);
@@ -83,7 +82,6 @@ export default function MyContacts() {
     }, [search])
 
     const handleDelete = (contact) => {
-        console.log(contact);
 
         let url = process.env.REACT_APP_BASE_URL;
         setLoading(true);

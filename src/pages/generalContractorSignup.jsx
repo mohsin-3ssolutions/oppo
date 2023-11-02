@@ -117,8 +117,6 @@ function SubContractorSignUp({ isAuthenticated, setIsAuthenticated }) {
             hasError = (hasError || currentFieldError);
         });
 
-        console.log({ errorState }, hasError);
-
         try {
             if (hasError) throw Error("Has some validation errors.");
             const requestData = {

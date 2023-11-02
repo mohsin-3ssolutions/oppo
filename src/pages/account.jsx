@@ -26,14 +26,6 @@ function Account() {
         setActiveTab(tabId);
         navigate(`/account?tabId=${tabId}`);
     };
-    // const userData = useSelector((state) => {
-    //     return state?.userProfileSlice?.userData?.data;
-    // });
-
-
-    // const [showProfile, setShowProfile] = useState(true)
-    // console.log(userData, '=========')
-
 
     return (
         <>

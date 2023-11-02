@@ -4,8 +4,6 @@ import * as Yup from 'yup';
 import { toast } from 'react-toastify';
 
 export default function AddContacts({ onDataReceived, modalType, dataToUpdate, updateContact }) {
-    console.log(modalType)
-    console.log(dataToUpdate)
     if (modalType == 'add') {
         dataToUpdate = null
     }
@@ -58,7 +56,6 @@ export default function AddContacts({ onDataReceived, modalType, dataToUpdate, u
                 return response.json();
             })
                 .then(({ data, message, success }) => {
-                    console.log({ data, message, success });
                     if (success) {
                         if (modalType !== 'update') {
                             onDataReceived(data);

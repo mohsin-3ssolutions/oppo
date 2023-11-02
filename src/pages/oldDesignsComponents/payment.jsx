@@ -227,16 +227,8 @@ export default function Signin({ isAuthenticated, setIsAuthenticated }) {
     if (error) {
       setPaymentError(error.message);
     } else {
-      console.log({ paymentMethod });
     }
   };
-
-  useEffect(() => {
-
-    console.log("REACT_APP_STRIPE_PUBLISHABLE_KEY ::::::::::", process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
-    console.log("isAuthenticated ::::::::::", isAuthenticated);
-    // (isAuthenticated && navigate('/dashboard'));
-  }, [isAuthenticated]);
 
   const checkErrorState = useCallback((name, value) => {
     let isErr = false;

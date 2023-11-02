@@ -118,14 +118,9 @@ function OwnerSignUp({ isAuthenticated, setIsAuthenticated }) {
         let hasError = false;
 
         Object.entries(formData).map(([name, value]) => {
-            console.log({ 111: hasError });
             const currentFieldError = checkErrorState(name, value);
             hasError = (hasError || currentFieldError);
-            console.log({ 222: hasError });
-            console.log({ name, value });
         });
-
-        console.log({ errorState }, hasError);
 
         try {
             if (hasError) throw Error("Has some validation errors.");

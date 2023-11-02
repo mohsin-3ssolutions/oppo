@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { IconButton, Menu, MenuItem } from '@mui/material';
 import { Link, useLocation } from 'react-router-dom';
 import DefaultLayout from '../reusableComponents/defaultLayout';
+import Carousel from '../reusableComponents/carousel';
 
 
 export default function Projectdetail() {
@@ -37,8 +38,6 @@ export default function Projectdetail() {
         fetchData()
     }, [])
 
-    console.log(projectsDetials)
-
     return (
         <DefaultLayout>
             <section class="inner_banner account_banner">
@@ -54,7 +53,8 @@ export default function Projectdetail() {
                     <div className="detail_view_box">
                         <div className="row">
                             <div className="col-lg-6">
-                                <div className='border rounded'><img src="assets/images/inner_bg.jpg" width="100%" height="230" alt="" /></div>
+                                <Carousel />
+                                {/* <div className='border rounded'><img src="assets/images/inner_bg.jpg" width="100%" height="230" alt="" /></div> */}
                             </div>
                             <div className="col-lg-6">
                                 <div className="view_product_content">

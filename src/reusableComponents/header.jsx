@@ -52,7 +52,6 @@ function Header() {
 
     }, [isAuthenticated]);
 
-    console.log(profileData)
     return (
         <header>
             <div className="container">
