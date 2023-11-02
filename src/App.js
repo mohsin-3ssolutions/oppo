@@ -70,7 +70,6 @@ function App() {
 
   useEffect(() => {
     const authenticated = !!localStorage.getItem("authToken");
-    if (!!localStorage.getItem("paid")) localStorage.removeItem("paid")
 
     if (!authenticated && location.pathname.includes('/account')) {
       navigate('/signin')

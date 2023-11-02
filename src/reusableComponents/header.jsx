@@ -22,7 +22,7 @@ function Header() {
     };
     const handleLogout = () => {
         setAnchorEl(null);
-        localStorage.removeItem('authToken');
+        localStorage.clear();
         window.location.href = '/signin'
     };
     const handleNavigate = () => {
