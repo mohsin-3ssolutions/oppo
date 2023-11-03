@@ -10,10 +10,11 @@ export default function OutForBid() {
     const [projects, setprojects] = useState([]),
         [count, setCount] = useState(0),
         [pageCount, setPageCount] = useState(0),
-        [loading, setLoading] = useState(true);
-
+        [loading, setLoading] = useState(true),
+        [error, setError] = useState(false);
     const fetchData = async () => {
-        // setLoading(true);
+        setLoading(true); // Start loading
+
         let url = process.env.REACT_APP_BASE_URL;
         const token = localStorage.getItem('authToken');
         const requestOptions = {
@@ -23,24 +24,33 @@ export default function OutForBid() {
                 Authorization: `Bearer ${token}`,
             },
         };
-        const data = fetch(
-            url +
-            `/my_project_list?page_num_start=1&page_size=20`,
-            requestOptions
-        )
-            .then(async (res) => {
-                let body = await res.json();
-                if (body.data.projects.length > 0) {
-                    setCount(body.data.projectsCount / 10);
-                    setPageCount(body.data.projectsCount);
-                    setprojects(body?.data?.projects)
-                    setLoading(false)
-                }
-            })
-            .catch((err) => { setLoading(false) });
-        return data;
-    };
 
+        try {
+            const response = await fetch(
+                url + `/my_project_list?page_num_start=1&page_size=20`,
+                requestOptions
+            );
+
+            if (response.ok) {
+                const data = await response.json();
+
+                if (data?.data?.projects.length > 0) {
+                    setCount(data.data.projectsCount / 10);
+                    setPageCount(data.data.projectsCount);
+                    setprojects(data.data.projects);
+                } else {
+                    setError(true); // Set an error state if no data is available
+                }
+            } else {
+                setError(true); // Set an error state if the response is not ok
+            }
+
+            setLoading(false); // Stop loading
+        } catch (error) {
+            setError(true); // Set an error state if an error occurs
+            setLoading(false); // Stop loading
+        }
+    };
     useEffect(() => {
         setLoading(true);
         fetchData();
