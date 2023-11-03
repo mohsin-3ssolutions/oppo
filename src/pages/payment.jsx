@@ -7,6 +7,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import DefaultLayout from '../reusableComponents/defaultLayout';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
+import { verifyAuthToken } from '../utils';
 
 function Payment({ setUser, isAuthenticated, user, paymentStatus }) {
     const stripe = useStripe();
@@ -80,6 +81,7 @@ function Payment({ setUser, isAuthenticated, user, paymentStatus }) {
                     .then(({ data, message, success }) => {
                         if (success) {
                             toast.success('Payment successfully Done!', { autoClose: 3000 });
+                            dispatch(verifyAuthToken(fetchUserProfileDetails));
                             // localStorage.setItem('paid', true);
                             navigate('/payment-completion');
                         } else {
