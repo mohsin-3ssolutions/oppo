@@ -70,7 +70,7 @@ function Payment({ setUser, isAuthenticated, user, paymentStatus }) {
                 const token = localStorage.getItem('authToken');
                 let url = process.env.REACT_APP_BASE_URL;
 
-                fetch(url + `/trial_start`, {
+                fetch(url + `/subscription`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -82,7 +82,7 @@ function Payment({ setUser, isAuthenticated, user, paymentStatus }) {
                     .then(({ data, message, success }) => {
                         if (success) {
                             toast.success('Payment successfully Done!', { autoClose: 3000 });
-                            dispatch(verifyAuthToken(fetchUserProfileDetails));
+                            // dispatch(verifyAuthToken(fetchUserProfileDetails));
                             // localStorage.setItem('paid', true);
                             navigate('/payment-completion');
                         } else {
@@ -314,12 +314,15 @@ function Payment({ setUser, isAuthenticated, user, paymentStatus }) {
                                             </Form>
                                         )}
                                     </Formik>
-                                    <button
+                                    {/* ON_TRIAL */}
+                                    {paymentStatus !== 'ON_TRIAL' && <button
                                         className="submit_btn"
                                         onClick={() => { handleTrial() }}
                                     >
                                         Start 2 Weeks Trial!
-                                    </button>
+                                    </button>}
+
+
 
                                 </div>
                             </div>

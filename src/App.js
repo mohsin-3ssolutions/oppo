@@ -59,7 +59,7 @@ function App() {
   const paymentStatus = useSelector((state) => {
     return state?.userProfileSlice?.userData?.data?.status;
   });
-
+  console.log(paymentStatus, 'paymentStatus')
   const userRole = useSelector((state) => {
     return state?.userProfileSlice?.userData?.data?.role;
   });
@@ -103,7 +103,7 @@ function App() {
         <Route path="/our-services" element={<Services />} />
         <Route path="/our-story" element={<Story />} />
       </Routes>
-      <AppRouter isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} paymentStatus={paymentStatus} />
+      <AppRouter isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} stripePromise={stripePromise} paymentStatus={paymentStatus} />
       <ToastContainer />
     </div>
     // <div>

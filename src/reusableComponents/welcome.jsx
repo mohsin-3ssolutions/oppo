@@ -8,9 +8,9 @@ export default function Welcome() {
     const userData = useSelector((state) => {
         return state?.userProfileSlice?.userData?.data;
     });
-    useEffect(() => {
-        dispatch(verifyAuthToken(fetchUserProfileDetails))
-    }, [dispatch]);
+    // useEffect(() => {
+    //     dispatch(verifyAuthToken(fetchUserProfileDetails))
+    // }, [dispatch]);
     return (
         <>
             <section className="inner_banner account_banner">

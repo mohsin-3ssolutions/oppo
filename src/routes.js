@@ -44,8 +44,8 @@ const AppRouter = ({ isAuthenticated, setIsAuthenticated, paymentStatus }) => {
   useEffect(() => {
 
     if (paymentStatus == 'TRIAL_EXPIRED' || paymentStatus == 'NEW') {
-      if (location.pathname.includes('/account'))
-        navigate('/payment', { replace: true });
+      if (location.pathname.includes('/account'))        
+      navigate('/payment', { replace: true });
     } else if (paymentStatus === 'SUBSCRIBED') {
       if (location.pathname == '/payment') {
         navigate('/');
@@ -53,7 +53,7 @@ const AppRouter = ({ isAuthenticated, setIsAuthenticated, paymentStatus }) => {
         navigate(location.pathname);
       }
     }
-  }, [paymentStatus, location])
+  }, [paymentStatus, location.pathname])
 
 
   const paymentSripe = useSelector((state) => {
