@@ -8,6 +8,7 @@ import DefaultLayout from '../reusableComponents/defaultLayout';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { verifyAuthToken } from '../utils';
+import { fetchUserProfileDetails } from '../store/userProfileSlice/userProfileSlice';
 
 function Payment({ setUser, isAuthenticated, user, paymentStatus }) {
     const stripe = useStripe();
