@@ -2,6 +2,7 @@ import moment from 'moment';
 import { toast } from 'react-toastify';
 
 import { fetchUserProfileDetails } from './store/userProfileSlice/userProfileSlice';
+import { useSelector } from 'react-redux';
 
 const baseURL = process.env.REACT_APP_BASE_URL || 'here_should_be_base_url';
 const emailPatternValidator = /^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
@@ -9,27 +10,34 @@ const emailPatternValidator = /^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
 const userRoles = { // 'owner', 'general_contractor', 'sub_contractor'
     owner: 'owner',
     generalContractor: 'general_contractor',
-    subContractor: 'sub_contractor'
+    subContractor: 'sub_contractor',
 }
 
 const userStatus = {
     trail: 'ON_TRIAL',
     trailExpired: 'TRIAL_EXPIRED',
-    subscribed: 'SUBSCRIBED'
+    subscribed: 'SUBSCRIBED',
+    newUser: 'NEW',
 }
 
 const getUserStatus = (data) => {
-    let subscriptionStatus = userStatus.trailExpired;
+    console.log(data)
+    let subscriptionStatus = null;
     if (data.stripe_customer_id?.length && data.stripe_subscription_id?.length) {
         subscriptionStatus = userStatus.subscribed;
-    } else if (moment(data.created_at).utc().format() > moment(data.created_at).subtract(14, 'days').utc().format()) {
+    } else if (data.is_trial == "1" && moment(data.trial_start_data).utc().format() > moment().subtract(14, 'days').utc().format()) {
         subscriptionStatus = userStatus.trail;
+    } else if (data.is_trial == "0") {
+        subscriptionStatus = userStatus.newUser;
+    } else if (moment(data.trial_start_data).utc().format() < moment().subtract(14, 'days').utc().format()) {
+        subscriptionStatus = userStatus.trailExpired;
     } else {
         subscriptionStatus = userStatus.subscribed;
     }
 
+    console.log(subscriptionStatus)
     return subscriptionStatus;
-    // return userStatus.trail;
+    // return userStatus.trailExpired;
 };
 
 const verifyAuthToken = () => async (dispatch) => { // Use Redux Thunk

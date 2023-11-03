@@ -15,6 +15,7 @@ export const userProfileSlice = createSlice({
   reducers: {
     fetchUserProfileDetails: (state, action) => {
       state.userData = action.payload;
+      console.log(action.payload)
       // state.userData = {
       //   ...action.payload,
       //   new_created_at: 'moment(action.payload.created_at).format()'

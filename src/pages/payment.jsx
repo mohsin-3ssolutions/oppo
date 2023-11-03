@@ -5,14 +5,14 @@ import { ToastContainer, toast } from 'react-toastify';
 import * as Yup from 'yup';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import DefaultLayout from '../reusableComponents/defaultLayout';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 
 function Payment({ setUser, isAuthenticated, user, paymentStatus }) {
-    console.log("======>", isAuthenticated)
     const stripe = useStripe();
     const elements = useElements();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const initialValues = {
         name: '',
@@ -30,7 +30,7 @@ function Payment({ setUser, isAuthenticated, user, paymentStatus }) {
         zip: Yup.string().required('Zip is required'),
     });
 
-    
+
     const createdDate = useSelector((state) => {
         return state?.userProfileSlice?.userData?.data?.created_at;
     });
@@ -66,8 +66,9 @@ function Payment({ setUser, isAuthenticated, user, paymentStatus }) {
                 };
 
                 const token = localStorage.getItem('authToken');
+                let url = process.env.REACT_APP_BASE_URL;
 
-                fetch('https://opo.jjtestsite.us/api/subscription', {
+                fetch(url + `/trial_start`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -97,14 +98,10 @@ function Payment({ setUser, isAuthenticated, user, paymentStatus }) {
 
 
     useEffect(() => {
-        // console.log("isAuthenticated ::::::::::", isAuthenticated);
-        // 
         const authenticated = !!localStorage.getItem("authToken");
-
         if (!authenticated) {
             navigate('/signin')
         }
-
         const paid = localStorage.getItem('paid')?.length ? true : false;
         if (authenticated && paid) {
             navigate('/account?tabId=0')
@@ -112,6 +109,34 @@ function Payment({ setUser, isAuthenticated, user, paymentStatus }) {
         // ((isAuthenticated && paid) && navigate('/dashboard'));
     }, []);
 
+    const handleTrial = async () => {
+        try {
+            let url = process.env.REACT_APP_BASE_URL;
+            const token = localStorage.getItem('authToken');
+            const response = await fetch(url + `/trial_start`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                }
+            });
+
+            if (response.ok) {
+                const { data, message, success } = await response.json();
+                if (success) {
+                    navigate('/account?tabId=0');
+                } else {
+                    toast.error('Login failed! ' + message, { autoClose: 3000 });
+                }
+            } else {
+                throw new Error('Network response was not ok.');
+            }
+        } catch (error) {
+            console.error('An error occurred:', error);
+            toast.error('An error occurred.' + error, { autoClose: 3000 });
+        }
+    }
+    console.log(paymentStatus)
     return (
         <>
             <DefaultLayout>
@@ -282,9 +307,16 @@ function Payment({ setUser, isAuthenticated, user, paymentStatus }) {
                                                 >
                                                     Complete Payment
                                                 </button>
+
                                             </Form>
                                         )}
                                     </Formik>
+                                    <button
+                                        className="submit_btn"
+                                        onClick={() => { handleTrial() }}
+                                    >
+                                        Start 2 Weeks Trial!
+                                    </button>
 
                                 </div>
                             </div>

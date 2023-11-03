@@ -59,6 +59,7 @@ function App() {
   const paymentStatus = useSelector((state) => {
     return state?.userProfileSlice?.userData?.data?.status;
   });
+
   const userRole = useSelector((state) => {
     return state?.userProfileSlice?.userData?.data?.role;
   });
@@ -76,15 +77,15 @@ function App() {
 
     setIsAuthenticated(authenticated);
 
-    if (paymentStatus === 'TRIAL_EXPIRED') {
-      navigate('/payment', { replace: true });
-    } else if (paymentStatus === 'SUBSCRIBED') {
-      if (location.pathname == '/payment') {
-        navigate('/');
-      } else {
-        navigate(location.pathname);
-      }
-    }
+    // if (paymentStatus === 'TRIAL_EXPIRED' || paymentStatus === 'NEW') {
+    //   navigate('/payment', { replace: true });
+    // } else if (paymentStatus === 'SUBSCRIBED') {
+    //   if (location.pathname == '/payment') {
+    //     navigate('/');
+    //   } else {
+    //     navigate(location.pathname);
+    //   }
+    // }
   }, [isAuthenticated, paymentStatus, navigate, userRole]);
 
   const paymentSripe = useSelector((state) => {
