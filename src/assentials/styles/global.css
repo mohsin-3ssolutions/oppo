@@ -855,7 +855,8 @@ footer p {
     font-weight: 700;
     font-size: 30px;
     margin-bottom: 0;
-    width: calc(100% - 300px);
+    /* width: calc(100% - 300px); */
+    width: calc(100% - 435px);
 }
 
 .project_head h2 span {
@@ -1599,6 +1600,8 @@ thead tr {
     background: url("../../../public/assets/images/line.gif");
     background-size: contain;
     bottom: -35px;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 /* opacity: 1;
@@ -1807,6 +1810,7 @@ animation-iteration-count: 1; */
 .find_project_banner ul .project_detail {
     border-radius: 5px;
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+    background-color: #fff;
 }
 
 .find_project_banner .search_form {
@@ -1825,6 +1829,7 @@ animation-iteration-count: 1; */
 .project_boxes li .project_detail {
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
     border-radius: 5px;
+    background-color: #fff;
 }
 
 .project_boxes li:not(:last-child) {
@@ -2102,5 +2107,60 @@ animation-iteration-count: 1; */
 }
 
 .cursor-pointer:hover {
+    cursor: pointer;
+}
+.bid_now_btn img {
+    width: 28px;
+    margin-right: 6px;
+}
+.bid_now_btn {
+    border: none;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    color: #707070;
+    font-size: 22px;
+}
+.project_detail {
+    /* cursor: pointer; */
+}
+.detail_view_box .slick-slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.detail_view_box .globle_btn {
+    padding: 11px 2%;
+    text-align: center;
+    flex: 1 0 22%;
+}
+.find_project_banner .project_head h2 {
+    cursor: pointer;
+}
+.picture_list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    width: max-content;
+}
+.text {
+    border-bottom: 1px solid #cfcfcf;
+    padding-bottom: 5px;
+    position: relative;
+}
+.pro_img {
+    width: 68px;
+    height: 68px;
+}
+.pro_img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.del_btn {
+    position: absolute;
+    right: 44px;
+    top: -3px;
     cursor: pointer;
 }

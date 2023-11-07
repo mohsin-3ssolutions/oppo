@@ -126,11 +126,16 @@ export default function FindProject() {
                         <ul>
                             {
                                 projects.map((data, index) => (
-                                    <li key={index} onClick={() => { navigate(`/project-details?id=${data.id}`) }} >
+                                    <li>
                                         <div class="project_detail">
                                             <div class="project_head">
-                                                <h2>{data.project_name}<span>{data.project_start_date}</span></h2>
+                                                <h2 key={index} onClick={() => { navigate(`/project-details?id=${data.id}`) }}>{data.project_name}<span>{data.project_start_date}</span></h2>
                                                 <ul class="project_status">
+                                                    <li>
+                                                        <div className='bid_now'>
+                                                            <button className='bid_now_btn' data-bs-toggle="modal" data-bs-target="#list-modal"><img src="assets/images/auction.png" alt="" />Bid Now</button>
+                                                        </div>
+                                                    </li>
                                                     <li>
                                                         <p class="view_count"><img src="assets/images/view.png" alt="" /><span>100</span></p>
                                                     </li>
@@ -163,6 +168,36 @@ export default function FindProject() {
                         activeClassName={"active"}
                     />
 
+                </div>
+                {/* <!-- Modal --> */}
+                <div class="modal fade bid_modal" id="list-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div className='add_bid'>
+                                    <h2 className='sub_head text-center'>Bid Now</h2>
+                                    <div className='form_style'>
+                                        <form action="">
+                                            <div className='mb-3'>
+                                                <label htmlFor="" className='form-label'>Description</label>
+                                                <textarea name="" className='form-control' id="" cols="30" rows="10"></textarea>
+                                            </div>
+                                            <div className='mb-3'>
+                                                <label htmlFor="" className='form-label'>Upload File</label>
+                                                <input type="file" className='form-control' />
+                                            </div>
+                                            <div className='black_btn'>
+                                                <button type="button" className='submit_btn'>Submit</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
         </DefaultLayout>

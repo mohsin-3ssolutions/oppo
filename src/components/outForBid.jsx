@@ -157,6 +157,11 @@ export default function OutForBid() {
                                         <div className="project_head">
                                             <h2>{project.project_name}<span>{project.project_start_date}</span></h2>
                                             <ul className="project_status">
+                                                {/* <li>
+                                                    <div className='list_btn'>
+                                                        <a href=""><img src="assets/images/list.gif" alt="" /></a>
+                                                    </div>
+                                                </li> */}
                                                 <li>
                                                     <div>
                                                         <p
