@@ -81,7 +81,7 @@ const AppRouter = ({ isAuthenticated, setIsAuthenticated, paymentStatus }) => {
               <Navigate to="/" replace />
             ) : (
               <Elements stripe={stripePromise}>
-                <Payment isAuthenticated={isAuthenticated} paymentStatus={paymentStatus} setIsAuthenticated={setIsAuthenticated} />
+                <Payment userRole={userRole} paymentStatus={paymentStatus}  />
               </Elements>
             )
           }

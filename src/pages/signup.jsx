@@ -127,7 +127,7 @@ function Signup({ isAuthenticated, setIsAuthenticated }) {
                             <div className="sign_up">
                                 <h3>Add Company Details</h3>
                                 <p>Already have an account? <a href="/signin" className="log_in">Log In</a></p>
-                                <p>Signing up with <strong>{role.charAt(0).toUpperCase() + role.slice(1)}</strong> Role.  To change role visit<a href="/select-role" className="log_in">Select Role</a></p>
+                                {/* <p>Signing up with <strong>{role.charAt(0).toUpperCase() + role.slice(1)}</strong> Role.  To change role visit<a href="/select-role" className="log_in">Select Role</a></p> */}
                                 <ul className="social_links">
                                     <li><a href=""><img src="/assets/images/facebook.png" alt="Facebook" /></a></li>
                                     <li><a href=""><img src="/assets/images/google.png" alt="Google" /></a></li>

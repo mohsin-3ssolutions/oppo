@@ -74,7 +74,7 @@ function Signin({ isAuthenticated, setIsAuthenticated }) {
                 <section className="title_head">
                     <div className="sign_up">
                         <h1>Login</h1>
-                        <p>Don't have an account <a href="/signup" className="log_in">Create Account</a></p>
+                        <p>Don't have an account? <a href="/select-role" className="log_in">Create Account</a></p>
                         <ul className="social_links">
                             <li><a href=""><img src="/assets/images/facebook.png" alt="Facebook" /></a></li>
                             <li><a href=""><img src="/assets/images/google.png" alt="Google" /></a></li>

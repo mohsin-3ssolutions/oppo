@@ -10,7 +10,7 @@ import moment from 'moment';
 import { verifyAuthToken } from '../utils';
 import { fetchUserProfileDetails } from '../store/userProfileSlice/userProfileSlice';
 
-function Payment({ setUser, isAuthenticated, user, paymentStatus }) {
+function Payment({ userRole, paymentStatus }) {
     const stripe = useStripe();
     const elements = useElements();
     const navigate = useNavigate();
@@ -129,7 +129,7 @@ function Payment({ setUser, isAuthenticated, user, paymentStatus }) {
                 if (success) {
                     navigate('/account?tabId=0');
                 } else {
-                    toast.error('Login failed! ' + message, { autoClose: 3000 });
+                    toast.error('Trail starting failed! ' + message, { autoClose: 3000 });
                 }
             } else {
                 throw new Error('Network response was not ok.');
@@ -157,7 +157,7 @@ function Payment({ setUser, isAuthenticated, user, paymentStatus }) {
                                                 ? 'Your trial period is over. Please complete Payment and continue your journey.'
                                                 : ''}
                                     </p>
-                                    <p className="payment_price"><span className="pe-1">1</span>Owner Account…….…… <span>$29.99/mon</span></p>
+                                    { userRole && <p className="payment_price"><span className="pe-1">1</span> "{userRole?.split('_').map(r => r[0].toUpperCase() + r.substr(1)).join(' ')}" Account…….…… <span>$29.99/mon</span></p> }
 
                                     <Formik
                                         initialValues={initialValues}

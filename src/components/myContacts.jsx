@@ -43,8 +43,8 @@ export default function MyContacts() {
                     setCount(body.data.totalContact / 10);
                     setPageCount(body.data.totalContact);
                     setContact(body?.data.contact)
-                    setLoading(false)
                 }
+                setLoading(false)
             })
             .catch((err) => { setLoading(false) });
         return data;
