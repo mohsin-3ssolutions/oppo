@@ -22,6 +22,10 @@ import { fetchUserProfileDetails } from './store/userProfileSlice/userProfileSli
 import SubContractor from './pages/subContractor.jsx';
 import Projectdetail from './pages/projectdetail.jsx';
 import Startprojectdetail from './pages/startprojectdetail.jsx';
+import Biderlist from './pages/biderlist.jsx';
+import SCsubmitProposaldetail from './pages/SCsubmitProposaldetail.jsx';
+import SCawardproposal from './pages/SCawardproposal.jsx';
+import Submitproposal from './pages/submitproposal.jsx' 
 
 const AppRouter = ({ isAuthenticated, setIsAuthenticated, paymentStatus }) => {
   const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
@@ -88,6 +92,10 @@ const AppRouter = ({ isAuthenticated, setIsAuthenticated, paymentStatus }) => {
           }
         />
         <Route path="/pd" element={<Startprojectdetail isAuthenticated={isAuthenticated} />} />
+        <Route path="/biderlisting" element={<Biderlist isAuthenticated={isAuthenticated} />} />
+        <Route path="/submitproposal" element={<Submitproposal isAuthenticated={isAuthenticated} />} />
+        <Route path="/scaward" element={<SCawardproposal isAuthenticated={isAuthenticated} />} />
+        <Route path="/subcontractorsubmitdetail" element={<SCsubmitProposaldetail isAuthenticated={isAuthenticated} />} />
         <Route path="/payment-completion" element={<ThankYou isAuthenticated={isAuthenticated} />} />
         <Route path="/dashboard" element={<Dashboard isAuthenticated={isAuthenticated} paymentSripe={paymentSripe} />} />
         {userData && <Route path="/account" element={userRole == 'owner' || userRole == 'sub_contractor' ? <SubContractor /> : <Account />} />}
