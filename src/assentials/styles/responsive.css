@@ -84,6 +84,9 @@
     .globle_tabs.account_tabs ul.nav-tabs li button.active, .globle_tabs.account_tabs ul.nav-tabs li a.active {
         padding: 7px 20px;
     }
+    .project_name_banner .proposal_list li .propocal_card .color_bg {
+        padding-bottom: 22px;
+    }
 }
 @media screen and (max-width: 991px) {
     header .navigation {
@@ -217,6 +220,12 @@
     .bid_banner  {
         margin-bottom: 0 !important;
     }
+    .proposal_detail {
+        padding-left: 0px;
+    }
+    .propocal_card .project_head {
+        flex-direction: inherit;
+    }
 }
 @media screen and (max-width: 768px) {
     .breadcrumbs_banner ol li, .breadcrumbs_banner ol li a {
@@ -326,6 +335,9 @@
     }
     .add_contact {
         justify-content: center;
+    }
+    .propocal_card .color_bg {
+        margin-bottom: 30px;
     }
 }
 @media screen and (max-width: 575px) {
@@ -440,6 +452,25 @@
     .view_product_content .project_status {
         flex-wrap: wrap;
         gap: 15px;
+    }
+    .award_review .w-50 {
+        width: 100% !important;
+    }
+    .award_review {
+        flex-wrap: wrap;
+        gap: 10px 0;
+    }
+    .proposal_files li {
+        flex: 1 1 100%;
+    }
+    .propocal_card .project_head {
+        gap: 5px 0;
+    }
+    .propocal_card .project_head span {
+        padding-left: 0;
+    }
+    .propocal_card .project_head span::before {
+        display: none;
     }
 }
 @media screen and (max-width: 350px) {
