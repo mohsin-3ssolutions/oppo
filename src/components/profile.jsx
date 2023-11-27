@@ -342,8 +342,8 @@ export default function Profile({ userData }) {
                                     </div>
                                     <div className='text-center'>
                                         <button type="submit" disabled={isSubmitting} className="globle_submit mt-5">Save {isSubmitting && (
-                                            <div class="spinner-border spinner-border-sm" role="status">
-                                                <span class="sr-only"></span>
+                                            <div className="spinner-border spinner-border-sm" role="status">
+                                                <span className="sr-only"></span>
                                             </div>
                                         )}</button>
                                     </div>

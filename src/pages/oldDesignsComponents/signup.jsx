@@ -146,7 +146,7 @@ const SignUp = ({ isAuthenticated, setIsAuthenticated }) => {
             localStorage.setItem("authToken", data?.token);
             toast.success('Registration successful!', { autoClose: 3000 });
             setIsAuthenticated(true);
-            navigate("/account?tabId=0");
+            navigate("/account/0");
           } else {
             toast.error('Registration failed!' + message, { autoClose: 3000 });
           }

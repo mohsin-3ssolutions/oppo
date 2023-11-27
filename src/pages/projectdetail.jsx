@@ -40,9 +40,9 @@ export default function Projectdetail() {
 
     return (
         <DefaultLayout>
-            <section class="inner_banner account_banner">
-                <div class="inner_plan_banner">
-                    <div class="container">
+            <section className="inner_banner account_banner">
+                <div className="inner_plan_banner">
+                    <div className="container">
                         <h1>Project Detail Page</h1>
                     </div>
                 </div>
@@ -60,23 +60,23 @@ export default function Projectdetail() {
                                 <div className="view_product_content">
                                     <h3>{projectsDetials?.project_name}</h3>
                                     <div className="bulk_dimension">
-                                        <ul class="project_status my-2">
+                                        <ul className="project_status my-2">
                                             <li>
                                                 <div>
-                                                    <p aria-label="more" id="long-button" aria-haspopup="true" class="cursor-pointer">
+                                                    <p aria-label="more" id="long-button" aria-haspopup="true" className="cursor-pointer">
                                                         Job Status: <span>10%</span>
                                                     </p>
                                                 </div>
                                             </li>
                                             <li>
                                                 <div>
-                                                    <p aria-label="more" id="long-button" aria-haspopup="true" class="cursor-pointer">
+                                                    <p aria-label="more" id="long-button" aria-haspopup="true" className="cursor-pointer">
                                                         Date: <span>{projectsDetials.project_start_date}</span>
                                                     </p>
                                                 </div>
                                             </li>
                                             <li>
-                                                <p class="view_count"><img src="assets/images/view.png" alt="" />
+                                                <p className="view_count"><img src="assets/images/view.png" alt="" />
                                                     <span>100</span>
                                                 </p>
                                             </li>
@@ -94,10 +94,10 @@ export default function Projectdetail() {
                     </div>
                 </div>
             </section>
-            <section class="work_banner">
-                <div class="container">
+            <section className="work_banner">
+                <div className="container">
                     <h1>More Information</h1>
-                    <ul class="work_list">
+                    <ul className="work_list">
                         <li>
                             <p>Designer: <strong>{projectsDetials?.designer}</strong></p>
                         </li>
@@ -130,9 +130,9 @@ export default function Projectdetail() {
             </section>
             <section>
                 <div className='container'>
-                    <div class="list_table">
-                        <div class="table-responsive">
-                            <table class="table">
+                    <div className="list_table">
+                        <div className="table-responsive">
+                            <table className="table">
                                 <thead>
                                     <tr>
                                         <th scope="col">Bidder Name</th>
@@ -143,7 +143,7 @@ export default function Projectdetail() {
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td colspan="12" className='text-center'>No one has Bid yet</td>
+                                        <td colSpan="12" className='text-center'>No one has Bid yet</td>
                                     </tr>
 
                                 </tbody>

@@ -26,6 +26,7 @@ import Biderlist from './pages/biderlist.jsx';
 import SCsubmitProposaldetail from './pages/SCsubmitProposaldetail.jsx';
 import SCawardproposal from './pages/SCawardproposal.jsx';
 import Submitproposal from './pages/submitproposal.jsx' 
+import PostNewProject from './components/postNewProject.jsx';
 
 const AppRouter = ({ isAuthenticated, setIsAuthenticated, paymentStatus }) => {
   const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
@@ -47,6 +48,7 @@ const AppRouter = ({ isAuthenticated, setIsAuthenticated, paymentStatus }) => {
   }, [userRole, dispatch, paymentStatus]);
 
   useEffect(() => {
+    console.log({ isAuthenticated })
 
     if (paymentStatus == 'TRIAL_EXPIRED' || paymentStatus == 'NEW') {
       if (location.pathname.includes('/account'))        
@@ -69,16 +71,12 @@ const AppRouter = ({ isAuthenticated, setIsAuthenticated, paymentStatus }) => {
     <div>
       <Routes>
         {/* <Route  path="/find-a-project" element={<FindProject />} /> */}
-        <Route
-          path="/find-a-project"
-          element={
-            isAuthenticated ? <FindProject /> : <Navigate to="/signin" replace />
-          }
-        />
-        <Route path="/project-details" element={
-          isAuthenticated ? <Projectdetail /> : <Navigate to="/signin" replace />
-        }
-        />
+        {userData &&  <Route path="/find-a-project" element={isAuthenticated ? <FindProject /> : <Navigate to="/signin" replace />}/>}
+        {userData && <Route path="/post-new-project" element={isAuthenticated ? <PostNewProject /> : <Navigate to="/signin" replace />}/>}
+        {userData && <Route path="/project-details/:id" element={isAuthenticated ? <Startprojectdetail /> : <Navigate to="/signin" replace />}/> }
+        {userData && <Route path="/account/:tabId" element={userRole == 'sub_contractor' ? <SubContractor /> : <Account />} />}
+        {userData && <Route path="/submitproposal/:pid" element={<Submitproposal isAuthenticated={isAuthenticated} />} />}
+
         <Route
           path="/payment"
           element={
@@ -91,14 +89,12 @@ const AppRouter = ({ isAuthenticated, setIsAuthenticated, paymentStatus }) => {
             )
           }
         />
-        <Route path="/pd" element={<Startprojectdetail isAuthenticated={isAuthenticated} />} />
+        {/* <Route path="/pd" element={<Startprojectdetail isAuthenticated={isAuthenticated} />} /> */}
         <Route path="/biderlisting" element={<Biderlist isAuthenticated={isAuthenticated} />} />
-        <Route path="/submitproposal" element={<Submitproposal isAuthenticated={isAuthenticated} />} />
         <Route path="/scaward" element={<SCawardproposal isAuthenticated={isAuthenticated} />} />
         <Route path="/subcontractorsubmitdetail" element={<SCsubmitProposaldetail isAuthenticated={isAuthenticated} />} />
         <Route path="/payment-completion" element={<ThankYou isAuthenticated={isAuthenticated} />} />
         <Route path="/dashboard" element={<Dashboard isAuthenticated={isAuthenticated} paymentSripe={paymentSripe} />} />
-        {userData && <Route path="/account" element={userRole == 'owner' || userRole == 'sub_contractor' ? <SubContractor /> : <Account />} />}
       </Routes>
     </div>
   );

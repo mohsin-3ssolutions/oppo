@@ -24,7 +24,7 @@ export default function LandingPage({ isAuthenticated, paymentSripe }) {
                 <div className="container">
                     <div className="home_content">
                         <h1>OPPO. an opportunity to connect, organize, and bid projects simply.</h1>
-                        {isAuthenticated == false ? <Link to="/select-role" className="globle_btn">Get Started</Link> : <Link to="/account?tabId=0" className="globle_btn">Go to your Acount</Link>}
+                        {isAuthenticated == false ? <Link to="/select-role" className="globle_btn">Get Started</Link> : <Link to="/account/0" className="globle_btn">Go to your Acount</Link>}
                     </div>
                 </div>
             </section>

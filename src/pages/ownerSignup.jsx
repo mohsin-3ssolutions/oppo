@@ -168,8 +168,8 @@ function OwnerSignUp({ isAuthenticated, setIsAuthenticated }) {
     return (
         <>
             <DefaultLayout>
-                <section class="title_head">
-                    <div class="container">
+                <section className="title_head">
+                    <div className="container">
                         <h1>Owner Sign-Up</h1>
                     </div>
                 </section>
@@ -185,14 +185,14 @@ function OwnerSignUp({ isAuthenticated, setIsAuthenticated }) {
                                 <li><a href=""><img src="/assets/images/apple.png" alt="Apple" /></a></li>
                                 </ul>
                                 <form >
-                                    <div class="input-group gap-2 justify-content-between">
-                                        <div class="mb-3 w-48">
-                                            <label style={{ ...(errorState.firstName ? { color: "red" } : {}) }} for="exampleFormControlInput1" class="form-label">First Name </label>
-                                            <input name="firstName" onChange={handleInputChange} style={{ ...(errorState.firstName ? { borderColor: "red" } : {}) }} type="text" class="form-control" id="exampleFormControlInput1" placeholder="Enter First Name" />
+                                    <div className="input-group gap-2 justify-content-between">
+                                        <div className="mb-3 w-48">
+                                            <label style={{ ...(errorState.firstName ? { color: "red" } : {}) }} for="exampleFormControlInput1" className="form-label">First Name </label>
+                                            <input name="firstName" onChange={handleInputChange} style={{ ...(errorState.firstName ? { borderColor: "red" } : {}) }} type="text" className="form-control" id="exampleFormControlInput1" placeholder="Enter First Name" />
                                         </div>
-                                        <div class="mb-3 w-48">
-                                            <label style={{ ...(errorState.lastName ? { color: "red" } : {}) }} for="exampleFormControlInput11" class="form-label">Last Name </label>
-                                            <input name="lastName" onChange={handleInputChange} style={{ ...(errorState.lastName ? { borderColor: "red" } : {}) }} type="text" class="form-control" id="exampleFormControlInput11" placeholder="Enter Last Name" />
+                                        <div className="mb-3 w-48">
+                                            <label style={{ ...(errorState.lastName ? { color: "red" } : {}) }} for="exampleFormControlInput11" className="form-label">Last Name </label>
+                                            <input name="lastName" onChange={handleInputChange} style={{ ...(errorState.lastName ? { borderColor: "red" } : {}) }} type="text" className="form-control" id="exampleFormControlInput11" placeholder="Enter Last Name" />
                                         </div>
                                     </div>
                                     <div className="mb-3">
@@ -203,20 +203,20 @@ function OwnerSignUp({ isAuthenticated, setIsAuthenticated }) {
                                             type="text"
                                             style={{ ...(errorState.business ? { borderColor: "red" } : {}) }} className="form-control" id="exampleFormControlInput1" placeholder="Enter Company Name" />
                                     </div>
-                                    <div class="input-group gap-2 justify-content-between">
-                                        <div class="mb-3 w-48">
-                                            <label style={{ ...(errorState.yearsInBusiness ? { color: "red" } : {}) }} for="exampleFormControlInput1" class="form-label">Years in Business</label>
+                                    <div className="input-group gap-2 justify-content-between">
+                                        <div className="mb-3 w-48">
+                                            <label style={{ ...(errorState.yearsInBusiness ? { color: "red" } : {}) }} for="exampleFormControlInput1" className="form-label">Years in Business</label>
                                             <input name="yearsInBusiness"
                                                 onChange={handleInputChange}
                                                 type="text"
-                                                style={{ ...(errorState.yearsInBusiness ? { borderColor: "red" } : {}) }} class="form-control" id="exampleFormControlInput1" placeholder="Enter Years in Business" />
+                                                style={{ ...(errorState.yearsInBusiness ? { borderColor: "red" } : {}) }} className="form-control" id="exampleFormControlInput1" placeholder="Enter Years in Business" />
                                         </div>
-                                        <div class="mb-3 w-48">
-                                            <label style={{ ...(errorState.companySize ? { color: "red" } : {}) }} for="exampleFormControlInput11" class="form-label">Company Size</label>
+                                        <div className="mb-3 w-48">
+                                            <label style={{ ...(errorState.companySize ? { color: "red" } : {}) }} for="exampleFormControlInput11" className="form-label">Company Size</label>
                                             <input name="companySize"
                                                 onChange={handleInputChange}
                                                 type="text"
-                                                style={{ ...(errorState.companySize ? { borderColor: "red" } : {}) }} class="form-control" id="exampleFormControlInput11" placeholder="Enter Company Size" />
+                                                style={{ ...(errorState.companySize ? { borderColor: "red" } : {}) }} className="form-control" id="exampleFormControlInput11" placeholder="Enter Company Size" />
                                         </div>
                                     </div>
 

@@ -138,7 +138,7 @@ export default function MyContacts() {
                 <div className="color_bg">
                     <div className="contact_list">
                         <div className='add_contact'>
-                            <button type="button" class="globle_submit" data-bs-toggle="modal" data-bs-target="#addContacts" onClick={() => { setModalType('add') }}>
+                            <button type="button" className="globle_submit" data-bs-toggle="modal" data-bs-target="#addContacts" onClick={() => { setModalType('add') }}>
                                 Add Contacts
                             </button>
                             <div className="search_form">
@@ -167,7 +167,7 @@ export default function MyContacts() {
                                     </thead>
                                     <tbody>
                                         {contact.length == 0 && <tr>
-                                            <td className="text-center loader_style " colspan="12">
+                                            <td className="text-center loader_style " colSpan="12">
                                                 <h2>Add Contact to start connecting! No contacts yet.</h2>
                                                 <h3>Let's build your network</h3>
                                             </td>
@@ -176,7 +176,7 @@ export default function MyContacts() {
 
                                         {loading ? (
                                             <tr>
-                                                <td className="text-center loader_style " colspan="12">
+                                                <td className="text-center loader_style " colSpan="12">
                                                     <ThreeDots
                                                         height="100"
                                                         width="120"
@@ -196,13 +196,13 @@ export default function MyContacts() {
                                                         <td>{contact?.business_name}</td>
                                                         <td>{contact?.phone_number}</td>
                                                         <td>{contact?.email}</td>
-                                                        <td><div class="dropdown">
+                                                        <td><div className="dropdown">
                                                             <div type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
                                                                 <MoreVertIcon />
                                                             </div>
-                                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                                                <li><button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#addContacts" onClick={() => { handleUpdate(contact) }}><EditIcon color='gray' /> Update</button></li>
-                                                                <li><button class="dropdown-item" type="button" onClick={() => { handleDelete(contact) }}><DeleteIcon color='gray' /> Delete</button></li>
+                                                            <ul className="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                                                <li><button className="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#addContacts" onClick={() => { handleUpdate(contact) }}><EditIcon color='gray' /> Update</button></li>
+                                                                <li><button className="dropdown-item" type="button" onClick={() => { handleDelete(contact) }}><DeleteIcon color='gray' /> Delete</button></li>
                                                             </ul>
                                                         </div></td>
                                                     </tr>

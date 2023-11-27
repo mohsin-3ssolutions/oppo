@@ -38,13 +38,13 @@ export default function FindProject() {
                 }
             })
             .catch((err) => { setLoading(false) });
-
+        setLoading(false);
         return data;
     };
 
     useEffect(() => {
         fetchData()
-    }, [])
+    }, []);
 
     const fetchPaginatedData = async (currentPage) => {
         let url = process.env.REACT_APP_BASE_URL;
@@ -75,41 +75,42 @@ export default function FindProject() {
 
     return (
         <DefaultLayout>
-            <section class="inner_banner account_banner">
-                <div class="inner_plan_banner">
-                    <div class="container">
+            <section className="inner_banner account_banner">
+                <div className="inner_plan_banner">
+                    <div className="container">
                         <h1>Search Projects</h1>
                     </div>
                 </div>
             </section>
 
-            <section class="find_project_banner">
-                <div class="container">
-                    <div class="search_form filter_project">
+            <section className="find_project_banner">
+                <div className="container">
+                    <div className="search_form filter_project">
                         <p>Search Filter</p>
                         <form action="">
-                            <select name="" id="" class="form-control">
+                            <select name="" id="" className="form-control">
                                 <option value="">Scope of Work</option>
                                 <option value="">Scope of Work</option>
                                 <option value="">Scope of Work</option>
                             </select>
-                            <select name="" id="" class="form-control">
+                            <select name="" id="" className="form-control">
                                 <option value="">Location</option>
                                 <option value="">Location</option>
                                 <option value="">Location</option>
                             </select>
-                            <select name="" id="" class="form-control">
+                            <select name="" id="" className="form-control">
                                 <option value="">Zoning Type</option>
                                 <option value="">Zoning Type</option>
                                 <option value="">Zoning Type</option>
                             </select>
-                            <select name="" id="" class="form-control">
+                            <select name="" id="" className="form-control">
                                 <option value="">Timeline</option>
                                 <option value="">Timeline</option>
                                 <option value="">Timeline</option>
                             </select>
                         </form>
                     </div>
+                    
                     {loading ? (
                         <div className="text-center loader_style">
                             <ThreeDots
@@ -123,21 +124,27 @@ export default function FindProject() {
                             />
                         </div>
                     ) :
+                    (projects?.length == 0) ? 
+                        <>
+                            <div className="text-center loader_style " colSpan="12">
+                                <h2>There are no Projects to show you right now!</h2>
+                            </div>
+                        </> :
                         <ul>
                             {
                                 projects.map((data, index) => (
                                     <li>
-                                        <div class="project_detail">
-                                            <div class="project_head">
-                                                <h2 key={index} onClick={() => { navigate(`/project-details?id=${data.id}`) }}>{data.project_name}<span>{data.project_start_date}</span></h2>
-                                                <ul class="project_status">
+                                        <div className="project_detail">
+                                            <div className="project_head">
+                                                <h2 key={index} onClick={() => { navigate(`/project-details/${data.id}`) }}>{data.project_name}<span>{data.project_start_date}</span></h2>
+                                                <ul className="project_status">
                                                     <li>
                                                         <div className='bid_now'>
                                                             <button className='bid_now_btn' data-bs-toggle="modal" data-bs-target="#list-modal"><img src="assets/images/auction.png" alt="" />Bid Now</button>
                                                         </div>
                                                     </li>
                                                     <li>
-                                                        <p class="view_count"><img src="assets/images/view.png" alt="" /><span>100</span></p>
+                                                        <p className="view_count"><img src="assets/images/view.png" alt="" /><span>100</span></p>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -170,13 +177,13 @@ export default function FindProject() {
 
                 </div>
                 {/* <!-- Modal --> */}
-                <div class="modal fade bid_modal" id="list-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div className="modal fade bid_modal" id="list-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div className="modal-dialog modal-dialog-centered">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <div class="modal-body">
+                            <div className="modal-body">
                                 <div className='add_bid'>
                                     <h2 className='sub_head text-center'>Bid Now</h2>
                                     <div className='form_style'>

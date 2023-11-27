@@ -195,8 +195,8 @@ function SubContractorSignUp({ isAuthenticated, setIsAuthenticated }) {
                     </div>
                 </div>
             </header>
-            <section class="title_head">
-                <div class="container">
+            <section className="title_head">
+                <div className="container">
                     <h1>General Contractor Sign-Up</h1>
                 </div>
             </section>
@@ -212,14 +212,14 @@ function SubContractorSignUp({ isAuthenticated, setIsAuthenticated }) {
                                 <li><a href=""><img src="/assets/images/apple.png" alt="Apple" /></a></li>
                             </ul>
                             <form >
-                                <div class="input-group gap-2 justify-content-between">
-                                    <div class="mb-3 w-48">
-                                        <label style={{ ...(errorState.firstName ? { color: "red" } : {}) }} for="exampleFormControlInput1" class="form-label">First Name </label>
-                                        <input name="firstName" onChange={handleInputChange} style={{ ...(errorState.firstName ? { borderColor: "red" } : {}) }} type="text" class="form-control" id="exampleFormControlInput1" placeholder="Enter First Name" />
+                                <div className="input-group gap-2 justify-content-between">
+                                    <div className="mb-3 w-48">
+                                        <label style={{ ...(errorState.firstName ? { color: "red" } : {}) }} for="exampleFormControlInput1" className="form-label">First Name </label>
+                                        <input name="firstName" onChange={handleInputChange} style={{ ...(errorState.firstName ? { borderColor: "red" } : {}) }} type="text" className="form-control" id="exampleFormControlInput1" placeholder="Enter First Name" />
                                     </div>
-                                    <div class="mb-3 w-48">
-                                        <label style={{ ...(errorState.lastName ? { color: "red" } : {}) }} for="exampleFormControlInput11" class="form-label">Last Name </label>
-                                        <input name="lastName" onChange={handleInputChange} style={{ ...(errorState.lastName ? { borderColor: "red" } : {}) }} type="text" class="form-control" id="exampleFormControlInput11" placeholder="Enter Last Name" />
+                                    <div className="mb-3 w-48">
+                                        <label style={{ ...(errorState.lastName ? { color: "red" } : {}) }} for="exampleFormControlInput11" className="form-label">Last Name </label>
+                                        <input name="lastName" onChange={handleInputChange} style={{ ...(errorState.lastName ? { borderColor: "red" } : {}) }} type="text" className="form-control" id="exampleFormControlInput11" placeholder="Enter Last Name" />
                                     </div>
                                 </div>
                                 <div className="mb-3">
@@ -230,20 +230,20 @@ function SubContractorSignUp({ isAuthenticated, setIsAuthenticated }) {
                                         type="text"
                                         style={{ ...(errorState.business ? { borderColor: "red" } : {}) }} className="form-control" id="exampleFormControlInput1" placeholder="Enter Company Name" />
                                 </div>
-                                <div class="mb-3">
-                                    <label style={{ ...(errorState.yearsInBusiness ? { color: "red" } : {}) }} for="exampleFormControlInput1" class="form-label">Years in Business</label>
+                                <div className="mb-3">
+                                    <label style={{ ...(errorState.yearsInBusiness ? { color: "red" } : {}) }} for="exampleFormControlInput1" className="form-label">Years in Business</label>
                                     <input
                                         name="yearsInBusiness"
                                         onChange={handleInputChange}
                                         type="text"
                                         style={{ ...(errorState.yearsInBusiness ? { borderColor: "red" } : {}) }} className="form-control" id="exampleFormControlInput1" placeholder="Enter Years in Business" />
                                 </div>
-                                <div class="mb-3">
-                                    <label style={{ ...(errorState.phone ? { color: "red" } : {}) }} for="exampleFormControlInput12" class="form-label">Phone No.</label>
+                                <div className="mb-3">
+                                    <label style={{ ...(errorState.phone ? { color: "red" } : {}) }} for="exampleFormControlInput12" className="form-label">Phone No.</label>
                                     <input name="phone"
                                         onChange={handleInputChange}
                                         style={{ ...(errorState.phone ? { borderColor: "red" } : {}) }}
-                                        type="tel" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" class="form-control" id="exampleFormControlInput12"
+                                        type="tel" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" className="form-control" id="exampleFormControlInput12"
                                         placeholder="Enter Phone Number" />
                                 </div>
                                 <div className="mb-3">

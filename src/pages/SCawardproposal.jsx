@@ -5,9 +5,9 @@ export default function SCawardproposal() {
     return (
         <DefaultLayout>
             <div>
-                <section class="inner_banner account_banner">
-                    <div class="inner_plan_banner">
-                        <div class="container">
+                <section className="inner_banner account_banner">
+                    <div className="inner_plan_banner">
+                        <div className="container">
                             <h1>Sub-Contractor Award Project Detail</h1>
                         </div>
                     </div>
@@ -137,7 +137,7 @@ export default function SCawardproposal() {
                                     <li>
                                         <div className='propocal_card dropdown'>
                                             <div className='color_bg'>
-                                                <div class="project_head">
+                                                <div className="project_head">
                                                     <h2>Wasatch Sub Contractors</h2> <span>Submitted Oct 12, 2023</span>
                                                     <div className='row'>
                                                         <div className='col-lg-6'>

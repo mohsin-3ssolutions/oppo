@@ -59,7 +59,7 @@ function App() {
   const paymentStatus = useSelector((state) => {
     return state?.userProfileSlice?.userData?.data?.status;
   });
-  console.log(paymentStatus, 'paymentStatus')
+  console.log({ paymentStatus }, 'paymentStatus')
   const userRole = useSelector((state) => {
     return state?.userProfileSlice?.userData?.data?.role;
   });

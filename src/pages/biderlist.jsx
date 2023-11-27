@@ -9,18 +9,18 @@ export default function Biderlist() {
 
     return (
         <DefaultLayout>
-            <section class="inner_banner account_banner">
-                <div class="inner_plan_banner">
-                    <div class="container">
+            <section className="inner_banner account_banner">
+                <div className="inner_plan_banner">
+                    <div className="container">
                         <h1>Bid List</h1>
                     </div>
                 </div>
             </section>
             <section>
                 <div className='container'>
-                    <div class="list_table">
-                        <div class="table-responsive">
-                            <table class="table">
+                    <div className="list_table">
+                        <div className="table-responsive">
+                            <table className="table">
                                 <thead>
                                     <tr>
                                         <th scope="col">Bidder Name</th>
@@ -31,7 +31,7 @@ export default function Biderlist() {
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td colspan="12" className='text-center'>No one has Bid yet</td>
+                                        <td colSpan="12" className='text-center'>No one has Bid yet</td>
                                     </tr>
 
                                 </tbody>

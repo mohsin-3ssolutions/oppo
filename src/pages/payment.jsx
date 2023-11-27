@@ -107,7 +107,7 @@ function Payment({ setUser, isAuthenticated, user, paymentStatus }) {
         }
         const paid = localStorage.getItem('paid')?.length ? true : false;
         if (authenticated && paid) {
-            navigate('/account?tabId=0')
+            navigate('/account/0')
         }
         // ((isAuthenticated && paid) && navigate('/dashboard'));
     }, []);
@@ -127,7 +127,7 @@ function Payment({ setUser, isAuthenticated, user, paymentStatus }) {
             if (response.ok) {
                 const { data, message, success } = await response.json();
                 if (success) {
-                    navigate('/account?tabId=0');
+                    navigate('/account/0');
                 } else {
                     toast.error('Login failed! ' + message, { autoClose: 3000 });
                 }

@@ -6,7 +6,7 @@ import GenttChart from '../components/genttChart';
 import MyContacts from '../components/myContacts';
 import Profile from '../components/profile';
 import Welcome from '../reusableComponents/welcome';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 // import { useSelector } from 'react-redux';
 
 function Account() {
@@ -14,17 +14,19 @@ function Account() {
     const [activeTab, setActiveTab] = useState(1);
     const [showProfile, setShowProfile] = useState(true);
     const navigate = useNavigate();
-    const queryParams = new URLSearchParams(location.search);
+    // const queryParams = new URLSearchParams(location.search);
+    const { tabId } = useParams();
     
     useEffect(() => {
-        const initialTabId = parseInt(queryParams.get('tabId')) || 0; // Get initial tabId from the URL query or default to 1
+        const initialTabId = (0 <= tabId && tabId <= 4) ? parseInt(tabId) : 0;
+        // const initialTabId = parseInt(queryParams.get('tabId')) || 0; // Get initial tabId from the URL query or default to 1
         setActiveTab(initialTabId);
     }, [activeTab])
 
     // Function to handle tab changes
     const handleTabChange = (tabId) => {
         setActiveTab(tabId);
-        navigate(`/account?tabId=${tabId}`);
+        navigate(`/account/${tabId}`);
     };
 
     return (
@@ -86,7 +88,6 @@ function Account() {
                 activeTab === 3 ? <GenttChart />:
                 activeTab === 4 && <MyContacts />
                 }
-                 {/* {(showProfile && userData) && <Profile userData={userData} />} */}
 
             </DefaultLayout>
 

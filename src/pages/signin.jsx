@@ -142,15 +142,15 @@ function Signin({ isAuthenticated, setIsAuthenticated }) {
                                                     disabled={isSubmitting}
                                                 >
                                                     Login {isSubmitting && (
-                                                        <div class="spinner-border spinner-border-sm" role="status">
-                                                            <span class="sr-only"></span>
+                                                        <div className="spinner-border spinner-border-sm" role="status">
+                                                            <span className="sr-only"></span>
                                                         </div>
                                                     )}
                                                 </button>
                                                 {/* <div >
                                                 <input type="submit" value="Create Account" disabled={isSubmitting} /> {isSubmitting && (
-                                                    <div class="spinner-border" role="status">
-                                                        <span class="sr-only"></span>
+                                                    <div className="spinner-border" role="status">
+                                                        <span className="sr-only"></span>
                                                     </div>
                                                 )}
                                             </div> */}

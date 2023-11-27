@@ -152,7 +152,7 @@ export default function OutForBid() {
                         </div> :
                         <>
                             {projects.map((project, index) => (
-                                <div onClick={() => { navigate(`/project-details?id=${project.id}`) }} className="color_bg" key={index}>
+                                <div onClick={() => { navigate(`/project-details/${project.id}`) }} className="color_bg" key={index}>
                                     <div className="project_detail">
                                         <div className="project_head">
                                             <h2>{project.project_name}<span>{project.project_start_date}</span></h2>
@@ -238,7 +238,7 @@ export default function OutForBid() {
 
                 <div className="creat_btn text-center mt-5">
                     <Link to="/find-a-project" className='me-4'>Find a Project</Link>
-                    <a href="/account?tabId=2">Post a Project</a>
+                    <a href="/post-new-project">Post a Project</a>
                 </div>
             </div>
         </div>

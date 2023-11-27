@@ -5,31 +5,31 @@ export default function ContactUs() {
     return (
         <div>
             <DefaultLayout>
-                <section class="services_banner">
-                    <div class="container">
-                        <div class="inner_content">
-                            <h1 class="banner_heading">Contact Us</h1>
-                            <p class="mb-0">We would love to hear from you.</p>
+                <section className="services_banner">
+                    <div className="container">
+                        <div className="inner_content">
+                            <h1 className="banner_heading">Contact Us</h1>
+                            <p className="mb-0">We would love to hear from you.</p>
                             <p>Feel free to reach out using the below details.</p>
                         </div>
                     </div>
-                    <div class="service_banner_img">
-                        <img src="assets/images/inner_bg.jpg" class="img-fluid" alt=""/>
+                    <div className="service_banner_img">
+                        <img src="assets/images/inner_bg.jpg" className="img-fluid" alt=""/>
                     </div>
                 </section>
-                <section class="about_banner contact_details">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <div class="about_img">
-                                    <div class="contact_img">
+                <section className="about_banner contact_details">
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-lg-6">
+                                <div className="about_img">
+                                    <div className="contact_img">
                                         <img src="assets/images/inner_bg.jpg" alt=""/>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6">
-                                <div class="about_content">
-                                    <ul class="contact_content">
+                            <div className="col-lg-6">
+                                <div className="about_content">
+                                    <ul className="contact_content">
                                         <li>
                                             <span>Address:</span>
                                             <p>123 Main Street, New York, NY 10001</p>
