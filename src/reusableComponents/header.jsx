@@ -58,7 +58,7 @@ function Header() {
                 <div className="header_nav">
                     <nav className="navbar navbar-expand-lg navbar-light">
                         <div className="container-fluid">
-                            <a className="navbar-brand" href="#"><img className="img-fluid" src="/assets/images/logo.png" alt="" /></a>
+                            <Link className="navbar-brand" to="/"><img className="img-fluid" src="/assets/images/logo.png" alt="" /></Link>
 
                             <div className="collapse navbar-collapse navigation" id="navbarNavDropdown">
                                 <ul className="navbar-nav">

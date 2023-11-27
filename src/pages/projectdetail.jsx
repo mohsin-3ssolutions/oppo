@@ -84,9 +84,9 @@ export default function Projectdetail() {
                                         <p><strong className='me-2'>Description:</strong> {projectsDetials.project_description}</p>
                                     </div>
                                     <div className="black_btn">
-                                        <a href="" className="globle_btn">View Permits</a>
-                                        <a href="" className="globle_btn">View Plans</a>
-                                        <a href="" className="globle_btn">View Bids</a>
+                                        <a href="#" className="globle_btn">View Permits</a>
+                                        <a href="#" className="globle_btn">View Plans</a>
+                                        <a href="#" className="globle_btn">View Bids</a>
                                     </div>
                                 </div>
                             </div>
