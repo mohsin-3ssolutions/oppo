@@ -2,7 +2,6 @@ import moment from 'moment';
 import { toast } from 'react-toastify';
 
 import { fetchUserProfileDetails } from './store/userProfileSlice/userProfileSlice';
-import { useSelector } from 'react-redux';
 
 const baseURL = process.env.REACT_APP_BASE_URL || 'here_should_be_base_url';
 const emailPatternValidator = /^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
@@ -21,7 +20,6 @@ const userStatus = {
 }
 
 const getUserStatus = (data) => {
-    console.log(data)
     let subscriptionStatus = null;
     if (data.stripe_customer_id?.length && data.stripe_subscription_id?.length) {
         subscriptionStatus = userStatus.subscribed;
@@ -34,8 +32,6 @@ const getUserStatus = (data) => {
     } else {
         subscriptionStatus = userStatus.subscribed;
     }
-
-    console.log(subscriptionStatus)
     return subscriptionStatus;
     // return userStatus.trailExpired;
 };

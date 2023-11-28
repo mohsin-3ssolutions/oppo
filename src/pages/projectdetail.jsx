@@ -4,7 +4,6 @@ import { Link, useLocation } from 'react-router-dom';
 import DefaultLayout from '../reusableComponents/defaultLayout';
 import Carousel from '../reusableComponents/carousel';
 
-
 export default function Projectdetail() {
     const [projectsDetials, setProjectsDetials] = useState({})
     const location = useLocation();

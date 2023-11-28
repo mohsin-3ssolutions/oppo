@@ -47,8 +47,6 @@ export default function Submitproposal() {
                 formData.append("project_id", pid);
                 values.project_description?.length && formData.append('project_description', values.project_description);
                 values.additional_doc?.length && formData.append('additional_doc', values.additional_doc);
-
-                console.log({formData});
                 
                 const requestOptions = {
                     method: "POST",
