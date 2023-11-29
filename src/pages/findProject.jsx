@@ -123,7 +123,7 @@ export default function FindProject() {
                                 visible={true}
                             />
                         </div>
-                    ) :
+                    ) : (
                     (projects?.length == 0) ? 
                         <>
                             <div className="text-center loader_style " colSpan="12">
@@ -140,7 +140,8 @@ export default function FindProject() {
                                                 <ul className="project_status">
                                                     <li>
                                                         <div className='bid_now'>
-                                                            <button className='bid_now_btn' data-bs-toggle="modal" data-bs-target="#list-modal"><img src="assets/images/auction.png" alt="" />Bid Now</button>
+                                                        <button className='bid_now_btn' onClick={() => { navigate(`/submitproposal/${data.id}`) }} ><img src="assets/images/auction.png" alt="" />Bid Now</button>
+                                                            {/* <button className='bid_now_btn' data-bs-toggle="modal" data-bs-target="#list-modal"><img src="assets/images/auction.png" alt="" />Bid Now</button> */}
                                                         </div>
                                                     </li>
                                                     <li>
@@ -154,7 +155,7 @@ export default function FindProject() {
                                 ))
                             }
                         </ul>
-                    }
+                    )}
                     <ReactPaginate
                         previousLabel={"Prev"}
                         nextLabel={"Next"}
