@@ -11,89 +11,89 @@ export default function Services() {
                         <p>This text briefly introduces visitors to your main services.</p>
                     </div>
                 </div>
-                <div className="service_banner_img">
-                    <img src="assets/images/inner_bg.jpg" className="img-fluid" alt="" />
+                <div class="service_banner_img">
+                    <img src="assets/images/c12.webp" class="img-fluid" alt="" />
                 </div>
             </section>
-            <section className="services_list">
-                <div className="container">
-                    <div className="row">
-                        <div className="col-md-4">
-                            <div className="plan_content g_card">
-                                <div className="service_img">
-                                    <img src="assets/images/inner_bg.jpg" alt="" />
+            <section class="services_list">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="plan_content g_card">
+                                <div class="service_img">
+                                    <img src="assets/images/c1.jpg" alt="" />
                                 </div>
                                 <h3>Service 1</h3>
                                 <p>A short description of this service and how it helps clients.</p>
                             </div>
                         </div>
-                        <div className="col-md-4">
-                            <div className="plan_content g_card">
-                                <div className="service_img">
-                                    <img src="assets/images/inner_bg.jpg" alt="" />
+                        <div class="col-md-4">
+                            <div class="plan_content g_card">
+                                <div class="service_img">
+                                    <img src="assets/images/c2.jpg" alt="" />
                                 </div>
                                 <h3>Service 2</h3>
                                 <p>A short description of this service and how it helps clients.</p>
                             </div>
                         </div>
-                        <div className="col-md-4">
-                            <div className="plan_content g_card">
-                                <div className="service_img">
-                                    <img src="assets/images/inner_bg.jpg" alt="" />
+                        <div class="col-md-4">
+                            <div class="plan_content g_card">
+                                <div class="service_img">
+                                    <img src="assets/images/c3.jpg" alt="" />
                                 </div>
                                 <h3>Service 3</h3>
                                 <p>A short description of this service and how it helps clients.</p>
                             </div>
                         </div>
-                        <div className="col-md-4">
-                            <div className="plan_content g_card">
-                                <div className="service_img">
-                                    <img src="assets/images/inner_bg.jpg" alt="" />
+                        <div class="col-md-4">
+                            <div class="plan_content g_card">
+                                <div class="service_img">
+                                    <img src="assets/images/c4.jpg" alt="" />
                                 </div>
                                 <h3>Service 4</h3>
                                 <p>A short description of this service and how it helps clients.</p>
                             </div>
                         </div>
-                        <div className="col-md-4">
-                            <div className="plan_content g_card">
-                                <div className="service_img">
-                                    <img src="assets/images/inner_bg.jpg" alt="" />
+                        <div class="col-md-4">
+                            <div class="plan_content g_card">
+                                <div class="service_img">
+                                    <img src="assets/images/c5.jpg" alt="" />
                                 </div>
                                 <h3>Service 5</h3>
                                 <p>A short description of this service and how it helps clients.</p>
                             </div>
                         </div>
-                        <div className="col-md-4">
-                            <div className="plan_content g_card">
-                                <div className="service_img">
-                                    <img src="assets/images/inner_bg.jpg" alt="" />
+                        <div class="col-md-4">
+                            <div class="plan_content g_card">
+                                <div class="service_img">
+                                    <img src="assets/images/c6.jpg" alt="" />
                                 </div>
                                 <h3>Service 6</h3>
                                 <p>A short description of this service and how it helps clients.</p>
                             </div>
                         </div>
-                        <div className="col-md-4">
-                            <div className="plan_content g_card">
-                                <div className="service_img">
-                                    <img src="assets/images/inner_bg.jpg" alt="" />
+                        <div class="col-md-4">
+                            <div class="plan_content g_card">
+                                <div class="service_img">
+                                    <img src="assets/images/c7.jpg" alt="" />
                                 </div>
                                 <h3>Service 7</h3>
                                 <p>A short description of this service and how it helps clients.</p>
                             </div>
                         </div>
-                        <div className="col-md-4">
-                            <div className="plan_content g_card">
-                                <div className="service_img">
-                                    <img src="assets/images/inner_bg.jpg" alt="" />
+                        <div class="col-md-4">
+                            <div class="plan_content g_card">
+                                <div class="service_img">
+                                    <img src="assets/images/c8.jpg" alt="" />
                                 </div>
                                 <h3>Service 8</h3>
                                 <p>A short description of this service and how it helps clients.</p>
                             </div>
                         </div>
-                        <div className="col-md-4">
-                            <div className="plan_content g_card">
-                                <div className="service_img">
-                                    <img src="assets/images/inner_bg.jpg" alt="" />
+                        <div class="col-md-4">
+                            <div class="plan_content g_card">
+                                <div class="service_img">
+                                    <img src="assets/images/c9.jpg" alt="" />
                                 </div>
                                 <h3>Service 9</h3>
                                 <p>A short description of this service and how it helps clients.</p>
@@ -113,13 +113,13 @@ export default function Services() {
                                 <a href="contact-us" className="globle_btn">Contact Us</a>
                             </div>
                         </div>
-                        <div className="col-lg-7">
-                            <div className="about_img">
-                                <div className="left_img">
-                                    <img src="assets/images/inner_bg.jpg" alt="" />
+                        <div class="col-lg-7">
+                            <div class="about_img">
+                                <div class="left_img">
+                                    <img src="assets/images/c10.jpg" alt="" />
                                 </div>
-                                <div className="right_img">
-                                    <img src="assets/images/inner_bg.jpg" alt="" />
+                                <div class="right_img">
+                                    <img src="assets/images/c11.jpg" alt="" />
                                 </div>
                             </div>
                         </div>

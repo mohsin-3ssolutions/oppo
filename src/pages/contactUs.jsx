@@ -13,17 +13,17 @@ export default function ContactUs() {
                             <p>Feel free to reach out using the below details.</p>
                         </div>
                     </div>
-                    <div className="service_banner_img">
-                        <img src="assets/images/inner_bg.jpg" className="img-fluid" alt=""/>
+                    <div class="service_banner_img">
+                        <img src="assets/images/c14.jpg" class="img-fluid" alt=""/>
                     </div>
                 </section>
-                <section className="about_banner contact_details">
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-lg-6">
-                                <div className="about_img">
-                                    <div className="contact_img">
-                                        <img src="assets/images/inner_bg.jpg" alt=""/>
+                <section class="about_banner contact_details">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="about_img">
+                                    <div class="contact_img">
+                                        <img src="assets/images/c15.jpg" alt=""/>
                                     </div>
                                 </div>
                             </div>
