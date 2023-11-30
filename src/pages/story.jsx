@@ -10,7 +10,7 @@ export default function Story() {
                         <div class="col-lg-6">
                             <div class="about_img">
                                 <div class="story_banner_img">
-                                    <img src="assets/images/inner_bg.jpg" alt="" />
+                                    <img src="assets/images/c11.jpg" alt="" />
                                 </div>
                             </div>
                         </div>
@@ -37,10 +37,10 @@ export default function Story() {
                         <div class="col-lg-7">
                             <div class="about_img">
                                 <div class="left_img">
-                                    <img src="assets/images/inner_bg.jpg" alt="" />
+                                    <img src="assets/images/c10.jpg" alt="" />
                                 </div>
                                 <div class="right_img">
-                                    <img src="assets/images/inner_bg.jpg" alt="" />
+                                    <img src="assets/images/c11.jpg" alt="" />
                                 </div>
                             </div>
                         </div>

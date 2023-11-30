@@ -14,7 +14,7 @@ export default function ContactUs() {
                         </div>
                     </div>
                     <div class="service_banner_img">
-                        <img src="assets/images/inner_bg.jpg" class="img-fluid" alt=""/>
+                        <img src="assets/images/c14.jpg" class="img-fluid" alt=""/>
                     </div>
                 </section>
                 <section class="about_banner contact_details">
@@ -23,7 +23,7 @@ export default function ContactUs() {
                             <div class="col-lg-6">
                                 <div class="about_img">
                                     <div class="contact_img">
-                                        <img src="assets/images/inner_bg.jpg" alt=""/>
+                                        <img src="assets/images/c15.jpg" alt=""/>
                                     </div>
                                 </div>
                             </div>

@@ -12,7 +12,7 @@ export default function Services() {
                     </div>
                 </div>
                 <div class="service_banner_img">
-                    <img src="assets/images/inner_bg.jpg" class="img-fluid" alt="" />
+                    <img src="assets/images/c12.webp" class="img-fluid" alt="" />
                 </div>
             </section>
             <section class="services_list">
@@ -21,7 +21,7 @@ export default function Services() {
                         <div class="col-md-4">
                             <div class="plan_content g_card">
                                 <div class="service_img">
-                                    <img src="assets/images/inner_bg.jpg" alt="" />
+                                    <img src="assets/images/c1.jpg" alt="" />
                                 </div>
                                 <h3>Service 1</h3>
                                 <p>A short description of this service and how it helps clients.</p>
@@ -30,7 +30,7 @@ export default function Services() {
                         <div class="col-md-4">
                             <div class="plan_content g_card">
                                 <div class="service_img">
-                                    <img src="assets/images/inner_bg.jpg" alt="" />
+                                    <img src="assets/images/c2.jpg" alt="" />
                                 </div>
                                 <h3>Service 2</h3>
                                 <p>A short description of this service and how it helps clients.</p>
@@ -39,7 +39,7 @@ export default function Services() {
                         <div class="col-md-4">
                             <div class="plan_content g_card">
                                 <div class="service_img">
-                                    <img src="assets/images/inner_bg.jpg" alt="" />
+                                    <img src="assets/images/c3.jpg" alt="" />
                                 </div>
                                 <h3>Service 3</h3>
                                 <p>A short description of this service and how it helps clients.</p>
@@ -48,7 +48,7 @@ export default function Services() {
                         <div class="col-md-4">
                             <div class="plan_content g_card">
                                 <div class="service_img">
-                                    <img src="assets/images/inner_bg.jpg" alt="" />
+                                    <img src="assets/images/c4.jpg" alt="" />
                                 </div>
                                 <h3>Service 4</h3>
                                 <p>A short description of this service and how it helps clients.</p>
@@ -57,7 +57,7 @@ export default function Services() {
                         <div class="col-md-4">
                             <div class="plan_content g_card">
                                 <div class="service_img">
-                                    <img src="assets/images/inner_bg.jpg" alt="" />
+                                    <img src="assets/images/c5.jpg" alt="" />
                                 </div>
                                 <h3>Service 5</h3>
                                 <p>A short description of this service and how it helps clients.</p>
@@ -66,7 +66,7 @@ export default function Services() {
                         <div class="col-md-4">
                             <div class="plan_content g_card">
                                 <div class="service_img">
-                                    <img src="assets/images/inner_bg.jpg" alt="" />
+                                    <img src="assets/images/c6.jpg" alt="" />
                                 </div>
                                 <h3>Service 6</h3>
                                 <p>A short description of this service and how it helps clients.</p>
@@ -75,7 +75,7 @@ export default function Services() {
                         <div class="col-md-4">
                             <div class="plan_content g_card">
                                 <div class="service_img">
-                                    <img src="assets/images/inner_bg.jpg" alt="" />
+                                    <img src="assets/images/c7.jpg" alt="" />
                                 </div>
                                 <h3>Service 7</h3>
                                 <p>A short description of this service and how it helps clients.</p>
@@ -84,7 +84,7 @@ export default function Services() {
                         <div class="col-md-4">
                             <div class="plan_content g_card">
                                 <div class="service_img">
-                                    <img src="assets/images/inner_bg.jpg" alt="" />
+                                    <img src="assets/images/c8.jpg" alt="" />
                                 </div>
                                 <h3>Service 8</h3>
                                 <p>A short description of this service and how it helps clients.</p>
@@ -93,7 +93,7 @@ export default function Services() {
                         <div class="col-md-4">
                             <div class="plan_content g_card">
                                 <div class="service_img">
-                                    <img src="assets/images/inner_bg.jpg" alt="" />
+                                    <img src="assets/images/c9.jpg" alt="" />
                                 </div>
                                 <h3>Service 9</h3>
                                 <p>A short description of this service and how it helps clients.</p>
@@ -116,10 +116,10 @@ export default function Services() {
                         <div class="col-lg-7">
                             <div class="about_img">
                                 <div class="left_img">
-                                    <img src="assets/images/inner_bg.jpg" alt="" />
+                                    <img src="assets/images/c10.jpg" alt="" />
                                 </div>
                                 <div class="right_img">
-                                    <img src="assets/images/inner_bg.jpg" alt="" />
+                                    <img src="assets/images/c11.jpg" alt="" />
                                 </div>
                             </div>
                         </div>

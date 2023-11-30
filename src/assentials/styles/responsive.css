@@ -339,6 +339,12 @@
     .propocal_card .color_bg {
         margin-bottom: 30px;
     }
+    .contact_img {
+        height: 314px;
+    }
+    .story_banner_img {
+        height: 314px;
+    }
 }
 @media screen and (max-width: 575px) {
     /* .plan_content {
