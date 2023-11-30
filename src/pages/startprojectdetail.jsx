@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { useState } from 'react';
 import { Close } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
+import moment from 'moment';
 
 const FileLogo = '/assets/images/file.png';
 const DummyPic1 = '/assets/images/pic1.png';
@@ -14,6 +15,7 @@ export default function Startprojectdetail() {
     const [openNotesIndex, setOpenNotesIndex] = useState(null);
     const [openChatIndex, setOpenChatIndex] = useState(null);
     const [isUser, setIsUser] = useState(false);
+    const [projectsBidding, setBiddingDetials] = useState([])
 
     const showNotes = (index) => {
         setOpenChatIndex(null);
@@ -59,11 +61,36 @@ export default function Startprojectdetail() {
         return data;
     };
 
+    const fetchBiddingData = async () => {
+        let url = process.env.REACT_APP_BASE_URL;
+        const token = localStorage.getItem('authToken');
+        const requestOptions = {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        };
+        const data = fetch(
+            url +
+            `/bid_listing?project_id=${id}`,
+            requestOptions
+        )
+            .then(async (res) => {
+                let body = await res.json();
+                console.log({ body });
+                setBiddingDetials(body?.data)
+            })
+            .catch((err) => { });
+        return data;
+    };
+
     console.log(projectsDetials)
 
     useEffect(() => {
         console.log({ id: process.env.PUBLIC_URL });
         fetchProjectData();
+        fetchBiddingData();
     }, []);
 
     useEffect(() => {
@@ -72,7 +99,7 @@ export default function Startprojectdetail() {
         }
     }, [isUser, projectsDetials]);
 
-    console.log(isUser)
+    console.log(projectsBidding)
     return (
         <DefaultLayout>
             <div>
@@ -206,16 +233,16 @@ export default function Startprojectdetail() {
                                 <h3 className='sub_head'>Submitted Proposals</h3>
 
                                 <ul className='proposal_list'>
-                                    {data.map((item, index) => (
+                                    {projectsBidding.map((item, index) => (
                                         <li>
                                             <div className='propocal_card dropdown'>
                                                 <div className='color_bg'>
                                                     <div className="project_head">
-                                                        <h2>Wasatch Sub Contractors</h2> <span>Submitted Oct 12, 2023</span>
+                                                        <h2>{item?.user?.fname}</h2> <span>Submitted {moment(item?.created_at).format('MMMM D, YYYY')}</span>
                                                         <div className='row'>
                                                             <div className='col-lg-6'>
                                                                 <div className='proposal_content'>
-                                                                    <p><strong>Comments: </strong> General contractors will manage the build process of a movie theater, overseeing site preparation, excavation, electrical, plumbing, HVAC, and finishing work. They will collaborate with specialists to ensure timely, budget-friendly, </p>
+                                                                    <p><strong>Comments: </strong> {item?.description ? item?.description : "N/A"} </p>
                                                                 </div>
                                                                 <div className='proposal_content'>
                                                                     <p className='dropdown-toggle' onClick={() => showChat(index)}><strong>Latest Communication </strong></p>

@@ -44,7 +44,6 @@ export default function OutForBid() {
             } else {
                 setError(true); // Set an error state if the response is not ok
             }
-
             setLoading(false); // Stop loading
         } catch (error) {
             setError(true); // Set an error state if an error occurs

@@ -13,7 +13,7 @@ export default function Submitproposal() {
     const [loading, setLoading] = useState(false);
     let navigate = useNavigate();
     const { pid } = useParams();
-    
+
     const initialValues = {
         plan_doc: null,
         additional_doc: null,
@@ -22,21 +22,21 @@ export default function Submitproposal() {
 
     const validationSchema = Yup.object().shape({
         plan_doc: Yup.mixed()
-          .required('Document is required')
-          .test('fileType', 'Only PDF files are allowed', (value) => {
-            if (value) {
-                const allowedExtensions = /(\.pdf)$/i;
-                return allowedExtensions.test(value);
-            }
-            // No file provided, so it's valid (handled by required validation)
-            return true;
-          }),
-      });
-    
+            .required('Document is required')
+            .test('fileType', 'Only PDF files are allowed', (value) => {
+                if (value) {
+                    const allowedExtensions = /(\.pdf)$/i;
+                    return allowedExtensions.test(value);
+                }
+                // No file provided, so it's valid (handled by required validation)
+                return true;
+            }),
+    });
+
     const submitPurposal = async (values) => {
         setLoading(true);
-        console.log({values,  pid});
-        
+        console.log({ values, pid });
+
         let url = process.env.REACT_APP_BASE_URL;
         const token = localStorage.getItem('authToken');
 
@@ -45,9 +45,9 @@ export default function Submitproposal() {
                 let formData = new FormData();
                 formData.append('plan_doc', values.plan_doc);
                 formData.append("project_id", pid);
-                values.project_description?.length && formData.append('project_description', values.project_description);
+                values.project_description?.length && formData.append('description', values.project_description);
                 values.additional_doc?.length && formData.append('additional_doc', values.additional_doc);
-                
+
                 const requestOptions = {
                     method: "POST",
                     headers: {
@@ -61,16 +61,16 @@ export default function Submitproposal() {
                     `/create_bid`,
                     requestOptions
                 ).then((response) => response.json())
-                .then(({ data, message, success }) => {
-                  if (success) {
-                    toast.success('Purposal submitted successfully!', { autoClose: 3000 });
-                    navigate('/find-a-project')
-                  } else {
-                    toast.error('Something went wrong!' + message, { autoClose: 3000 });
-                  }
-                }).finally(() => {
-                  setLoading(false);
-                });
+                    .then(({ data, message, success }) => {
+                        if (success) {
+                            toast.success('Purposal submitted successfully!', { autoClose: 3000 });
+                            navigate('/find-a-project')
+                        } else {
+                            toast.error('Something went wrong!' + message, { autoClose: 3000 });
+                        }
+                    }).finally(() => {
+                        setLoading(false);
+                    });
                 // return data;
             } catch (error) {
                 console.error('An error occurred:', error);
@@ -108,7 +108,7 @@ export default function Submitproposal() {
                                             <div className="form_style ps-0">
                                                 <div className="mb-3">
                                                     {/* <span className='color_red'>*required</span> */}
-                                                    <label for="exampleFormControlInput12" className="form-label">Proposal Document (PDF format only) </label> 
+                                                    <label for="exampleFormControlInput12" className="form-label">Proposal Document (PDF format only) </label>
                                                     <div className="upload_files">
                                                         {/* <input type="file" name="w9Form" accept=".pdf" 
                                                             onChange={(event) => {
@@ -121,10 +121,10 @@ export default function Submitproposal() {
                                                 <div className="mb-3">
                                                     <label for="exampleFormControlInput12" className="form-label">Additional Proposal Document</label>
                                                     <div className="upload_files">
-                                                        <input type="file" name="w9Form"accept=".pdf" 
+                                                        <input type="file" name="w9Form" accept=".pdf"
                                                             onChange={(event) => {
                                                                 setFieldValue("additional_doc", event.currentTarget.files[0]);
-                                                            }}/>
+                                                            }} />
                                                     </div>
                                                 </div>
                                                 <div className='mb-3 text-center'>
@@ -155,7 +155,7 @@ export default function Submitproposal() {
                                             wrapperStyle={{}}
                                             wrapperclassName="blocks-wrapper"
                                             colors={['white', 'white', 'white', 'white', 'white', 'white']}
-                                            />}
+                                        />}
                                         </button>
                                         {/* <a onClick={(e) => { console.log('[[[[[[[[[[[[[[[[[[[[[[[') }}>Submit Proposal</a> */}
                                     </div>
@@ -163,7 +163,7 @@ export default function Submitproposal() {
                             )}
                             </Formik>
                         </div>
-                        
+
                     </div>
                 </div>
             </div>

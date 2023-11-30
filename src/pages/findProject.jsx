@@ -8,43 +8,45 @@ export default function FindProject() {
     const [projects, setprojects] = useState([]),
         [count, setCount] = useState(0),
         [pageCount, setPageCount] = useState(0),
-        [loading, setLoading] = useState(false);
+        [loading, setLoading] = useState(true);
     let navigate = useNavigate();
 
-    const fetchData = async () => {
-        setLoading(true)
-        let url = process.env.REACT_APP_BASE_URL;
-        const token = localStorage.getItem('authToken');
-        const requestOptions = {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-            },
-        };
-        const data = fetch(
-            url +
-            `/projects_list?page_num_start=1&page_size=20`,
-            requestOptions
-        )
-            .then(async (res) => {
-                let body = await res.json();
-                console.log(body)
-                if (body.data.projects.length > 0) {
-                    setCount(body.data.projectsCount / 10);
-                    setPageCount(body.data.projectsCount);
-                    setprojects(body?.data?.projects)
-                    setLoading(false)
-                }
-            })
-            .catch((err) => { setLoading(false) });
-        setLoading(false);
-        return data;
-    };
-
     useEffect(() => {
-        fetchData()
+        const fetchData = async () => {
+            try {
+                setLoading(true);
+                let url = process.env.REACT_APP_BASE_URL;
+                const token = localStorage.getItem('authToken');
+                const requestOptions = {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                };
+
+                const response = await fetch(
+                    url +
+                    `/projects_list?page_num_start=1&page_size=20`,
+                    requestOptions
+                );
+                const data = await response.json();
+
+                if (data.data.projects.length > 0) {
+                    setCount(data.data.projectsCount / 10);
+                    setPageCount(data.data.projectsCount);
+                    setprojects(data?.data?.projects);
+                }
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
     }, []);
+
 
     const fetchPaginatedData = async (currentPage) => {
         let url = process.env.REACT_APP_BASE_URL;
@@ -110,7 +112,7 @@ export default function FindProject() {
                             </select>
                         </form>
                     </div>
-                    
+
                     {loading ? (
                         <div className="text-center loader_style">
                             <ThreeDots
@@ -123,38 +125,40 @@ export default function FindProject() {
                                 visible={true}
                             />
                         </div>
-                    ) :
-                    (projects?.length == 0) ? 
-                        <>
+                    ) : (
+                        projects.length === 0 ? (
                             <div className="text-center loader_style " colSpan="12">
                                 <h2>There are no Projects to show you right now!</h2>
                             </div>
-                        </> :
-                        <ul>
-                            {
-                                projects.map((data, index) => (
-                                    <li>
-                                        <div className="project_detail">
-                                            <div className="project_head">
-                                                <h2 key={index} onClick={() => { navigate(`/project-details/${data.id}`) }}>{data.project_name}<span>{data.project_start_date}</span></h2>
-                                                <ul className="project_status">
-                                                    <li>
-                                                        <div className='bid_now'>
-                                                            <button className='bid_now_btn' data-bs-toggle="modal" data-bs-target="#list-modal"><img src="assets/images/auction.png" alt="" />Bid Now</button>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <p className="view_count"><img src="assets/images/view.png" alt="" /><span>100</span></p>
-                                                    </li>
-                                                </ul>
+                        ) : (
+                            <ul>
+                                {
+                                    projects.map((data, index) => (
+                                        <li>
+                                            <div className="project_detail">
+                                                <div className="project_head">
+                                                    <h2 key={index} onClick={() => { navigate(`/project-details/${data.id}`) }}>{data.project_name}<span>{data.project_start_date}</span></h2>
+                                                    <ul className="project_status">
+                                                        <li>
+                                                            <div className='bid_now'>
+                                                                <button className='bid_now_btn' data-bs-toggle="modal" data-bs-target="#list-modal"><img src="assets/images/auction.png" alt="" />Bid Now</button>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <p className="view_count"><img src="assets/images/view.png" alt="" /><span>100</span></p>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <p><strong>Project Description: </strong> {data.project_description}</p>
                                             </div>
-                                            <p><strong>Project Description: </strong> {data.project_description}</p>
-                                        </div>
-                                    </li>
-                                ))
-                            }
-                        </ul>
-                    }
+                                        </li>
+                                    ))
+                                }
+                            </ul>
+                        )
+                    )}
+
+
                     <ReactPaginate
                         previousLabel={"Prev"}
                         nextLabel={"Next"}
