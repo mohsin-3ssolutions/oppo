@@ -5,32 +5,33 @@ import PendingProjects from '../components/account-components/pendingProjects';
 import ActiveProjects from '../components/account-components/activeProjects';
 import GenttChart from '../components/genttChart';
 import Profile from '../components/profile';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 // import { Link } from 'react-router-dom'
 
-export default function SubContractor() {    
+export default function SubContractor() {
     const location = useLocation();
     const [activeTab, setActiveTab] = useState(0);
     const navigate = useNavigate();
-    const queryParams = new URLSearchParams(location.search);
-    
+    const { tabId } = useParams();
     useEffect(() => {
-        const initialTabId = parseInt(queryParams.get('tabId')) || 0; // Get initial tabId from the URL query or default to 1
+        const initialTabId = (0 <= tabId && tabId <= 4) ? parseInt(tabId) : 0;
         setActiveTab(initialTabId);
     }, [activeTab])
 
     const handleTabChange = (tabId) => {
         setActiveTab(tabId);
-        navigate(`/account?tabId=${tabId}`);
+        navigate(`/account/${tabId}`);
     };
+
+    console.log(activeTab, 'activeTab')
     return (
         <>
             <DefaultLayout>
                 <Welcome />
                 <section className="gc_homebanner">
                     <div className="container">
-                    <div className="globle_tabs">
-                        <ul className="nav nav-tabs" id="gcTab" role="tablist">
+                        <div className="globle_tabs">
+                            <ul className="nav nav-tabs" id="gcTab" role="tablist">
                                 <li role="presentation">
                                     <a
                                         onClick={() => handleTabChange(1)}
@@ -56,13 +57,12 @@ export default function SubContractor() {
                                     </a>
                                 </li>
                             </ul>
-
                             <div className="tab-content" id="gcTabContent">
                                 {
-                                    activeTab === 0 ? <Profile />:
-                                    activeTab === 1 ? <PendingProjects />:
-                                    activeTab === 2 ? <ActiveProjects />:
-                                    activeTab === 3 && <GenttChart />
+                                    activeTab === 0 ? <Profile /> :
+                                        activeTab === 1 ? <PendingProjects /> :
+                                            activeTab === 2 ? <ActiveProjects /> :
+                                                activeTab === 3 && <GenttChart />
                                     // activeTab === 4 && <MyContacts />
                                 }
                             </div>

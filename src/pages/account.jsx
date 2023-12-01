@@ -16,7 +16,7 @@ function Account() {
     const navigate = useNavigate();
     // const queryParams = new URLSearchParams(location.search);
     const { tabId } = useParams();
-    
+
     useEffect(() => {
         const initialTabId = (0 <= tabId && tabId <= 4) ? parseInt(tabId) : 0;
         // const initialTabId = parseInt(queryParams.get('tabId')) || 0; // Get initial tabId from the URL query or default to 1
@@ -36,7 +36,7 @@ function Account() {
                 <section className="gc_homebanner">
                     <div className="container">
                         <div className="globle_tabs">
-                        <ul className="nav nav-tabs" id="gcTab" role="tablist">
+                            <ul className="nav nav-tabs" id="gcTab" role="tablist">
                                 <li role="presentation">
                                     <a
                                         // id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true"
@@ -74,19 +74,17 @@ function Account() {
                                     </a>
                                 </li>
                             </ul>
-
                             <div className="tab-content" id="gcTabContent">
                             </div>
                         </div>
                     </div>
                 </section>
-
                 {
-                activeTab === 0 ? <Profile />:
-                activeTab === 1 ? <OutForBid />:
-                activeTab === 2 ? <ActiveProjects />:
-                activeTab === 3 ? <GenttChart />:
-                activeTab === 4 && <MyContacts />
+                    activeTab === 0 ? <Profile /> :
+                        activeTab === 1 ? <OutForBid /> :
+                            activeTab === 2 ? <ActiveProjects /> :
+                                activeTab === 3 ? <GenttChart /> :
+                                    activeTab === 4 && <MyContacts />
                 }
 
             </DefaultLayout>
