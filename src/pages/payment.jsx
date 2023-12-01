@@ -37,6 +37,10 @@ function Payment({ setUser, isAuthenticated, user, paymentStatus }) {
         return state?.userProfileSlice?.userData?.data?.created_at;
     });
 
+    const userRole = useSelector((state) => {
+        return state?.userProfileSlice?.userData?.data?.role;
+    });
+
     const handleSubmit = async (values, { setSubmitting }) => {
         if (!stripe || !elements) {
             toast.error("Stripe Card Element doesn't load properly. Kindly refresh ", {
@@ -64,7 +68,8 @@ function Payment({ setUser, isAuthenticated, user, paymentStatus }) {
                     billing_city: values.city,
                     billing_state: values.state,
                     billing_zip: values.zip,
-                    role: 'general_contractor',
+                    role: userRole,
+                    // role: 'general_contractor',
                 };
 
                 const token = localStorage.getItem('authToken');

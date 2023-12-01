@@ -5,10 +5,12 @@ import { useState } from 'react';
 import { Close } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
+import { toast } from 'react-toastify';
 
 const FileLogo = '/assets/images/file.png';
 const DummyPic1 = '/assets/images/pic1.png';
 const DummyPic2 = '/assets/images/pic2.png';
+const Loader = () => <div>Loading...</div>;
 
 export default function Startprojectdetail() {
     const [projectsDetials, setProjectsDetials] = useState({})
@@ -16,6 +18,7 @@ export default function Startprojectdetail() {
     const [openChatIndex, setOpenChatIndex] = useState(null);
     const [isUser, setIsUser] = useState(false);
     const [projectsBidding, setBiddingDetials] = useState([])
+    const [loadingIndex, setLoadingIndex] = useState(null);
 
     const showNotes = (index) => {
         setOpenChatIndex(null);
@@ -85,7 +88,47 @@ export default function Startprojectdetail() {
         return data;
     };
 
-    console.log(projectsDetials)
+
+    const handleAward = async (item, index) => {
+        try {
+            setLoadingIndex(index); // Set loading state for the specific button
+
+            let url = process.env.REACT_APP_BASE_URL;
+            const token = localStorage.getItem('authToken');
+            const requestData = {
+                project_id: item.project_id,
+                bid_id: item.id,
+                assigned_to: item.user_id,
+            };
+
+            const requestOptions = {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify(requestData),
+            };
+
+            const res = await fetch(
+                url + `/accept_bid`,
+                requestOptions
+            );
+
+            const body = await res.json();
+
+            if (body.success === true) {
+                toast.success('Bid awarded successfully!', { autoClose: 3000 });
+            }
+
+            console.log({ body });
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setLoadingIndex(null); // Reset loading state after completion
+        }
+    };
+
 
     useEffect(() => {
         console.log({ id: process.env.PUBLIC_URL });
@@ -229,7 +272,7 @@ export default function Startprojectdetail() {
 
                             </form>
 
-                            <div className='submit_banner mt-5'>
+                            {isUser && <div className='submit_banner mt-5'>
                                 <h3 className='sub_head'>Submitted Proposals</h3>
 
                                 <ul className='proposal_list'>
@@ -302,7 +345,14 @@ export default function Startprojectdetail() {
                                                                     </div>
 
                                                                     <div className='create_btn'>
-                                                                        <a href="" className='globle_btn'>Award Project</a>
+                                                                        {/* <a onClick={() => { handleAward(item) }} className='globle_btn'>Award Project</a> */}
+                                                                        <button
+                                                                            onClick={() => handleAward(item, index)}
+                                                                            className='globle_btn'
+                                                                            disabled={loadingIndex === index}
+                                                                        >
+                                                                            {loadingIndex === index ? <Loader /> : 'Award Project'}
+                                                                        </button>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -340,7 +390,8 @@ export default function Startprojectdetail() {
                                         </li>
                                     ))}
                                 </ul>
-                            </div>
+                            </div>}
+
                         </div>
 
                     </div>
