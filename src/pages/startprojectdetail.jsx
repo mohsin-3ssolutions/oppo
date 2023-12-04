@@ -7,6 +7,8 @@ import { useSelector } from 'react-redux';
 import moment from 'moment';
 import { toast } from 'react-toastify';
 import Notes from '../components/notes';
+import Rating from '../components/rating';
+import { ThreeDots } from 'react-loader-spinner';
 
 const FileLogo = '/assets/images/file.png';
 const DummyPic1 = '/assets/images/pic1.png';
@@ -20,6 +22,12 @@ export default function Startprojectdetail() {
     const [isUser, setIsUser] = useState(false);
     const [projectsBidding, setBiddingDetials] = useState([])
     const [loadingIndex, setLoadingIndex] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [isNotesAdded, setisNotesAdded] = useState(false);
+
+    const updateFlag = (notesAdded) => {
+        setisNotesAdded(notesAdded);
+    }
 
     const showNotes = (index) => {
         setOpenChatIndex(null);
@@ -42,6 +50,7 @@ export default function Startprojectdetail() {
     let data = [1, 2, 3, 4, 5]
 
     const fetchProjectData = async () => {
+        setLoading(true);
         let url = process.env.REACT_APP_BASE_URL;
         const token = localStorage.getItem('authToken');
         const requestOptions = {
@@ -60,8 +69,12 @@ export default function Startprojectdetail() {
                 let body = await res.json();
                 console.log({ body });
                 setProjectsDetials(body?.data)
+                setLoading(false);
             })
-            .catch((err) => { });
+            .catch((err) => {
+                setLoading(false);
+            });
+
         return data;
     };
 
@@ -130,12 +143,11 @@ export default function Startprojectdetail() {
         }
     };
 
-
     useEffect(() => {
         console.log({ id: process.env.PUBLIC_URL });
         fetchProjectData();
         fetchBiddingData();
-    }, []);
+    }, [isNotesAdded]);
 
     useEffect(() => {
         if (projectsDetials?.user_id == userId) {
@@ -143,7 +155,6 @@ export default function Startprojectdetail() {
         }
     }, [isUser, projectsDetials]);
 
-    console.log(projectsBidding)
     return (
         <DefaultLayout>
             <div>
@@ -154,249 +165,260 @@ export default function Startprojectdetail() {
                         </div>
                     </div>
                 </section>
-                <div className="new_project project_name_banner my-5 pt-3">
-                    <div className='container'>
-                        <div className="color_bg mb-0">
-                            <h2>{projectsDetials?.project_name || ''}</h2>
-                            <form action="">
-                                <div className="row">
-                                    <div className="col-lg-4 col-md-6">
-                                        <div className="form_style ps-0">
-                                            <div className="mb-3">
-                                                <label for="exampleFormControlInput1" className="form-label">Project Name</label>
-                                                <p className='text'>{projectsDetials?.project_name || 'N/A'}</p>
-                                            </div>
-                                            <div className="mb-3">
-                                                <label for="exampleFormControlInput12" className="form-label">Email</label>
-                                                <p className='text'>{projectsDetials?.email || 'N/A'}</p>
-                                            </div>
-                                            <div className="mb-3">
-                                                <label for="exampleFormControlInput11" className="form-label">Project Rep</label>
-                                                <p className='text'>{projectsDetials?.project_rep || 'N/A'}</p>
-                                            </div>
-                                            <div className="mb-3">
-                                                <label for="exampleFormControlInput13" className="form-label">Phone Number</label>
-                                                <p className='text'>{projectsDetials?.phone || 'N/A'}</p>
-                                            </div>
-                                            <div className="mb-3">
-                                                <label for="exampleFormControlInput13" className="form-label">Project Description</label>
-                                                <p className='text'>{projectsDetials?.project_description || 'N/A'}</p>
-                                            </div>
-                                            <div className="mb-3">
-                                                <label for="exampleFormControlInput13" className="form-label">Who have you worked with in the past? (Banks, Lenders, etc.)</label>
-                                                <p className='text'>{projectsDetials?.past_work || 'N/A'}</p>
+                {loading ? (
+                    <div className="new_project project_name_banner my-5 pt-3">
+                        <div className='container mx-auto'>
+                            <div className="color_bg mb-0 mx-auto">
+                                <ThreeDots
+                                    height="100"
+                                    width="120"
+                                    radius="9"
+                                    color="#000"
+                                    ariaLabel="three-dots-loading"
+                                    wrapperStyle={{}}
+                                    visible={true}
+                                    className="mx-auto"
+                                    style={{ margin: 'auto' }}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                ) : (
+                    <div className="new_project project_name_banner my-5 pt-3">
+                        <div className='container'>
+                            <div className="color_bg mb-0">
+                                <h2>{projectsDetials?.project_name || ''}</h2>
+                                <form action="">
+                                    <div className="row">
+                                        <div className="col-lg-4 col-md-6">
+                                            <div className="form_style ps-0">
+                                                <div className="mb-3">
+                                                    <label for="exampleFormControlInput1" className="form-label">Project Name</label>
+                                                    <p className='text'>{projectsDetials?.project_name || 'N/A'}</p>
+                                                </div>
+                                                <div className="mb-3">
+                                                    <label for="exampleFormControlInput12" className="form-label">Email</label>
+                                                    <p className='text'>{projectsDetials?.email || 'N/A'}</p>
+                                                </div>
+                                                <div className="mb-3">
+                                                    <label for="exampleFormControlInput11" className="form-label">Project Rep</label>
+                                                    <p className='text'>{projectsDetials?.project_rep || 'N/A'}</p>
+                                                </div>
+                                                <div className="mb-3">
+                                                    <label for="exampleFormControlInput13" className="form-label">Phone Number</label>
+                                                    <p className='text'>{projectsDetials?.phone || 'N/A'}</p>
+                                                </div>
+                                                <div className="mb-3">
+                                                    <label for="exampleFormControlInput13" className="form-label">Project Description</label>
+                                                    <p className='text'>{projectsDetials?.project_description || 'N/A'}</p>
+                                                </div>
+                                                <div className="mb-3">
+                                                    <label for="exampleFormControlInput13" className="form-label">Who have you worked with in the past? (Banks, Lenders, etc.)</label>
+                                                    <p className='text'>{projectsDetials?.past_work || 'N/A'}</p>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div className="col-lg-4 col-md-6">
-                                        <div className="form_style">
-                                            <div className="mb-3">
-                                                <label for="exampleFormControlInput1" className="form-label">Designer</label>
-                                                <p className='text'>{projectsDetials?.designer || 'N/A'}</p>
-                                            </div>
-                                            <div className="mb-3">
-                                                <label for="exampleFormControlInput12" className="form-label">Engineer</label>
-                                                <p className='text'>{projectsDetials?.engineer || 'N/A'}</p>
-                                            </div>
-                                            <div className="mb-3">
-                                                <label for="exampleFormControlInput12" className="form-label">Architect</label>
-                                                <p className='text'>{projectsDetials?.architect || 'N/A'}</p>
-                                            </div>
-                                            <div className="mb-3">
-                                                <label for="exampleFormControlInput12" className="form-label">Permits</label>
-                                                <p className='text'>
-                                                    <span><img src={FileLogo} alt="" /> {projectsDetials?.permit_doc || 'N/A'}</span>
-                                                </p>
-                                            </div>
-                                            <div className="mb-3">
-                                                <label for="exampleFormControlInput12" className="form-label">Financing</label>
-                                                <p className='text'>
-                                                    {projectsDetials?.financing || 'N/A'}
-                                                </p>
-                                            </div>
-                                            <div className="mb-3">
-                                                <label for="exampleFormControlInput12" className="form-label">Plans</label>
-                                                <p className='text'>
-                                                    {projectsDetials?.plan || 'N/A'}
-                                                </p>
-                                                <div className="upload_files border-0">
-                                                    <label for="exampleFormControlInput12" className="form-label">Uploaded Plans</label>
+                                        <div className="col-lg-4 col-md-6">
+                                            <div className="form_style">
+                                                <div className="mb-3">
+                                                    <label for="exampleFormControlInput1" className="form-label">Designer</label>
+                                                    <p className='text'>{projectsDetials?.designer || 'N/A'}</p>
+                                                </div>
+                                                <div className="mb-3">
+                                                    <label for="exampleFormControlInput12" className="form-label">Engineer</label>
+                                                    <p className='text'>{projectsDetials?.engineer || 'N/A'}</p>
+                                                </div>
+                                                <div className="mb-3">
+                                                    <label for="exampleFormControlInput12" className="form-label">Architect</label>
+                                                    <p className='text'>{projectsDetials?.architect || 'N/A'}</p>
+                                                </div>
+                                                <div className="mb-3">
+                                                    <label for="exampleFormControlInput12" className="form-label">Permits</label>
                                                     <p className='text'>
-                                                        <span><img src={FileLogo} alt="" /> {projectsDetials?.plan_doc || 'N/A'}</span>
+                                                        <span><img src={FileLogo} alt="" /> {projectsDetials?.permit_doc || 'N/A'}</span>
                                                     </p>
-                                                    <label for="exampleFormControlInput12" className="form-label">Upload Pictures</label>
-                                                    <div className='text'>
-                                                        <ul className='picture_list'>
-                                                            <li>
-                                                                <div className='pro_img'>
-                                                                    <img src={DummyPic1} alt="" />
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <div className='pro_img'>
-                                                                    <img src={DummyPic2} alt="" />
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <div className='pro_img'>
-                                                                    <img src={DummyPic1} alt="" />
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <div className='pro_img'>
-                                                                    <img src={DummyPic2} alt="" />
-                                                                </div>
-                                                            </li>
-                                                        </ul>
-                                                        <span className='del_btn'><img src="assets/images/del.png" alt="" /></span>
+                                                </div>
+                                                <div className="mb-3">
+                                                    <label for="exampleFormControlInput12" className="form-label">Financing</label>
+                                                    <p className='text'>
+                                                        {projectsDetials?.financing || 'N/A'}
+                                                    </p>
+                                                </div>
+                                                <div className="mb-3">
+                                                    <label for="exampleFormControlInput12" className="form-label">Plans</label>
+                                                    <p className='text'>
+                                                        {projectsDetials?.plan || 'N/A'}
+                                                    </p>
+                                                    <div className="upload_files border-0">
+                                                        <label for="exampleFormControlInput12" className="form-label">Uploaded Plans</label>
+                                                        <p className='text'>
+                                                            <span><img src={FileLogo} alt="" /> {projectsDetials?.plan_doc || 'N/A'}</span>
+                                                        </p>
+                                                        <label for="exampleFormControlInput12" className="form-label">Upload Pictures</label>
+                                                        <div className='text'>
+                                                            <ul className='picture_list'>
+                                                                <li>
+                                                                    <div className='pro_img'>
+                                                                        <img src={DummyPic1} alt="" />
+                                                                    </div>
+                                                                </li>
+                                                                <li>
+                                                                    <div className='pro_img'>
+                                                                        <img src={DummyPic2} alt="" />
+                                                                    </div>
+                                                                </li>
+                                                                <li>
+                                                                    <div className='pro_img'>
+                                                                        <img src={DummyPic1} alt="" />
+                                                                    </div>
+                                                                </li>
+                                                                <li>
+                                                                    <div className='pro_img'>
+                                                                        <img src={DummyPic2} alt="" />
+                                                                    </div>
+                                                                </li>
+                                                            </ul>
+                                                            <span className='del_btn'><img src="assets/images/del.png" alt="" /></span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div className="col-lg-4 col-md-6">
-                                        <div className="form_style">
-                                            <div className="mb-3">
-                                                <label for="exampleFormControlInput1" className="form-label">Approximate Start Date</label>
-                                                <p className='text'>{projectsDetials?.project_start_date || 'N/A'}</p>
-                                            </div>
-                                            <div className="mb-3">
-                                                <label for="exampleFormControlInput1" className="form-label">Approximate Completion Date</label>
-                                                <p className='text'>{projectsDetials?.project_end_date || 'N/A'}</p>
+                                        <div className="col-lg-4 col-md-6">
+                                            <div className="form_style">
+                                                <div className="mb-3">
+                                                    <label for="exampleFormControlInput1" className="form-label">Approximate Start Date</label>
+                                                    <p className='text'>{projectsDetials?.project_start_date || 'N/A'}</p>
+                                                </div>
+                                                <div className="mb-3">
+                                                    <label for="exampleFormControlInput1" className="form-label">Approximate Completion Date</label>
+                                                    <p className='text'>{projectsDetials?.project_end_date || 'N/A'}</p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                {isUser == false && <div className="creat_btn text-center">
-                                    <a href={`/submitproposal/${projectsDetials?.id}`}>Submit Purposal For this Project</a>
-                                </div>}
+                                    {isUser == false && <div className="creat_btn text-center">
+                                        <a href={`/submitproposal/${projectsDetials?.id}`}>Submit Purposal For this Project</a>
+                                    </div>}
 
-                            </form>
+                                </form>
 
-                            {isUser && <div className='submit_banner mt-5'>
-                                <h3 className='sub_head'>Submitted Proposals</h3>
+                                {isUser && <div className='submit_banner mt-5'>
+                                    <h3 className='sub_head'>Submitted Proposals</h3>
 
-                                <ul className='proposal_list'>
-                                    {projectsBidding.map((item, index) => (
-                                        <li>
-                                            <div className='propocal_card dropdown'>
-                                                <div className='color_bg'>
-                                                    <div className="project_head">
-                                                        <h2>{item?.user?.fname}</h2> <span>Submitted {moment(item?.created_at).format('MMMM D, YYYY')}</span>
-                                                        <div className='row'>
-                                                            <div className='col-lg-6'>
-                                                                <div className='proposal_content'>
-                                                                    <p><strong>Comments: </strong> {item?.description ? item?.description : "N/A"} </p>
+                                    <ul className='proposal_list'>
+                                        {projectsBidding.map((item, index) => (
+                                            <li>
+                                                <div className='propocal_card dropdown'>
+                                                    <div className='color_bg'>
+                                                        <div className="project_head">
+                                                            <h2>{item?.user?.fname}</h2> <span>Submitted {moment(item?.created_at).format('MMMM D, YYYY')}</span>
+                                                            <div className='row'>
+                                                                <div className='col-lg-6'>
+                                                                    <div className='proposal_content'>
+                                                                        <p><strong>Comments: </strong> {item?.description ? item?.description : "N/A"} </p>
+                                                                    </div>
+                                                                    <div className='proposal_content'>
+                                                                        <p className='dropdown-toggle' onClick={() => showChat(index)}><strong>Latest Communication </strong></p>
+                                                                        <p>Wasatch Sub Contractors: I think we’ve got the latest things done with what you’re looking for. You: Thanks, guys. This is going to be really great. Wasatch Sub Contractors: That’s great. Yes, we can get back to you with that information as soon as possible.</p>
+                                                                    </div>
                                                                 </div>
-                                                                <div className='proposal_content'>
-                                                                    <p className='dropdown-toggle' onClick={() => showChat(index)}><strong>Latest Communication </strong></p>
-                                                                    <p>Wasatch Sub Contractors: I think we’ve got the latest things done with what you’re looking for. You: Thanks, guys. This is going to be really great. Wasatch Sub Contractors: That’s great. Yes, we can get back to you with that information as soon as possible.</p>
-                                                                </div>
-                                                            </div>
-                                                            <div className='col-lg-6'>
-                                                                <div className='proposal_content proposal_detail'>
-                                                                    <p className='mb-2'><strong>Proposal Documents</strong></p>
-                                                                    <ul className='proposal_files'>
-                                                                        <li>
-                                                                            <a className='text'>
-                                                                                <span><img src="assets/images/file.png" alt="" /> MyProjectPermit.pdf</span>
-                                                                            </a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a className='text'>
-                                                                                <span><img src="assets/images/file.png" alt="" /> MyProjectPermit.pdf</span>
-                                                                            </a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a className='text'>
-                                                                                <span><img src="assets/images/file.png" alt="" /> MyProjectPermit.pdf</span>
-                                                                            </a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a className='text'>
-                                                                                <span><img src="assets/images/file.png" alt="" /> MyProjectPermit.pdf</span>
-                                                                            </a>
-                                                                        </li>
-                                                                    </ul>
-                                                                    <div className='award_review'>
-                                                                        <div className='reviews w-50'>
-                                                                            <p className='mb-1'><strong>Proposal Rating</strong></p>
-                                                                            <ul className='reviews_list'>
-                                                                                <li>
-                                                                                    <span><i className='fa fa-star-o'>1</i></span>
-                                                                                </li>
-                                                                                <li>
-                                                                                    <span><i className='fa fa-star-o'>2</i></span>
-                                                                                </li>
-                                                                                <li>
-                                                                                    <span><i className='fa fa-star-o'>3</i></span>
-                                                                                </li>
-                                                                                <li>
-                                                                                    <span><i className='fa fa-star-o'>4</i></span>
-                                                                                </li>
-                                                                            </ul>
-                                                                            <span className='fa fa-camera-retro fa-lg' >4.5</span>
-                                                                        </div>
-                                                                        <div className='notes w-50'>
-                                                                            <div className='proposal_content'>
-                                                                                <p className='mb-1 dropdown-toggle' onClick={() => showNotes(index)}><strong>Notes </strong></p>
-                                                                                <Notes showNotes={showNotes} />
+                                                                <div className='col-lg-6'>
+                                                                    <div className='proposal_content proposal_detail'>
+                                                                        <p className='mb-2'><strong>Proposal Documents</strong></p>
+                                                                        <ul className='proposal_files'>
+                                                                            <li>
+                                                                                <a className='text'>
+                                                                                    <span><img src="/assets/images/file.png" alt="" /> MyProjectPermit.pdf</span>
+                                                                                </a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a className='text'>
+                                                                                    <span><img src="/assets/images/file.png" alt="" /> MyProjectPermit.pdf</span>
+                                                                                </a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a className='text'>
+                                                                                    <span><img src="/assets/images/file.png" alt="" /> MyProjectPermit.pdf</span>
+                                                                                </a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a className='text'>
+                                                                                    <span><img src="/assets/images/file.png" alt="" /> MyProjectPermit.pdf</span>
+                                                                                </a>
+                                                                            </li>
+                                                                        </ul>
+                                                                        <div className='award_review'>
+                                                                            <Rating />
+                                                                            <div className='notes w-50'>
+                                                                                <div className='proposal_content'>
+                                                                                    <p className='mb-1 dropdown-toggle' onClick={() => showNotes(index)}><strong>Notes </strong></p>
+                                                                                    <p className=''>{item?.latest_notes?.notes ? item?.latest_notes?.notes : 'N/A'}</p>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
+                                                                        {item.status == 'hired' ? <div className='create_btn'>
+                                                                            <button
+                                                                                onClick={() => handleAward(item, index)}
+                                                                                className='awarded_btn'
+                                                                                disabled={true}
+                                                                            >
+                                                                                {loadingIndex === index ? <Loader /> : 'Awarded'}
+                                                                            </button>
+                                                                        </div> : item.status == 'pending' ? <div className='create_btn'>
+                                                                            <button
+                                                                                onClick={() => handleAward(item, index)}
+                                                                                className='globle_btn'
+                                                                                disabled={loadingIndex === index}
+                                                                            >
+                                                                                {loadingIndex === index ? <Loader /> : 'Award Project'}
+                                                                            </button>
+                                                                        </div> : <div className='create_btn'>
+                                                                            <button
+                                                                                onClick={() => handleAward(item, index)}
+                                                                                className='rejected_btn'
+                                                                                disabled={true}
+                                                                            >
+                                                                                {loadingIndex === index ? <Loader /> : 'Rejected'}
+                                                                            </button>
+                                                                        </div>}
 
-                                                                    <div className='create_btn'>
-                                                                        {/* <a onClick={() => { handleAward(item) }} className='globle_btn'>Award Project</a> */}
-                                                                        <button
-                                                                            onClick={() => handleAward(item, index)}
-                                                                            className='globle_btn'
-                                                                            disabled={loadingIndex === index}
-                                                                        >
-                                                                            {loadingIndex === index ? <Loader /> : 'Award Project'}
-                                                                        </button>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                {openChatIndex == index && <div className='comunication_content' aria-labelledby="dropdownMenuButton1">
-                                                    <div className='proposal_content'>
-                                                        <p><strong></strong></p>
-                                                        <p className='comunication_pop_text'>Wasatch Sub Contractors: I think we’ve got the latest things done with what you’re looking for. You: Thanks, guys. This is going to be really great. Wasatch Sub Contractors: That’s great. Yes, we can get back to you with that information as soon as possible.</p>
-                                                        <ul className='breadcrumbs'>
-                                                            <li>
-                                                                <a href="">Description</a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="">Biography of Company & Services</a>
-                                                            </li>
-                                                        </ul>
-                                                        <div className='form_input'>
-                                                            <input type="text" name="" id="" />
-                                                            <button><img src="assets/images/cirlce.png" alt="" /></button>
-                                                        </div>
-                                                    </div>
-                                                </div>}
-
-                                                {openNotesIndex === index && (
-                                                    <div className='comunication_content'>
+                                                    {openChatIndex == index && <div className='comunication_content' aria-labelledby="dropdownMenuButton1">
                                                         <div className='proposal_content'>
                                                             <p><strong></strong></p>
-                                                            <p>Wasatch Sub Contractors: I think we’ve got the latest things done with what you’re looking for. You: Thanks, guys. This is going to be really great. Wasatch Sub Contractors: That’s great. Yes, we can get back to you with that information as soon as possible.</p>
+                                                            <p className='comunication_pop_text'>Wasatch Sub Contractors: I think we’ve got the latest things done with what you’re looking for. You: Thanks, guys. This is going to be really great. Wasatch Sub Contractors: That’s great. Yes, we can get back to you with that information as soon as possible.</p>
+                                                            <ul className='breadcrumbs'>
+                                                                <li>
+                                                                    <a href="">Description</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="">Biography of Company & Services</a>
+                                                                </li>
+                                                            </ul>
+                                                            <div className='form_input'>
+                                                                <input type="text" name="" id="" />
+                                                                <button><img src="assets/images/cirlce.png" alt="" /></button>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>}
-
+                                                    </div>}
+                                                    {openNotesIndex === index && (
+                                                        <Notes setOpenNotesIndex={setOpenNotesIndex} bidData={item} updateFlag={updateFlag} />
+                                                    )}
+                                                </div>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>}
+                            </div>
                         </div>
-
                     </div>
-                </div>
+                )
+                }
             </div>
         </DefaultLayout>
     )
