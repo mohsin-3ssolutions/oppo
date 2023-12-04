@@ -143,8 +143,6 @@ export default function ActiveProjects() {
                             breakLinkClassName={"item-link"}
                             activeClassName={"active"}
                         />}
-
-
                     </div>
                     <div className="creat_btn text-center my-5">
                         <a className="me-4" href="/find-a-project">Find a Project</a>

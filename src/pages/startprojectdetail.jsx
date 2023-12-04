@@ -6,6 +6,7 @@ import { Close } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 import { toast } from 'react-toastify';
+import Notes from '../components/notes';
 
 const FileLogo = '/assets/images/file.png';
 const DummyPic1 = '/assets/images/pic1.png';
@@ -339,7 +340,7 @@ export default function Startprojectdetail() {
                                                                         <div className='notes w-50'>
                                                                             <div className='proposal_content'>
                                                                                 <p className='mb-1 dropdown-toggle' onClick={() => showNotes(index)}><strong>Notes </strong></p>
-                                                                                <p className=''>Wasatch Sub Contractors: I think we’ve got the latest things done with what you’re looking for. You: Thanks, guys. This is going to be really great. Wasatch Sub Contractors: That’s great. Yes, we can get back to you with that information as soon as possible.</p>
+                                                                                <Notes showNotes={showNotes} />
                                                                             </div>
                                                                         </div>
                                                                     </div>
