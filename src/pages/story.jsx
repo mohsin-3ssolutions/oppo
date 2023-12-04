@@ -4,13 +4,13 @@ import DefaultLayout from '../reusableComponents/defaultLayout'
 export default function Story() {
     return (
         <DefaultLayout>
-            <section className="about_banner story_banner">
-                <div className="container">
-                    <div className="row">
-                        <div className="col-lg-6">
-                            <div className="about_img">
-                                <div className="story_banner_img">
-                                    <img src="assets/images/inner_bg.jpg" alt="" />
+            <section class="about_banner story_banner">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="about_img">
+                                <div class="story_banner_img">
+                                    <img src="assets/images/c11.jpg" alt="" />
                                 </div>
                             </div>
                         </div>
@@ -34,13 +34,13 @@ export default function Story() {
                                 <p>A paragraph describing your company’s goals or mission statement. This section is meant to help visitors understand the purpose of your business.</p>
                             </div>
                         </div>
-                        <div className="col-lg-7">
-                            <div className="about_img">
-                                <div className="left_img">
-                                    <img src="assets/images/inner_bg.jpg" alt="" />
+                        <div class="col-lg-7">
+                            <div class="about_img">
+                                <div class="left_img">
+                                    <img src="assets/images/c10.jpg" alt="" />
                                 </div>
-                                <div className="right_img">
-                                    <img src="assets/images/inner_bg.jpg" alt="" />
+                                <div class="right_img">
+                                    <img src="assets/images/c11.jpg" alt="" />
                                 </div>
                             </div>
                         </div>

@@ -1413,13 +1413,18 @@ thead tr {
 .services_list .g_card .service_im {
     height: 231px;
 }
-
+.services_list .g_card .service_img {
+    height: 250px;
+}
 .services_list .g_card .service_img img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
-
+.story_banner_img {
+    height: 414px;
+    width: 100%;
+}
 .services_list .row {
     gap: 24px 0;
 }
@@ -1528,7 +1533,9 @@ thead tr {
     gap: 0 15px;
     justify-content: space-between;
 }
-
+.contact_img {
+    height: 414px;
+}
 .contact_content li:not(:last-child) {
     margin-bottom: 8px;
 }
