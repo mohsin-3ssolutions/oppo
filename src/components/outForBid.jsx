@@ -27,7 +27,7 @@ export default function OutForBid() {
 
         try {
             const response = await fetch(
-                url + `/my_project_list?page_num_start=1&page_size=20`,
+                url + `/my_project_list?page_num_start=1&page_size=10`,
                 requestOptions
             );
 

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import DefaultLayout from '../reusableComponents/defaultLayout'
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { useState } from 'react';
 import { Close } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 import Notes from '../components/notes';
 import Rating from '../components/rating';
 import { ThreeDots } from 'react-loader-spinner';
+import Ratting from '../components/rating';
 
 const FileLogo = '/assets/images/file.png';
 const DummyPic1 = '/assets/images/pic1.png';
@@ -40,12 +41,13 @@ export default function Startprojectdetail() {
 
     const showChat = (index) => {
         setOpenChatIndex(index);
-
         setOpenNotesIndex(null);
     };
 
+    const { id, activeProjects } = useParams();
 
-    const { id } = useParams();
+    console.log(activeProjects)
+
 
     let data = [1, 2, 3, 4, 5]
 
@@ -144,7 +146,6 @@ export default function Startprojectdetail() {
     };
 
     useEffect(() => {
-        console.log({ id: process.env.PUBLIC_URL });
         fetchProjectData();
         fetchBiddingData();
     }, [isNotesAdded]);
@@ -169,17 +170,17 @@ export default function Startprojectdetail() {
                     <div className="new_project project_name_banner my-5 pt-3">
                         <div className='container mx-auto'>
                             <div className="color_bg mb-0 mx-auto">
-                                <ThreeDots
-                                    height="100"
-                                    width="120"
-                                    radius="9"
-                                    color="#000"
-                                    ariaLabel="three-dots-loading"
-                                    wrapperStyle={{}}
-                                    visible={true}
-                                    className="mx-auto"
-                                    style={{ margin: 'auto' }}
-                                />
+                                <div className="text-center loader_style">
+                                    <ThreeDots
+                                        height="100"
+                                        width="120"
+                                        radius="9"
+                                        color="#000"
+                                        ariaLabel="three-dots-loading"
+                                        wrapperStyle={{}}
+                                        visible={true}
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -297,15 +298,122 @@ export default function Startprojectdetail() {
                                             </div>
                                         </div>
                                     </div>
-                                    {isUser == false && <div className="creat_btn text-center">
+                                    {(isUser == false && projectsDetials?.award_bid == null) && <div className="creat_btn text-center">
                                         <a href={`/submitproposal/${projectsDetials?.id}`}>Submit Purposal For this Project</a>
                                     </div>}
-
                                 </form>
 
-                                {isUser && <div className='submit_banner mt-5'>
-                                    <h3 className='sub_head'>Submitted Proposals</h3>
+                                {(projectsDetials?.award_bid !== null && activeProjects == 'true') && <h3 className='sub_head'>Awarded Proposals</h3>}
+                                {(projectsDetials?.award_bid !== null && activeProjects == 'true') &&
+                                    <ul className='proposal_list'>
+                                        <li>
+                                            <div className='propocal_card dropdown'>
+                                                <div className='color_bg'>
+                                                    <div className="project_head">
+                                                        <h2>{projectsDetials.award_bid?.user?.fname}</h2> <span>Submitted {moment(projectsDetials.award_bid?.created_at).format('MMMM D, YYYY')}</span>
+                                                        <div className='row'>
+                                                            <div className='col-lg-6'>
+                                                                <div className='proposal_content'>
+                                                                    <p><strong>Comments: </strong> {projectsDetials.award_bid?.description ? projectsDetials.award_bid?.description : "N/A"} </p>
+                                                                </div>
+                                                                <div className='proposal_content'>
+                                                                    <p className='dropdown-toggle' onClick={() => showChat(index)}><strong>Latest Communication </strong></p>
+                                                                    <p>Wasatch Sub Contractors: I think we’ve got the latest things done with what you’re looking for. You: Thanks, guys. This is going to be really great. Wasatch Sub Contractors: That’s great. Yes, we can get back to you with that information as soon as possible.</p>
+                                                                </div>
+                                                            </div>
+                                                            <div className='col-lg-6'>
+                                                                <div className='proposal_content proposal_detail'>
+                                                                    <p className='mb-2'><strong>Proposal Documents</strong></p>
+                                                                    <ul className='proposal_files'>
+                                                                        <li>
+                                                                            <a className='text'>
+                                                                                <span><img src="/assets/images/file.png" alt="" /> MyProjectPermit.pdf</span>
+                                                                            </a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a className='text'>
+                                                                                <span><img src="/assets/images/file.png" alt="" /> MyProjectPermit.pdf</span>
+                                                                            </a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a className='text'>
+                                                                                <span><img src="/assets/images/file.png" alt="" /> MyProjectPermit.pdf</span>
+                                                                            </a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a className='text'>
+                                                                                <span><img src="/assets/images/file.png" alt="" /> MyProjectPermit.pdf</span>
+                                                                            </a>
+                                                                        </li>
+                                                                    </ul>
+                                                                    <div className='award_review'>
+                                                                        <Ratting bidData={projectsDetials.award_bid} />
+                                                                        <div className='notes w-50'>
+                                                                            <div className='proposal_content'>
+                                                                                <p className='mb-1 dropdown-toggle' onClick={() => showNotes()}><strong>Notes </strong></p>
+                                                                                <p className=''>{projectsDetials.award_bid?.latest_notes?.notes ? projectsDetials.award_bid?.latest_notes?.notes : 'N/A'}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    {projectsDetials.award_bid?.status == 'hired' ? <div className='create_btn'>
+                                                                        <button
+                                                                            onClick={() => handleAward(projectsDetials.award_bid)}
+                                                                            className='awarded_btn'
+                                                                            disabled={true}
+                                                                        >
+                                                                            {'Awarded'}
+                                                                        </button>
+                                                                    </div> : projectsDetials.award_bid?.status == 'pending' ? <div className='create_btn'>
+                                                                        <button
+                                                                            onClick={() => handleAward(projectsDetials.award_bid)}
+                                                                            className='globle_btn'
+                                                                            disabled={loadingIndex === index}
+                                                                        >
+                                                                            {'Award Project'}
+                                                                        </button>
+                                                                    </div> : <div className='create_btn'>
+                                                                        <button
+                                                                            onClick={() => handleAward(projectsDetials.award_bid)}
+                                                                            className='rejected_btn'
+                                                                            disabled={true}
+                                                                        >
+                                                                            {'Rejected'}
+                                                                        </button>
+                                                                    </div>}
 
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {/* {openChatIndex == index && <div className='comunication_content' aria-labelledby="dropdownMenuButton1">
+                                                    <div className='proposal_content'>
+                                                        <p><strong></strong></p>
+                                                        <p className='comunication_pop_text'>Wasatch Sub Contractors: I think we’ve got the latest things done with what you’re looking for. You: Thanks, guys. This is going to be really great. Wasatch Sub Contractors: That’s great. Yes, we can get back to you with that information as soon as possible.</p>
+                                                        <ul className='breadcrumbs'>
+                                                            <li>
+                                                                <a href="">Description</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="">Biography of Company & Services</a>
+                                                            </li>
+                                                        </ul>
+                                                        <div className='form_input'>
+                                                            <input type="text" name="" id="" />
+                                                            <button><img src="assets/images/cirlce.png" alt="" /></button>
+                                                        </div>
+                                                    </div>
+                                                </div>}
+                                                {openNotesIndex === index && (
+                                                    <Notes setOpenNotesIndex={setOpenNotesIndex} bidData={projectsDetials.award_bid} updateFlag={updateFlag} />
+                                                )} */}
+                                            </div>
+                                        </li>
+                                    </ul>
+                                }
+                                {isUser && <div className='submit_banner mt-5'>
+                                    {projectsBidding.length > 0 && <h3 className='sub_head'>Submitted Proposals</h3>}
+                                    {(!loading && projectsBidding.length == 0) && <h3 className='sub_head text-center'>No Proposals Submitted So Far!</h3>}
                                     <ul className='proposal_list'>
                                         {projectsBidding.map((item, index) => (
                                             <li>
@@ -349,7 +457,7 @@ export default function Startprojectdetail() {
                                                                             </li>
                                                                         </ul>
                                                                         <div className='award_review'>
-                                                                            <Rating />
+                                                                            <Ratting bidData={item} />
                                                                             <div className='notes w-50'>
                                                                                 <div className='proposal_content'>
                                                                                     <p className='mb-1 dropdown-toggle' onClick={() => showNotes(index)}><strong>Notes </strong></p>

@@ -2045,11 +2045,10 @@ animation-iteration-count: 1; */
     overflow-y: hidden;
 }
 
-
 .propocal_card .project_head span {
     padding-left: 0px !important;
     font-size: large !important;
-    position: 0 !important;
+
 }
 
 /*********** detail page ***********/
@@ -2229,19 +2228,18 @@ animation-iteration-count: 1; */
 }
 
 .propocal_card .project_head span {
-    position: relative;
     font-size: 16px;
     padding-left: 15px;
     top: 3px;
 }
 
-.propocal_card .project_head span::before {
+/* .propocal_card .project_head span::before {
     content: '-';
     position: absolute;
     left: 0;
     top: 0;
     font-size: 16px;
-}
+} */
 
 .proposal_content p {
     line-height: 23px;

@@ -74,6 +74,8 @@ const AppRouter = ({ isAuthenticated, setIsAuthenticated, paymentStatus }) => {
         {userData &&  <Route path="/find-a-project" element={isAuthenticated ? <FindProject /> : <Navigate to="/signin" replace />}/>}
         {userData && <Route path="/post-new-project" element={isAuthenticated ? <PostNewProject /> : <Navigate to="/signin" replace />}/>}
         {userData && <Route path="/project-details/:id" element={isAuthenticated ? <Startprojectdetail /> : <Navigate to="/signin" replace />}/> }
+        {userData && <Route path="/project-details/:id/:activeProjects" element={isAuthenticated ? <Startprojectdetail /> : <Navigate to="/signin" replace />}/> }
+
         {userData && <Route path="/account/:tabId" element={userRole == 'sub_contractor' ? <SubContractor /> : <Account />} />}
         {userData && <Route path="/submitproposal/:pid" element={<Submitproposal isAuthenticated={isAuthenticated} />} />}
 
