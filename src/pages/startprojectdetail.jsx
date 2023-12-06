@@ -24,6 +24,7 @@ export default function Startprojectdetail() {
     const [projectsBidding, setBiddingDetials] = useState([])
     const [loadingIndex, setLoadingIndex] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [awarded, setAwarded] = useState(false);
     const [isNotesAdded, setisNotesAdded] = useState(false);
 
     const updateFlag = (notesAdded) => {
@@ -108,7 +109,7 @@ export default function Startprojectdetail() {
     const handleAward = async (item, index) => {
         try {
             setLoadingIndex(index); // Set loading state for the specific button
-
+            setAwarded(true)
             let url = process.env.REACT_APP_BASE_URL;
             const token = localStorage.getItem('authToken');
             const requestData = {
@@ -148,7 +149,7 @@ export default function Startprojectdetail() {
     useEffect(() => {
         fetchProjectData();
         fetchBiddingData();
-    }, [isNotesAdded]);
+    }, [isNotesAdded, awarded]);
 
     useEffect(() => {
         if (projectsDetials?.user_id == userId) {

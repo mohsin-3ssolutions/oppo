@@ -37,11 +37,11 @@ function Account() {
                     <div className="container">
                         <div className="globle_tabs">
                             <ul className="nav nav-tabs" id="gcTab" role="tablist">
-                                <li role="presentation">
+                                <li role="presentation cursor-pointer">
                                     <a
                                         // id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true"
                                         onClick={() => handleTabChange(1)}
-                                        className={`nav-link ${activeTab === 1 ? 'active' : ''}`}
+                                        className={`nav-link cursor-pointer ${activeTab === 1 ? 'active' : ''}`}
                                     >
                                         Out for Bid
                                     </a>
@@ -50,7 +50,7 @@ function Account() {
                                     <a
                                         // id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false"
                                         onClick={() => handleTabChange(2)}
-                                        className={`nav-link ${activeTab === 2 ? 'active' : ''}`}
+                                        className={`nav-link cursor-pointer ${activeTab === 2 ? 'active' : ''}`}
                                     >
                                         Active Projects
                                     </a>
@@ -59,7 +59,7 @@ function Account() {
                                     <a
                                         // id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false"
                                         onClick={() => handleTabChange(3)}
-                                        className={`nav-link ${activeTab === 3 ? 'active' : ''}`}
+                                        className={`nav-link cursor-pointer ${activeTab === 3 ? 'active' : ''}`}
                                     >
                                         General Contractor Schedule
                                     </a>
@@ -68,7 +68,7 @@ function Account() {
                                     <a
                                         // id="contact-tab" data-bs-toggle="tab" data-bs-target="#mycontact" type="button" role="tab" aria-controls="contact" aria-selected="false"
                                         onClick={() => handleTabChange(4)}
-                                        className={`nav-link ${activeTab === 4 ? 'active' : ''}`}
+                                        className={`nav-link cursor-pointer ${activeTab === 4 ? 'active' : ''}`}
                                     >
                                         My Contacts
                                     </a>

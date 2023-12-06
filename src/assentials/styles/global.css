@@ -2233,6 +2233,10 @@ animation-iteration-count: 1; */
     top: 3px;
 }
 
+.cursor-pointer:hover {
+    cursor: pointer;
+}
+
 /* .propocal_card .project_head span::before {
     content: '-';
     position: absolute;
