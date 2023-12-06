@@ -46,7 +46,10 @@ export default function MyContacts() {
                     setLoading(false)
                 }
             })
-            .catch((err) => { setLoading(false) });
+            .catch((err) => { setLoading(false) }).finally(() => {
+                setLoading(false)
+            })
+
         return data;
     };
 
@@ -112,6 +115,8 @@ export default function MyContacts() {
             .catch((error) => {
                 console.error("Error deleting contact:", error);
                 setLoading(false);
+            }).finally(() => {
+                setLoading(false);
             });
     };
 
@@ -142,7 +147,9 @@ export default function MyContacts() {
                                 Add Contacts
                             </button>
                             <div className="search_form">
-                                <form action="">
+                                <form onSubmit={(e) => {
+                                    e.preventDefault();
+                                }}>
                                     <input
                                         type="search"
                                         placeholder="Search"

@@ -298,11 +298,10 @@ export default function Startprojectdetail() {
                                             </div>
                                         </div>
                                     </div>
-                                    {(isUser == false && projectsDetials?.award_bid == null) && <div className="creat_btn text-center">
+                                    {(isUser == false && activeProjects !== 'true') && <div className="creat_btn text-center">
                                         <a href={`/submitproposal/${projectsDetials?.id}`}>Submit Purposal For this Project</a>
                                     </div>}
                                 </form>
-
                                 {(projectsDetials?.award_bid !== null && activeProjects == 'true') && <h3 className='sub_head'>Awarded Proposals</h3>}
                                 {(projectsDetials?.award_bid !== null && activeProjects == 'true') &&
                                     <ul className='proposal_list'>

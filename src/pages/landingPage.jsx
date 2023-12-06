@@ -188,7 +188,7 @@ export default function LandingPage({ isAuthenticated, paymentSripe }) {
                         </div>
                     </div>
                     <div className="text-center mt-5">
-                        <Link to="/select-role" className="globle_btn">Get Started</Link>
+                        {isAuthenticated == false ? <Link to="/select-role" className="globle_btn">Get Started</Link> : <Link to="/account/0" className="globle_btn">Go to your Acount</Link>}
                     </div>
                 </div>
             </section>
