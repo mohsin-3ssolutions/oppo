@@ -2165,6 +2165,10 @@ animation-iteration-count: 1; */
     font-size: 22px;
 }
 
+.bid_now_btn:hover{
+    color: #707070;
+}
+
 .project_detail {
     /* cursor: pointer; */
 }
@@ -2235,6 +2239,10 @@ animation-iteration-count: 1; */
 
 .cursor-pointer:hover {
     cursor: pointer;
+}
+
+.role{
+    font-size: 16px;
 }
 
 /* .propocal_card .project_head span::before {

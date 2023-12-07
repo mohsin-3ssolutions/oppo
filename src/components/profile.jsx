@@ -11,12 +11,11 @@ export default function Profile({ userData }) {
     });
 
 
-
     const validationSchema = Yup.object().shape({
         projectName: Yup.string().required('Project Name is required'),
         yearsInBusiness: Yup.number().required('Years In Business is required'),
-        ein: Yup.string().required('EIN is required'),
-        licensedWorkStates: Yup.string().required('Licensed Work States is required'),
+        ein: Yup.string(),
+        licensedWorkStates: Yup.string(),
         contractorLicense: Yup.string().required('Contractor License # is required'),
         workCapacity: Yup.number().required('Work Capacity is required'),
         numEmployees: Yup.number().required('Number of Employees is required'),
@@ -148,10 +147,15 @@ export default function Profile({ userData }) {
                                                 </div>
                                                 <div className="mb-3">
                                                     <label className="form-label">Licensed Work States</label>
-                                                    <Field as="select" name="licensedWorkStates" className="form-control">
+                                                    {/* <Field as="select" name="licensedWorkStates" className="form-control">
                                                         <option value="123">123</option>
-                                                        {/* Add options for the select field here */}
-                                                    </Field>
+                                                    </Field> */}
+                                                    <Field
+                                                        type="text"
+                                                        id="licensedWorkStates"
+                                                        name="licensedWorkStates"
+                                                        className="form-control"
+                                                    />
                                                     <ErrorMessage name="licensedWorkStates" component="div" className="text-danger" />
                                                 </div>
                                                 <div className="mb-3">
@@ -318,7 +322,9 @@ export default function Profile({ userData }) {
                                                 <div className="mb-3">
                                                     <label className="form-label">Identify Scope</label>
                                                     <Field as="select" name="scope" className="form-control">
-                                                        <option value="123">123</option>
+                                                        <option value="concrete">Concrete</option>
+                                                        <option value="electrical">Electrical</option>
+                                                        <option value="framing">Framing</option>
                                                         {/* Add options for the select field here */}
                                                     </Field>
                                                     <ErrorMessage name="scope" component="div" className="text-danger" />

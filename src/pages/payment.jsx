@@ -162,7 +162,7 @@ function Payment({ setUser, isAuthenticated, user, paymentStatus }) {
                                                 ? 'Your trial period is over. Please complete Payment and continue your journey.'
                                                 : ''}
                                     </p>
-                                    <p className="payment_price"><span className="pe-1">1</span>Owner Account…….…… <span>$29.99/mon</span></p>
+                                    <p className="payment_price"><span className="pe-1">1</span>{userRole} …….…… <span>$29.99/mon</span></p>
 
                                     <Formik
                                         initialValues={initialValues}

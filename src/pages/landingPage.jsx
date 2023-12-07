@@ -47,7 +47,7 @@ export default function LandingPage({ isAuthenticated, paymentSripe }) {
                                 <p className="mb-3">OPPO offers a wide range of features and tools designed to help you make these connections quickly and easily. You can search for projects and partners based on your specific needs, connect with other professionals through our messaging system, and even receive notifications when new opportunities arise.</p>
                                 <p className="mb-3">With OPPO, you can get more work and get it done faster. By connecting with other professionals in the industry who share your commitment to quality and excellence, you can build a network of partners who will help you achieve your goals. And with OPPO’s powerful tools and features, you can make those connections quickly and easily, so you can get back to doing what you do best.</p>
                                 <p className="mb-3">Don’t let a lack of quality connections hold you back in the construction industry. Sign up for OPPO today and start building the connections you need to succeed.</p>
-                                <a href="" className="globle_btn">Get Started</a>
+                                {isAuthenticated == false ? <Link to="/select-role" className="globle_btn">Get Started</Link> : <Link to="/account/0" className="globle_btn">Go to your Acount</Link>}
                             </div>
                         </div>
                     </div>

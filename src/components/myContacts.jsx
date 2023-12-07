@@ -32,6 +32,7 @@ export default function MyContacts() {
             },
         };
 
+        console.log(search)
         const data = fetch(
             url +
             `/contact_list?search=${search}&page_num_start=1&page_size=10`,
@@ -42,11 +43,19 @@ export default function MyContacts() {
                 if (body.data.contact.length > 0) {
                     setCount(body.data.totalContact / 10);
                     setPageCount(body.data.totalContact);
+
+                    setContact(body?.data.contact)
+                    setLoading(false)
+                } else {
+                    debugger
+                    setPageCount(body.data.totalContact);
                     setContact(body?.data.contact)
                     setLoading(false)
                 }
             })
-            .catch((err) => { setLoading(false) }).finally(() => {
+            .catch((err) => {
+                setLoading(false)
+            }).finally(() => {
                 setLoading(false)
             })
 

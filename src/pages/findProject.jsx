@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import DefaultLayout from '../reusableComponents/defaultLayout'
 import ReactPaginate from 'react-paginate';
 import { ThreeDots } from 'react-loader-spinner';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function FindProject() {
     const [projects, setprojects] = useState([]),
@@ -140,12 +140,15 @@ export default function FindProject() {
                                                     <h2 key={index} onClick={() => { navigate(`/project-details/${data.id}`) }}>{data.project_name}<span>{data.project_start_date}</span></h2>
                                                     <ul className="project_status">
                                                         <li>
-                                                            <div className='bid_now'>
+                                                            {/* <div className='bid_now'>
                                                                 <button className='bid_now_btn' data-bs-toggle="modal" data-bs-target="#list-modal"><img src="assets/images/auction.png" alt="" />Bid Now</button>
+                                                            </div> */}
+                                                            <div className='bid_now'>
+                                                                <Link to={`/submitproposal/${data?.id}`} className='bid_now_btn'><img src="assets/images/auction.png" alt="" />Bid Now</Link>
                                                             </div>
                                                         </li>
                                                         <li>
-                                                            <p className="view_count"><img src="assets/images/view.png" alt="" /><span>100</span></p>
+                                                            <p className="view_count"><img src="assets/images/view.png" alt="" /><span>{data.bids_count}</span></p>
                                                         </li>
                                                     </ul>
                                                 </div>

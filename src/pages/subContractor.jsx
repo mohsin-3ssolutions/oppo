@@ -6,6 +6,8 @@ import ActiveProjects from '../components/account-components/activeProjects';
 import GenttChart from '../components/genttChart';
 import Profile from '../components/profile';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import FindProject from './findProject';
+import FindAProject from '../components/account-components/findAProject';
 // import { Link } from 'react-router-dom'
 
 export default function SubContractor() {
@@ -56,14 +58,23 @@ export default function SubContractor() {
                                         General Contractor Schedule
                                     </a>
                                 </li>
+                                <li role="presentation">
+                                    <a
+                                        onClick={() => handleTabChange(4)}
+                                        className={`nav-link ${activeTab === 4 ? 'active' : ''}`}
+                                    >
+                                        Find Project
+                                    </a>
+                                </li>
+
                             </ul>
                             <div className="tab-content" id="gcTabContent">
                                 {
                                     activeTab === 0 ? <Profile /> :
                                         activeTab === 1 ? <PendingProjects /> :
                                             activeTab === 2 ? <ActiveProjects /> :
-                                                activeTab === 3 && <GenttChart />
-                                    // activeTab === 4 && <MyContacts />
+                                                activeTab === 3 ? <GenttChart /> :
+                                                    activeTab === 4 && <FindAProject />
                                 }
                             </div>
                         </div>

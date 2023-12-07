@@ -72,14 +72,13 @@ function Signup({ isAuthenticated, setIsAuthenticated }) {
 
             if (response.ok) {
                 const { data, message, success } = await response.json();
-
                 if (success) {
                     localStorage.setItem("authToken", data?.token);
                     toast.success('Registration successful!', { autoClose: 3000 });
                     setIsAuthenticated(true);
                     navigate("/payment");
                 } else {
-                    toast.error('Registration failed!' + message, { autoClose: 3000 });
+                    toast.error('Registration failed! ' + data[0], { autoClose: 3000 });
                 }
             } else {
                 throw new Error('Network response was not ok.');
@@ -127,7 +126,7 @@ function Signup({ isAuthenticated, setIsAuthenticated }) {
                             <div className="sign_up">
                                 <h3>Add Company Details</h3>
                                 <p>Already have an account? <a href="/signin" className="log_in">Log In</a></p>
-                                <p>Signing up with <strong>{role.charAt(0).toUpperCase() + role.slice(1)}</strong> Role.  To change role visit<a href="/select-role" className="log_in">Select Role</a></p>
+                                <p>Signing up with <strong className='role'>{role.charAt(0).toUpperCase() + role.slice(1)}</strong> Role.  To change role visit<a href="/select-role" className="log_in">Select Role</a></p>
                                 <ul className="social_links">
                                     <li><a href=""><img src="/assets/images/facebook.png" alt="Facebook" /></a></li>
                                     <li><a href=""><img src="/assets/images/google.png" alt="Google" /></a></li>

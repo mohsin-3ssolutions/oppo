@@ -1,7 +1,7 @@
 import React from 'react';
 import DefaultLayout from '../reusableComponents/defaultLayout';
 
-function Signin({ isAuthenticated, setIsAuthenticated }) {
+function Signin({ isAuthenticated, setIsAuthenticated, userRole }) {
 
     return (
         <>
@@ -11,15 +11,13 @@ function Signin({ isAuthenticated, setIsAuthenticated }) {
                         <h1>Thank You!</h1>
                     </div>
                 </section>
-
-
                 <section className="pay_banner thanku_banner">
                     <div className="container">
                         <div className="form_style">
                             <div className="color_bg">
                                 <div className="sign_up">
                                     <h3>Payment Details</h3>
-                                    <p className="payment_price"><span className="pe-1">1</span>Owner Account…….…… <span>$29.99/mon</span></p>
+                                    <p className="payment_price"><span className="pe-1">1</span>{userRole} …….…… <span>$29.99/mon</span></p>
                                     <p className="thnaku_message">Your payment was successful! Welcome to Oppo!
                                         Begin using your account now!</p>
                                     <div className="creat_btn">

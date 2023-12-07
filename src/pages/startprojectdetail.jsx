@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import DefaultLayout from '../reusableComponents/defaultLayout'
-import { useLocation, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import { useState } from 'react';
 import { Close } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
@@ -300,7 +300,7 @@ export default function Startprojectdetail() {
                                         </div>
                                     </div>
                                     {(isUser == false && activeProjects !== 'true') && <div className="creat_btn text-center">
-                                        <a href={`/submitproposal/${projectsDetials?.id}`}>Submit Purposal For this Project</a>
+                                        <Link to={`/submitproposal/${projectsDetials?.id}`}>Submit Purposal For this Project</Link>
                                     </div>}
                                 </form>
                                 {(projectsDetials?.award_bid !== null && activeProjects == 'true') && <h3 className='sub_head'>Awarded Proposals</h3>}
