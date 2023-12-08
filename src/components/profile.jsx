@@ -4,15 +4,20 @@ import * as Yup from 'yup';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 
-export default function Profile({ userData }) {
+export default function Profile() {
+
+    const userData = useSelector((state) => {
+        return state?.userProfileSlice?.userData?.data;
+      });
+
+    console.log(userData, "userData")
 
     const userRole = useSelector((state) => {
         return state?.userProfileSlice?.userData?.data?.role;
     });
-
-
+    
     const validationSchema = Yup.object().shape({
-        projectName: Yup.string().required('Project Name is required'),
+        projectName: Yup.string().required('Company Name is required'),
         yearsInBusiness: Yup.number().required('Years In Business is required'),
         ein: Yup.string(),
         licensedWorkStates: Yup.string(),
@@ -111,7 +116,7 @@ export default function Profile({ userData }) {
                                         <div className="col-lg-4 col-md-6">
                                             <div className="form_style ps-0">
                                                 <div className="mb-3">
-                                                    <label htmlFor="projectName" className="form-label">Project Name</label>
+                                                    <label htmlFor="projectName" className="form-label">Company Name</label>
                                                     <Field
                                                         type="text"
                                                         id="projectName"

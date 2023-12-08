@@ -47,7 +47,6 @@ export default function MyContacts() {
                     setContact(body?.data.contact)
                     setLoading(false)
                 } else {
-                    debugger
                     setPageCount(body.data.totalContact);
                     setContact(body?.data.contact)
                     setLoading(false)
@@ -119,7 +118,7 @@ export default function MyContacts() {
                 // Create a new contact array excluding the deleted contact.
                 setContact((prevContact) => prevContact.filter(item => item.id !== contact.id));
                 setLoading(false);
-                toast.success('Contact added successfully!', { autoClose: 3000 });
+                toast.success('Contact Deleted successfully!', { autoClose: 3000 });
             })
             .catch((error) => {
                 console.error("Error deleting contact:", error);

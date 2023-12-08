@@ -15,9 +15,15 @@ export default function AddContacts({ onDataReceived, modalType, dataToUpdate, u
     });
 
     const validationSchema = Yup.object().shape({
-        name: Yup.string().required('Name is required'),
-        business_name: Yup.string().required('Business Name is required'),
-        phone_number: Yup.string().required('Phone Number is required'),
+        name: Yup.string().min(3, 'Name is too short')
+            .max(25, 'Name is too long').required('Name is required'),
+        business_name: Yup.string().min(3, 'Business Name is too short')
+            .max(25, 'Business Name is too long').required('Business Name is required'),
+        phone_number: Yup.string()
+            .matches(/^\+?\d{1,4}(\s?[\d\s-]+)?$/, 'Invalid phone number format')
+            .min(10, 'Phone number is too short')
+            .max(15, 'Phone number is too long')
+            .required('Phone Number is required'),
         email: Yup.string().email('Invalid email').required('Email is required'),
     });
 
@@ -34,8 +40,10 @@ export default function AddContacts({ onDataReceived, modalType, dataToUpdate, u
             });
         }
     }, [modalType, dataToUpdate]);
+
     const handleSubmit = async (values, { resetForm }) => {
         // modalType == 'update' ? 
+        // values.phone_number = +values.phone_number
         let path;
         if (modalType == 'update') {
             path = `update_contact/${dataToUpdate.id}`
@@ -45,13 +53,19 @@ export default function AddContacts({ onDataReceived, modalType, dataToUpdate, u
         let url = process.env.REACT_APP_BASE_URL;
         const token = localStorage.getItem('authToken');
         try {
+            const requestBody = {
+                name: values.name,
+                business_name: values.business_name,
+                phone_number: +values.phone_number,
+                email: values.email,
+            };
             fetch(`${url}/${path}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`,
                 },
-                body: JSON.stringify(values),
+                body: JSON.stringify(requestBody),
             }).then((response) => {
                 return response.json();
             })
@@ -65,6 +79,13 @@ export default function AddContacts({ onDataReceived, modalType, dataToUpdate, u
                         }
                         toast.success('Contact added successfully!', { autoClose: 3000 });
                         resetForm();
+
+                        document.getElementById('addContacts').classList.remove('show');
+                        document.body.classList.remove('modal-open');
+                        const modalBackdrop = document.getElementsByClassName('modal-backdrop');
+                        for (let i = 0; i < modalBackdrop.length; i++) {
+                            modalBackdrop[i].parentNode.removeChild(modalBackdrop[i]);
+                        }
                     } else {
                         toast.error('Something wnet wrong!' + message, { autoClose: 3000 });
                     }
@@ -106,7 +127,7 @@ export default function AddContacts({ onDataReceived, modalType, dataToUpdate, u
                                 </div>
                                 <div className="form-group my-3">
                                     <label htmlFor="phone_number">Phone Number</label>
-                                    <Field type="number" id="phone_number" name="phone_number" className="form-control" />
+                                    <Field type="text" id="phone_number" name="phone_number" className="form-control" />
                                     <ErrorMessage name="phone_number" component="div" className="text-danger" />
                                 </div>
 
@@ -115,14 +136,10 @@ export default function AddContacts({ onDataReceived, modalType, dataToUpdate, u
                                     <Field type="text" id="email" name="email" className="form-control" />
                                     <ErrorMessage name="email" component="div" className="text-danger" />
                                 </div>
-
-                                <button type="submit" className="submit-btn mt-3" data-bs-dismiss="modal">Save changes</button>
+                                <button type="submit" className="submit-btn mt-3">Save changes</button>
                             </Form>
                         </Formik>
                     </div>
-                    {/* <div className="modal-footer">
-                        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    </div> */}
                 </div>
             </div>
         </div>

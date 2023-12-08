@@ -162,8 +162,13 @@ function Payment({ setUser, isAuthenticated, user, paymentStatus }) {
                                                 ? 'Your trial period is over. Please complete Payment and continue your journey.'
                                                 : ''}
                                     </p>
-                                    <p className="payment_price"><span className="pe-1">1</span>{userRole} …….…… <span>$29.99/mon</span></p>
-
+                                    <p className="payment_price">
+                                        {userRole && (
+                                            <span className="pe-1">
+                                                {userRole.charAt(0).toUpperCase() + userRole.slice(1)} …….…… <span>$29.99/mon</span>
+                                            </span>
+                                        )}
+                                    </p>
                                     <Formik
                                         initialValues={initialValues}
                                         validationSchema={validationSchema}

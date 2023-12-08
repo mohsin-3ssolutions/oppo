@@ -17,7 +17,13 @@ function Signin({ isAuthenticated, setIsAuthenticated, userRole }) {
                             <div className="color_bg">
                                 <div className="sign_up">
                                     <h3>Payment Details</h3>
-                                    <p className="payment_price"><span className="pe-1">1</span>{userRole} …….…… <span>$29.99/mon</span></p>
+                                    <p className="payment_price">
+                                        {userRole && (
+                                            <span className="pe-1">
+                                                {userRole.charAt(0).toUpperCase() + userRole.slice(1)} …….…… <span>$29.99/mon</span>
+                                            </span>
+                                        )}
+                                    </p>
                                     <p className="thnaku_message">Your payment was successful! Welcome to Oppo!
                                         Begin using your account now!</p>
                                     <div className="creat_btn">
