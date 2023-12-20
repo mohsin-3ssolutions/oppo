@@ -1,33 +1,104 @@
-import React from 'react'
+import React, { useRef, useState } from 'react'
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
+import CloseIcon from '@mui/icons-material/Close';
+const FileLogo = '/assets/images/file.png';
 
 export default function Profile() {
 
+    const [states] = useState([
+        "AK",
+        "AL",
+        "AR",
+        "AZ",
+        "CA",
+        "CO",
+        "CT",
+        "DE",
+        "DC",
+        "FL",
+        "GA",
+        "HI",
+        "ID",
+        "IL",
+        "IN",
+        "IA",
+        "KS",
+        "KY",
+        "LA",
+        "ME",
+        "MD",
+        "MA",
+        "MI",
+        "MN",
+        "MS",
+        "MO",
+        "MT",
+        "NE",
+        "NV",
+        "NH",
+        "NJ",
+        "NM",
+        "NY",
+        "NC",
+        "ND",
+        "OH",
+        "OK",
+        "OR",
+        "PA",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "TX",
+        "UT",
+        "VT",
+        "TA",
+        "VA",
+        "WA",
+        "WV",
+        "WI",
+        "WY",
+        "AB",
+        "BC",
+        "MB",
+        "NB",
+        "NL",
+        "NS",
+        "NT",
+        "NU",
+        "ON",
+        "PE",
+        "QC",
+        "SK",
+    ]);
+
     const userData = useSelector((state) => {
         return state?.userProfileSlice?.userData?.data;
-      });
-
-    console.log(userData, "userData")
+    });
 
     const userRole = useSelector((state) => {
         return state?.userProfileSlice?.userData?.data?.role;
     });
-    
+
+    const [profile, setprofile] = useState(userData.profile_image ? userData.profile_image : null)
+    const [w9, setW9] = useState(userData.w9_form ? userData.w9_form : null)
+    const [workerComp, setWorkerComp] = useState(userData.worker_comp ? userData.worker_comp : null)
+
     const validationSchema = Yup.object().shape({
         projectName: Yup.string().required('Company Name is required'),
         yearsInBusiness: Yup.number().required('Years In Business is required'),
-        ein: Yup.string(),
+        ein: Yup.string().matches(/^\d{2}-\d{5}$/, 'Invalid format. Please use 32-99223 format'),
         licensedWorkStates: Yup.string(),
         contractorLicense: Yup.string().required('Contractor License # is required'),
         workCapacity: Yup.number().required('Work Capacity is required'),
         numEmployees: Yup.number().required('Number of Employees is required'),
         description: Yup.string().required('Description is required'),
-        selectedServices: Yup.array().min(1, 'Select at least one service'),
+        // selectedServices: Yup.array().min(1, 'Select at least one service'),
         // scope: Yup.string().required('Scope is required'),
-        pastContractorsWorkedWith: Yup.string().required('Past Contractors Worked With is required'),
+        pastContractorsWorkedWith: Yup.string().required('Past Contractors is required'),
     });
 
     const initialValues = {
@@ -37,12 +108,12 @@ export default function Profile() {
         licensedWorkStates: userData ? userData.licensed_states_of_work : '',
         contractorLicense: userData ? userData.contractor_license : '',
         workCapacity: userData ? userData.work_capacity : '',
-        numEmployees: userData ? userData.company_name : '',
-        description: userData ? userData.company_name : '',
+        numEmployees: userData ? userData.number_of_employees : '',
+        description: userData ? userData.biography : '',
         selectedServices: [],
         scope: userData ? userData.identify_scope : '',
         pastContractorsWorkedWith: userData ? userData.past_contractors : '',
-        w9Form: userData ? userData.w9_form : '',
+        w9Form: '',
     };
 
     const handleSubmit = async (values, { setSubmitting }) => {
@@ -85,7 +156,7 @@ export default function Profile() {
                 if (response.ok) {
                     toast.success('Profile updated successfully!', { autoClose: 3000 });
                     // navigate('/find-a-project')
-                    window.location.reload()
+                    // window.location.reload()
                 } else {
                     toast.error('Something went wrong!' + data.message, { autoClose: 3000 });
                 }
@@ -98,7 +169,26 @@ export default function Profile() {
             setSubmitting(false);
         }
     };
+    const w9Document = useRef(null);
+    const handleReset = () => {
+        if (w9Document.current) {
+            w9Document.current.value = "";
+        }
+    };
 
+    const workersDocument = useRef(null);
+    const handleResetWorkers = () => {
+        if (workersDocument.current) {
+            workersDocument.current.value = "";
+        }
+    };
+
+    const profilePicture = useRef(null);
+    const handleResetProfile = () => {
+        if (profilePicture.current) {
+            profilePicture.current.value = "";
+        }
+    };
     return (
         <div>
             <section className="profile_banner">
@@ -155,12 +245,29 @@ export default function Profile() {
                                                     {/* <Field as="select" name="licensedWorkStates" className="form-control">
                                                         <option value="123">123</option>
                                                     </Field> */}
-                                                    <Field
+                                                    {/* <Field
                                                         type="text"
                                                         id="licensedWorkStates"
                                                         name="licensedWorkStates"
                                                         className="form-control"
-                                                    />
+                                                    /> */}
+                                                    <Field
+                                                        name="licensedWorkStates"
+                                                        as="select"
+                                                        className="form-control"
+                                                    >
+                                                        <option value="" disabled>
+                                                            Select State
+                                                        </option>
+                                                        {states.length &&
+                                                            states.map((state, idx) => {
+                                                                return (
+                                                                    <option value={state} key={idx}>
+                                                                        {state}
+                                                                    </option>
+                                                                );
+                                                            })}
+                                                    </Field>
                                                     <ErrorMessage name="licensedWorkStates" component="div" className="text-danger" />
                                                 </div>
                                                 <div className="mb-3">
@@ -198,50 +305,91 @@ export default function Profile() {
                                                 </div>
                                                 <div className="mb-3">
                                                     <label for="w9Form" className="form-label">W9 Form (PDF)</label>
-                                                    <div className="upload_files">
-                                                        {/* <Field
-                                                            type="file"
-                                                            name="w9Form"
-                                                            className="form-control-file"
-                                                            onChange={(e) => {
-                                                                setFieldValue('w9Form', e.currentTarget.files[0]);
-                                                            }}
-                                                        /> */}
-                                                        <input type="file" name="w9Form" onChange={(event) => {
-                                                            setFieldValue("w9Form", event.currentTarget.files[0]);
-                                                        }} />
-                                                    </div>
+                                                    {w9 !== null ?
+                                                        <div className='pro_img d-flex'>
+                                                            <button className="delete-files"
+                                                                onClick={(event) => { setW9(null) }} style={{ top: "0px" }}>
+                                                                <CloseIcon fontSize='20px' />
+                                                            </button>
+                                                            <span>{w9}</span>
+                                                        </div> :
+                                                        <div className="upload_files">
+                                                            <input type="file" name="w9Form" accept=".pdf" ref={w9Document} onChange={(event) => {
+                                                                if (event.currentTarget.files[0] && event.currentTarget.files[0].type === 'application/pdf') {
+                                                                    setFieldValue("w9Form", event.currentTarget.files[0]);
+                                                                } else {
+                                                                    console.error('Invalid file type. Please select a PDF file.');
+                                                                    setFieldValue("w9Form", null);
+                                                                    handleReset()
+                                                                    // Optionally, you can clear the file input or show an error to the user
+                                                                }
+
+                                                            }} />
+                                                            {values.w9Form && <button className='delete-file mb-2'
+                                                                onClick={() => { handleReset(), setFieldValue("w9Form", null) }}>
+                                                                Delete file
+                                                            </button>}
+                                                        </div>
+                                                    }
+
                                                 </div>
                                                 <div className="mb-3">
                                                     <label for="workersCompForm" className="form-label">Worker’s Comp Form (PDF)</label>
-                                                    <div className="upload_files">
-                                                        {/* <Field
-                                                            type="file"
-                                                            name="workersCompForm"
-                                                            className="form-control-file"
-                                                            onChange={(e) => {
-                                                                setFieldValue('workersCompForm', e.currentTarget.files[0]);
-                                                            }}
-                                                        /> */}
-                                                        <input type="file" name="workersCompForm" onChange={(event) => {
-                                                            setFieldValue("workersCompForm", event.currentTarget.files[0]);
-                                                        }} />
-                                                    </div>
+                                                    {workerComp !== null ?
+                                                        <div className='pro_img d-flex'>
+                                                            <button className="delete-files"
+                                                                onClick={(event) => { setWorkerComp(null) }} style={{ top: "0px" }}>
+                                                                <CloseIcon fontSize='20px' />
+                                                            </button>
+                                                            <span>{w9}</span>
+                                                        </div> :
+                                                        <div className="upload_files">
+                                                            <input type="file" accept='.pdf' ref={workersDocument} name="workersCompForm" onChange={(event) => {
+                                                                if (event.currentTarget.files[0] && event.currentTarget.files[0].type === 'application/pdf') {
+                                                                    setFieldValue("workersCompForm", event.currentTarget.files[0]);
+                                                                } else {
+                                                                    console.error('Invalid file type. Please select a PDF file.');
+                                                                    setFieldValue("workersCompForm", null);
+                                                                    handleResetWorkers()
+                                                                    // Optionally, you can clear the file input or show an error to the user
+                                                                }
+                                                            }} />
+                                                            {values.workersCompForm && <button className='delete-file mb-2'
+                                                                onClick={() => { handleResetWorkers(), setFieldValue("workersCompForm", null) }}>
+                                                                Delete file
+                                                            </button>}
+                                                        </div>
+                                                    }
+
+                                                    {/* */}
                                                 </div>
                                                 <div className="mb-3">
                                                     <label for="profilePicture" className="form-label">Profile Picture</label>
                                                     <div className="upload_files">
-                                                        {/* <Field
-                                                            type="file"
-                                                            name="profilePicture"
-                                                            className="form-control-file"
-                                                            onChange={(e) => {
-                                                                setFieldValue('profilePicture', e.currentTarget.files[0]);
-                                                            }}
-                                                        /> */}
-                                                        <input type="file" name="profilePicture" onChange={(event) => {
-                                                            setFieldValue("profilePicture", event.currentTarget.files[0]);
-                                                        }} />
+                                                        {profile !== null ?
+                                                            <div className='pro_img d-flex'>
+                                                                <button className="delete-files"
+                                                                    onClick={(event) => { setprofile(null) }} style={{ top: "0px" }}>
+                                                                    <CloseIcon fontSize='20px' />
+                                                                </button>
+                                                                <img src={profile} alt="" />
+                                                            </div> :
+                                                            <input type="file" accept="jpg, .jpeg, .png" ref={profilePicture} name="profilePicture" onChange={(event) => {
+                                                                if (event.currentTarget.files[0] && /^image\/(jpeg|jpg|png)$/.test(event.currentTarget.files[0].type)) {
+                                                                    setFieldValue("profilePicture", event.currentTarget.files[0]);
+                                                                } else {
+                                                                    console.error('Invalid file type. Please select a JPEG, JPG, or PNG file.');
+                                                                    setFieldValue("profilePicture", null);
+                                                                    handleResetProfile()
+                                                                }
+                                                                // setFieldValue("profilePicture", event.currentTarget.files[0]);
+                                                            }} />
+                                                        }
+
+                                                        {values.profilePicture && <button className='delete-file mb-2'
+                                                            onClick={() => { handleResetProfile(), setFieldValue("profilePicture", null) }}>
+                                                            Delete file
+                                                        </button>}
                                                     </div>
                                                 </div>
                                             </div>
@@ -324,15 +472,163 @@ export default function Profile() {
                                                     </div>
 
                                                 </div>
-                                                <div className="mb-3">
+                                                {/* <div className="mb-3">
                                                     <label className="form-label">Identify Scope</label>
                                                     <Field as="select" name="scope" className="form-control">
                                                         <option value="concrete">Concrete</option>
                                                         <option value="electrical">Electrical</option>
                                                         <option value="framing">Framing</option>
-                                                        {/* Add options for the select field here */}
                                                     </Field>
                                                     <ErrorMessage name="scope" component="div" className="text-danger" />
+                                                </div> */}
+
+                                                <div className="mb-3">
+                                                    <label for="flexCheckDefault11" className="form-label">Identify Scope</label>
+                                                    <div className="upload_files">
+                                                        <ul>
+                                                            <li>
+                                                                <div className="form-check">
+                                                                    <Field
+                                                                        type="checkbox"
+                                                                        name="scope"
+                                                                        value="Commercial"
+                                                                        id="commercialService"
+                                                                        className="form-check-input"
+                                                                    />
+                                                                    <label className="form-check-label" for="flexCheckDefault">
+                                                                        Site Preparation
+                                                                    </label>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div className="form-check">
+                                                                    <Field
+                                                                        type="checkbox"
+                                                                        name="scope"
+                                                                        value="Residential"
+                                                                        id="residentialService"
+                                                                        className="form-check-input"
+                                                                    />
+                                                                    <label className="form-check-label" for="flexCheckDefault1">
+                                                                        Concrete
+                                                                    </label>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div className="form-check">
+                                                                    <Field
+                                                                        type="checkbox"
+                                                                        name="scope"
+                                                                        value="Federal"
+                                                                        id="federalService"
+                                                                        className="form-check-input"
+                                                                    />
+                                                                    <label className="form-check-label" for="flexCheckDefault2">
+                                                                        Structural and framing
+                                                                    </label>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div className="form-check">
+                                                                    <Field
+                                                                        type="checkbox"
+                                                                        name="scope"
+                                                                        value="Road Construction & Industrial"
+                                                                        id="roadConstructionService"
+                                                                        className="form-check-input"
+                                                                    />
+                                                                    <label className="form-check-label" for="flexCheckDefault3">
+                                                                        Roofing, siding, and sheet metal work
+                                                                    </label>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div className="form-check">
+                                                                    <Field
+                                                                        type="checkbox"
+                                                                        name="scope"
+                                                                        value="Road Construction & Industrial"
+                                                                        id="roadConstructionService"
+                                                                        className="form-check-input"
+                                                                    />
+                                                                    <label className="form-check-label" for="flexCheckDefault3">
+                                                                        Plumbing
+                                                                    </label>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div className="form-check">
+                                                                    <Field
+                                                                        type="checkbox"
+                                                                        name="scope"
+                                                                        value="Road Construction & Industrial"
+                                                                        id="roadConstructionService"
+                                                                        className="form-check-input"
+                                                                    />
+                                                                    <label className="form-check-label" for="flexCheckDefault3">
+                                                                        HVAC
+                                                                    </label>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div className="form-check">
+                                                                    <Field
+                                                                        type="checkbox"
+                                                                        name="scope"
+                                                                        value="Road Construction & Industrial"
+                                                                        id="roadConstructionService"
+                                                                        className="form-check-input"
+                                                                    />
+                                                                    <label className="form-check-label" for="flexCheckDefault3">
+                                                                        Electrical
+                                                                    </label>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div className="form-check">
+                                                                    <Field
+                                                                        type="checkbox"
+                                                                        name="scope"
+                                                                        value="Road Construction & Industrial"
+                                                                        id="roadConstructionService"
+                                                                        className="form-check-input"
+                                                                    />
+                                                                    <label className="form-check-label" for="flexCheckDefault3">
+                                                                        Carpentry
+                                                                    </label>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div className="form-check">
+                                                                    <Field
+                                                                        type="checkbox"
+                                                                        name="scope"
+                                                                        value="Road Construction & Industrial"
+                                                                        id="roadConstructionService"
+                                                                        className="form-check-input"
+                                                                    />
+                                                                    <label className="form-check-label" for="flexCheckDefault3">
+                                                                        Drywall
+                                                                    </label>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div className="form-check">
+                                                                    <Field
+                                                                        type="checkbox"
+                                                                        name="scope"
+                                                                        value="Road Construction & Industrial"
+                                                                        id="roadConstructionService"
+                                                                        className="form-check-input"
+                                                                    />
+                                                                    <label className="form-check-label" for="flexCheckDefault3">
+                                                                        Painting and paper hanging
+                                                                    </label>
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+
                                                 </div>
 
                                                 <div className="mb-3">
@@ -365,7 +661,7 @@ export default function Profile() {
                         </div>
                     </div>
                 </div>
-            </section>
-        </div>
+            </section >
+        </div >
     )
 }

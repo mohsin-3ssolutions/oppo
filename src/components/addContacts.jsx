@@ -3,7 +3,10 @@ import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
 
-export default function AddContacts({ onDataReceived, modalType, dataToUpdate, updateContact }) {
+export default function AddContacts({ contact, onDataReceived, modalType, dataToUpdate, updateContact }) {
+
+    const [errors, setErrors] = useState([])
+
     if (modalType == 'add') {
         dataToUpdate = null
     }
@@ -15,16 +18,20 @@ export default function AddContacts({ onDataReceived, modalType, dataToUpdate, u
     });
 
     const validationSchema = Yup.object().shape({
-        name: Yup.string().min(3, 'Name is too short')
-            .max(25, 'Name is too long').required('Name is required'),
-        business_name: Yup.string().min(3, 'Business Name is too short')
-            .max(25, 'Business Name is too long').required('Business Name is required'),
+        name: Yup.string().min(3, 'Please use atleast 3 characters')
+            .max(25, 'You have exceeded the limit of 25 characters').required('Name is required'),
+        business_name: Yup.string().min(3, 'Please use atleast 3 characters')
+            .max(25, 'You have exceeded the limit of 25 characters').required('Business Name is required'),
         phone_number: Yup.string()
-            .matches(/^\+?\d{1,4}(\s?[\d\s-]+)?$/, 'Invalid phone number format')
-            .min(10, 'Phone number is too short')
-            .max(15, 'Phone number is too long')
+            .matches(
+                /^(\+\d{1,4}\s?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}$/,
+                'Invalid phone number format'
+            )
             .required('Phone Number is required'),
-        email: Yup.string().email('Invalid email').required('Email is required'),
+        email: Yup.string()
+            .email('Invalid email')
+            .matches(/^.+@.+\..{2,}$/, 'Invalid email format')
+            .required('Email is required'),
     });
 
     useEffect(() => {
@@ -43,8 +50,15 @@ export default function AddContacts({ onDataReceived, modalType, dataToUpdate, u
 
     const handleSubmit = async (values, { resetForm }) => {
         // modalType == 'update' ? 
-        // values.phone_number = +values.phone_number
+        // values.phone_number = parseInt(values.phone_number.replace(/\D/g, ''), 10);
         let path;
+        // for (let i = 0; i < contact.length; i++) {
+        //     if (values.email == contact[i].email) {
+        //         toast.error('Email already exist!' + message, { autoClose: 3000 });
+        //         return
+        //     }
+        // }
+
         if (modalType == 'update') {
             path = `update_contact/${dataToUpdate.id}`
         } else {
@@ -56,7 +70,7 @@ export default function AddContacts({ onDataReceived, modalType, dataToUpdate, u
             const requestBody = {
                 name: values.name,
                 business_name: values.business_name,
-                phone_number: +values.phone_number,
+                phone_number: values.phone_number,
                 email: values.email,
             };
             fetch(`${url}/${path}`, {
@@ -79,15 +93,16 @@ export default function AddContacts({ onDataReceived, modalType, dataToUpdate, u
                         }
                         toast.success('Contact added successfully!', { autoClose: 3000 });
                         resetForm();
-
                         document.getElementById('addContacts').classList.remove('show');
                         document.body.classList.remove('modal-open');
                         const modalBackdrop = document.getElementsByClassName('modal-backdrop');
                         for (let i = 0; i < modalBackdrop.length; i++) {
                             modalBackdrop[i].parentNode.removeChild(modalBackdrop[i]);
                         }
+                        setErrors([])
                     } else {
-                        toast.error('Something wnet wrong!' + message, { autoClose: 3000 });
+                        // toast.error('Something wnet wrong! ' + " " + message, { autoClose: 3000 });
+                        setErrors(data)
                     }
                 });
         } catch (error) {
@@ -98,6 +113,8 @@ export default function AddContacts({ onDataReceived, modalType, dataToUpdate, u
             // setSubmitting(false);
         }
     };
+
+    console.log(errors)
     return (
         <div className="modal fade" id="addContacts" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div className="modal-dialog">
@@ -136,6 +153,17 @@ export default function AddContacts({ onDataReceived, modalType, dataToUpdate, u
                                     <Field type="text" id="email" name="email" className="form-control" />
                                     <ErrorMessage name="email" component="div" className="text-danger" />
                                 </div>
+                                {errors.length !== 0 && (
+                                    <ul style={{ listStyleType: "circle", margin: "10px" }}>
+                                        {errors.map((error, index) => (
+                                            <div>
+                                                <li className="text-danger" key={index}>
+                                                    {error}
+                                                </li>
+                                            </div>
+                                        ))}
+                                    </ul>
+                                )}
                                 <button type="submit" className="submit-btn mt-3">Save changes</button>
                             </Form>
                         </Formik>

@@ -3,6 +3,7 @@ import { IconButton, Menu, MenuItem } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
 import { ThreeDots } from 'react-loader-spinner';
+const FileLogo = '/assets/images/file.png';
 
 
 export default function OutForBid() {
@@ -151,7 +152,7 @@ export default function OutForBid() {
                                         <li>
                                             <div className="project_detail" key={index}>
                                                 <div className="project_head">
-                                                    <h2 onClick={() => { navigate(`/project-details/${project.id}`) }} className='cursor-pointer' >{project.project_name}<span>{project.project_start_date}</span></h2>
+                                                    <h2 onClick={() => { navigate(`/project-details/${project.id}`) }} className='cursor-pointer' >{project.project_name.length > 50 ? `${project.project_name.slice(0, 50)}...` : project.project_name}<span>{project.project_start_date}</span></h2>
                                                     <ul className="project_status">
                                                         {/* <li>
                                                                 <div className='list_btn'>

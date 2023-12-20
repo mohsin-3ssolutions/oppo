@@ -9,6 +9,8 @@ export default function FindProject() {
         [count, setCount] = useState(0),
         [pageCount, setPageCount] = useState(0),
         [loading, setLoading] = useState(true);
+    const [goBack, setGoBack] = useState(false);
+
     let navigate = useNavigate();
 
     useEffect(() => {
@@ -75,6 +77,13 @@ export default function FindProject() {
         setprojects(dataFromServer?.data?.projects);
     };
 
+    useEffect(() => {
+        if (goBack) {
+            navigate(-1);
+        }
+    }, [goBack])
+
+
     return (
         <DefaultLayout>
             <section className="inner_banner account_banner">
@@ -87,6 +96,8 @@ export default function FindProject() {
 
             <section className="find_project_banner">
                 <div className="container">
+                    <button className='back-btn mb-3' onClick={() => { navigate(-1), setGoBack(true) }}>Go Back</button>
+
                     <div className="search_form filter_project">
                         <p>Search Filter</p>
                         <form action="">

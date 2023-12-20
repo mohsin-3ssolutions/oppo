@@ -6,6 +6,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { toast } from 'react-toastify';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
 
 export default function MyContacts() {
     const [contact, setContact] = useState([]),
@@ -15,7 +16,26 @@ export default function MyContacts() {
         [loading, setLoading] = useState(false),
         [parentData, setParentData] = useState(null),
         [modalType, setModalType] = useState(''),
-        [dataToUpdate, setDataToUpdate] = useState(null);
+        [dataToUpdate, setDataToUpdate] = useState({});
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+    const [contactToDelete, setContactToDelete] = useState(null);
+
+
+    const handleDelete = (contact) => {
+        setContactToDelete(contact);
+        setIsDeleteModalOpen(true);
+    };
+
+    const handleCloseDeleteModal = () => {
+        setIsDeleteModalOpen(false);
+        setContactToDelete(null);
+    };
+
+    const handleConfirmDelete = () => {
+        // Perform the delete operation here
+        handleDeleteOperation(contactToDelete);
+        handleCloseDeleteModal();
+    };
 
     const receiveDataFromAddContacts = (data) => {
         setContact((prevContact) => [data, ...prevContact]);
@@ -24,6 +44,9 @@ export default function MyContacts() {
         let url = process.env.REACT_APP_BASE_URL;
         const token = localStorage.getItem('authToken');
         setLoading(true)
+
+        const encodedSearch = encodeURIComponent(search);
+
         const requestOptions = {
             method: "GET",
             headers: {
@@ -31,11 +54,9 @@ export default function MyContacts() {
                 Authorization: `Bearer ${token}`,
             },
         };
-
-        console.log(search)
         const data = fetch(
             url +
-            `/contact_list?search=${search}&page_num_start=1&page_size=10`,
+            `/contact_list?search=${encodedSearch}&page_num_start=1&page_size=10`,
             requestOptions
         )
             .then(async (res) => {
@@ -92,7 +113,7 @@ export default function MyContacts() {
         fetchData()
     }, [search])
 
-    const handleDelete = (contact) => {
+    const handleDeleteOperation = (contact) => {
 
         let url = process.env.REACT_APP_BASE_URL;
         setLoading(true);
@@ -251,7 +272,23 @@ export default function MyContacts() {
                     </div>
                 </div>
             </div>
-            <AddContacts onDataReceived={receiveDataFromAddContacts} modalType={modalType} dataToUpdate={dataToUpdate} updateContact={updateContact} />
+            {contactToDelete && (
+                <Dialog open={isDeleteModalOpen} onClose={handleCloseDeleteModal}>
+                    <DialogTitle className='delete-modal-header'>Delete Confirmation</DialogTitle>
+                    <p className='my-2 p-3'>
+                        Are you sure you want to delete the contact: <strong>{contactToDelete.name}</strong>?
+                    </p>
+                    <div className='d-flex m-auto justify-content-between w-25 mb-3'>
+                        <button onClick={handleCloseDeleteModal} className='cancel_btn ms-4 me-3'>
+                            Cancel
+                        </button>
+                        <button onClick={handleConfirmDelete} className='submit_btn'>
+                            Delete
+                        </button>
+                    </div>
+                </Dialog>
+            )}
+            <AddContacts contact={contact} onDataReceived={receiveDataFromAddContacts} modalType={modalType} dataToUpdate={dataToUpdate} updateContact={updateContact} />
         </div>
     )
 }

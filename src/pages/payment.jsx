@@ -14,7 +14,6 @@ function Payment({ setUser, isAuthenticated, user, paymentStatus }) {
     const stripe = useStripe();
     const elements = useElements();
     const navigate = useNavigate();
-    const dispatch = useDispatch();
 
     const initialValues = {
         name: '',
@@ -157,7 +156,7 @@ function Payment({ setUser, isAuthenticated, user, paymentStatus }) {
                                     <p className='mb-2'>
                                         {paymentStatus === "ON_TRIAL"
                                             // ? 'Welcome to our trial experience which will expire in 2 weeks from your signup. Please complete Payment and continue your journey!"'
-                                            ? `Welcome to our trial experience which will expire on ${moment(createdDate).add(14, 'days').utc().format()}. Please complete Payment and continue your journey!"`
+                                            ? `Welcome to our trial experience which will expire on ${moment(createdDate).add(14, 'days').utc().format('DD-MM-YYYY')}. Please complete Payment and continue your journey!"`
                                             : paymentStatus === 'TRIAL_EXPIRED'
                                                 ? 'Your trial period is over. Please complete Payment and continue your journey.'
                                                 : ''}

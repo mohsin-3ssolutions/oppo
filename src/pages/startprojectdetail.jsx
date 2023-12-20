@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import DefaultLayout from '../reusableComponents/defaultLayout'
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useState } from 'react';
 import { Close } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
@@ -10,6 +10,7 @@ import Notes from '../components/notes';
 import Rating from '../components/rating';
 import { ThreeDots } from 'react-loader-spinner';
 import Ratting from '../components/rating';
+import Chat from '../components/chat';
 
 const FileLogo = '/assets/images/file.png';
 const DummyPic1 = '/assets/images/pic1.png';
@@ -26,6 +27,15 @@ export default function Startprojectdetail() {
     const [loading, setLoading] = useState(false);
     const [awarded, setAwarded] = useState(false);
     const [isNotesAdded, setisNotesAdded] = useState(false);
+    const [goBack, setGoBack] = useState(false);
+
+    const navigate = useNavigate(); // Use useNavigate hook
+
+    useEffect(() => {
+        if (goBack) {
+            navigate(-1);
+        }
+    }, [goBack])
 
     const updateFlag = (notesAdded) => {
         setisNotesAdded(notesAdded);
@@ -45,12 +55,20 @@ export default function Startprojectdetail() {
         setOpenNotesIndex(null);
     };
 
+    const showChatForActiveBid = () => {
+        setOpenChatIndex(1);
+        setOpenNotesIndex(null);
+    };
+
+    const showNotesForActiveBid = () => {
+        setOpenChatIndex(null);
+        setOpenNotesIndex(1);
+    };
+
     const { id, activeProjects } = useParams();
 
-    console.log(activeProjects)
+    console.log(projectsDetials)
 
-
-    let data = [1, 2, 3, 4, 5]
 
     const fetchProjectData = async () => {
         setLoading(true);
@@ -157,6 +175,8 @@ export default function Startprojectdetail() {
         }
     }, [isUser, projectsDetials]);
 
+    console.log(projectsBidding, 'projectsBidding')
+
     return (
         <DefaultLayout>
             <div>
@@ -188,15 +208,16 @@ export default function Startprojectdetail() {
                 ) : (
                     <div className="new_project project_name_banner my-5 pt-3">
                         <div className='container'>
+                            <button className='back-btn mb-3' onClick={() => { navigate(-1), setGoBack(true) }}>Go Back</button>
                             <div className="color_bg mb-0">
-                                <h2>{projectsDetials?.project_name || ''}</h2>
+                                <h2>{projectsDetials?.project_name?.length > 50 ? `${projectsDetials.project_name.slice(0, 50)}...` : projectsDetials.project_name || 'N/A'}</h2>
                                 <form action="">
                                     <div className="row">
                                         <div className="col-lg-4 col-md-6">
                                             <div className="form_style ps-0">
                                                 <div className="mb-3">
                                                     <label for="exampleFormControlInput1" className="form-label">Project Name</label>
-                                                    <p className='text'>{projectsDetials?.project_name || 'N/A'}</p>
+                                                    <p className='text'>{projectsDetials?.project_name?.length > 50 ? `${projectsDetials.project_name.slice(0, 50)}...` : projectsDetials.project_name || 'N/A'}</p>
                                                 </div>
                                                 <div className="mb-3">
                                                     <label for="exampleFormControlInput12" className="form-label">Email</label>
@@ -237,7 +258,12 @@ export default function Startprojectdetail() {
                                                 <div className="mb-3">
                                                     <label for="exampleFormControlInput12" className="form-label">Permits</label>
                                                     <p className='text'>
-                                                        <span><img src={FileLogo} alt="" /> {projectsDetials?.permit_doc || 'N/A'}</span>
+                                                        {projectsDetials?.permit_doc?.map((data, index) => (
+                                                            <div key={index}>
+                                                                <span><img src={FileLogo} alt="" /> {data.document_name || 'N/A'}</span>
+                                                                <br />
+                                                            </div>
+                                                        ))}
                                                     </p>
                                                 </div>
                                                 <div className="mb-3">
@@ -254,31 +280,26 @@ export default function Startprojectdetail() {
                                                     <div className="upload_files border-0">
                                                         <label for="exampleFormControlInput12" className="form-label">Uploaded Plans</label>
                                                         <p className='text'>
-                                                            <span><img src={FileLogo} alt="" /> {projectsDetials?.plan_doc || 'N/A'}</span>
+                                                            {projectsDetials?.plan_doc?.map((data, index) => (
+                                                                <div key={index}>
+                                                                    <span><img src={FileLogo} alt="" /> {data.document_name || 'N/A'}</span>
+                                                                    <br />
+                                                                </div>
+                                                            ))}
+                                                            {/* <span><img src={FileLogo} alt="" /> {projectsDetials?.plan_doc || 'N/A'}</span> */}
                                                         </p>
                                                         <label for="exampleFormControlInput12" className="form-label">Upload Pictures</label>
                                                         <div className='text'>
                                                             <ul className='picture_list'>
-                                                                <li>
-                                                                    <div className='pro_img'>
-                                                                        <img src={DummyPic1} alt="" />
-                                                                    </div>
-                                                                </li>
-                                                                <li>
-                                                                    <div className='pro_img'>
-                                                                        <img src={DummyPic2} alt="" />
-                                                                    </div>
-                                                                </li>
-                                                                <li>
-                                                                    <div className='pro_img'>
-                                                                        <img src={DummyPic1} alt="" />
-                                                                    </div>
-                                                                </li>
-                                                                <li>
-                                                                    <div className='pro_img'>
-                                                                        <img src={DummyPic2} alt="" />
-                                                                    </div>
-                                                                </li>
+                                                                {projectsDetials?.plan_image?.map((data, index) => (
+                                                                    <li>
+                                                                        <div className='pro_img'>
+                                                                            <img src={data.image_name} alt="" />
+                                                                        </div>
+                                                                    </li>
+                                                                ))}
+                                                                {/* */}
+
                                                             </ul>
                                                             <span className='del_btn'><img src="assets/images/del.png" alt="" /></span>
                                                         </div>
@@ -317,8 +338,8 @@ export default function Startprojectdetail() {
                                                                     <p><strong>Comments: </strong> {projectsDetials.award_bid?.description ? projectsDetials.award_bid?.description : "N/A"} </p>
                                                                 </div>
                                                                 <div className='proposal_content'>
-                                                                    <p className='dropdown-toggle' onClick={() => showChat(index)}><strong>Latest Communication </strong></p>
-                                                                    <p>Wasatch Sub Contractors: I think we’ve got the latest things done with what you’re looking for. You: Thanks, guys. This is going to be really great. Wasatch Sub Contractors: That’s great. Yes, we can get back to you with that information as soon as possible.</p>
+                                                                    <p className='dropdown-toggle' onClick={() => showChatForActiveBid()}><strong>Latest Communication </strong></p>
+                                                                    <p>{projectsDetials.award_bid?.latest_chat?.message ? projectsDetials.award_bid?.latest_chat?.message : "N/A"}</p>
                                                                 </div>
                                                             </div>
                                                             <div className='col-lg-6'>
@@ -350,7 +371,7 @@ export default function Startprojectdetail() {
                                                                         <Ratting bidData={projectsDetials.award_bid} />
                                                                         <div className='notes w-50'>
                                                                             <div className='proposal_content'>
-                                                                                <p className='mb-1 dropdown-toggle' onClick={() => showNotes()}><strong>Notes </strong></p>
+                                                                                <p className='mb-1 dropdown-toggle' onClick={() => showNotesForActiveBid()}><strong>Notes </strong></p>
                                                                                 <p className=''>{projectsDetials.award_bid?.latest_notes?.notes ? projectsDetials.award_bid?.latest_notes?.notes : 'N/A'}</p>
                                                                             </div>
                                                                         </div>
@@ -386,27 +407,12 @@ export default function Startprojectdetail() {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                {/* {openChatIndex == index && <div className='comunication_content' aria-labelledby="dropdownMenuButton1">
-                                                    <div className='proposal_content'>
-                                                        <p><strong></strong></p>
-                                                        <p className='comunication_pop_text'>Wasatch Sub Contractors: I think we’ve got the latest things done with what you’re looking for. You: Thanks, guys. This is going to be really great. Wasatch Sub Contractors: That’s great. Yes, we can get back to you with that information as soon as possible.</p>
-                                                        <ul className='breadcrumbs'>
-                                                            <li>
-                                                                <a href="">Description</a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="">Biography of Company & Services</a>
-                                                            </li>
-                                                        </ul>
-                                                        <div className='form_input'>
-                                                            <input type="text" name="" id="" />
-                                                            <button><img src="assets/images/cirlce.png" alt="" /></button>
-                                                        </div>
-                                                    </div>
-                                                </div>}
-                                                {openNotesIndex === index && (
+                                                {openChatIndex == 1 &&
+                                                    <Chat setOpenChatIndex={setOpenChatIndex} bidData={projectsDetials.award_bid} />
+                                                }
+                                                {openNotesIndex === 1 && (
                                                     <Notes setOpenNotesIndex={setOpenNotesIndex} bidData={projectsDetials.award_bid} updateFlag={updateFlag} />
-                                                )} */}
+                                                )}
                                             </div>
                                         </li>
                                     </ul>
@@ -428,7 +434,7 @@ export default function Startprojectdetail() {
                                                                     </div>
                                                                     <div className='proposal_content'>
                                                                         <p className='dropdown-toggle' onClick={() => showChat(index)}><strong>Latest Communication </strong></p>
-                                                                        <p>Wasatch Sub Contractors: I think we’ve got the latest things done with what you’re looking for. You: Thanks, guys. This is going to be really great. Wasatch Sub Contractors: That’s great. Yes, we can get back to you with that information as soon as possible.</p>
+                                                                        <p>{item?.latest_chat?.message ? item?.latest_chat?.message : "N/A"}</p>
                                                                     </div>
                                                                 </div>
                                                                 <div className='col-lg-6'>
@@ -496,24 +502,9 @@ export default function Startprojectdetail() {
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    {openChatIndex == index && <div className='comunication_content' aria-labelledby="dropdownMenuButton1">
-                                                        <div className='proposal_content'>
-                                                            <p><strong></strong></p>
-                                                            <p className='comunication_pop_text'>Wasatch Sub Contractors: I think we’ve got the latest things done with what you’re looking for. You: Thanks, guys. This is going to be really great. Wasatch Sub Contractors: That’s great. Yes, we can get back to you with that information as soon as possible.</p>
-                                                            <ul className='breadcrumbs'>
-                                                                <li>
-                                                                    <a href="">Description</a>
-                                                                </li>
-                                                                <li>
-                                                                    <a href="">Biography of Company & Services</a>
-                                                                </li>
-                                                            </ul>
-                                                            <div className='form_input'>
-                                                                <input type="text" name="" id="" />
-                                                                <button><img src="assets/images/cirlce.png" alt="" /></button>
-                                                            </div>
-                                                        </div>
-                                                    </div>}
+                                                    {openChatIndex == index &&
+                                                        <Chat setOpenChatIndex={setOpenChatIndex} bidData={item} />
+                                                    }
                                                     {openNotesIndex === index && (
                                                         <Notes setOpenNotesIndex={setOpenNotesIndex} bidData={item} updateFlag={updateFlag} />
                                                     )}

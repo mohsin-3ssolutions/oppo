@@ -2165,7 +2165,7 @@ animation-iteration-count: 1; */
     font-size: 22px;
 }
 
-.bid_now_btn:hover{
+.bid_now_btn:hover {
     color: #707070;
 }
 
@@ -2241,7 +2241,7 @@ animation-iteration-count: 1; */
     cursor: pointer;
 }
 
-.role{
+.role {
     font-size: 16px;
 }
 
@@ -2387,10 +2387,10 @@ animation-iteration-count: 1; */
     display: none;
 }
 
-.comunication_content .proposal_content p.comunication_pop_text {
+/* .comunication_content .proposal_content p.comunication_pop_text {
     max-height: 150px;
     overflow-y: auto;
-}
+} */
 
 .comunication_content .proposal_content p.comunication_pop_text::-webkit-scrollbar {
     width: 5px;
@@ -2435,6 +2435,183 @@ animation-iteration-count: 1; */
     border: none;
 }
 
+.plan-images input[type="file"] {
+    color: transparent;
+}
+
+.permit-docs input[type="file"] {
+    color: transparent;
+}
+
+.image-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.selected-image {
+    position: relative;
+    margin-right: 20px;
+    margin-left: 15px;
+
+}
+
+.selected-images {
+    width: 200%;
+    overflow-x: scroll;
+}
+
+.selected-image img {
+    object-fit: contain;
+}
+
+.selected-docs {
+    position: relative;
+    width: 151%;
+    flex-wrap: wrap;
+}
+
+.selected-doc {
+    position: relative;
+}
+
+.selected-doc p {
+    padding: 5px;
+    margin-right: 20px;
+}
+
+.delete-docs {
+    position: relative;
+    top: -30px !important;
+    right: 18px;
+    font-size: 18px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0px 3px;
+    color: red;
+    border-radius: 20px;
+}
+
+/* .selected-docs {
+    width: 200%;
+}
+
+.selected-doc{
+    border-radius: 10px;
+    border: 1px solid grey;
+    padding: 5px;
+    margin-right: 4px;
+}
+
+.delete-docs {
+    position: relative;
+    left: 90px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0px 3px;
+    color: white;
+    background-color: rgb(100, 97, 97);
+    border-radius: 20px;
+} */
+
+
+.delete-files {
+    position: relative;
+    top: -68px;
+    left: -18px;
+    background: none;
+    font-size: 18px;
+    border: none;
+    cursor: pointer;
+    padding: 0px 3px;
+    color: red;
+    border-radius: 20px;
+}
+
+
 .form_input button img {
     width: 35px;
+}
+
+.delete-file {
+    padding: 3px 7px;
+    color: white;
+    background-color: rgb(185, 11, 11);
+    border-radius: 20px;
+}
+
+.back-btn {
+    padding: 10px 27px;
+    font-size: 16px;
+    width: 10%;
+    /* color: #707070; */
+    color: #fff;
+    border-radius: 6px;
+    /* border: 1px solid #707070; */
+    border: 2px solid #B1903F;
+    margin-top: 28px;
+    /* background-color: #fff; */
+    background-color: #B1903F;
+    transition: ease-in-out 0.5s;
+}
+
+.delete-modal-header {
+    background-color: #B1903F;
+    color: white;
+    margin-bottom: 10px;
+}
+
+/* chat box */
+
+/* Chat containers */
+.proposal_content {
+    max-height: 450px;
+    /* Set the maximum height as per your requirement */
+    overflow-y: auto;
+    /* Hide the vertical scrollbar */
+}
+
+/*  */
+
+.chat-container {
+    border: 2px solid #dedede;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+/* Darker chat chat-container */
+.darker {
+    border-color: #ccc;
+    background-color: #ddd;
+}
+
+/* Clear floats */
+.chat-container::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+/* Style time text */
+.time-right {
+    float: right;
+    color: #aaa;
+}
+
+/* Style time text */
+.time-left {
+    float: left;
+    color: #868484;
+}
+
+/* Hide the vertical scrollbar */
+.proposal_content::-webkit-scrollbar {
+    display: none;
+}
+
+.proposal_content {
+    scrollbar-width: none;
 }

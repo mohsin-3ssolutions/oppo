@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'// import Logo from "../assets/images/logo.png"
 import { Formik, Field, Form, ErrorMessage } from 'formik';
@@ -8,30 +8,36 @@ import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { ColorRing } from 'react-loader-spinner';
 import DefaultLayout from '../reusableComponents/defaultLayout';
+import DeleteIcon from '@mui/icons-material/Delete';
+import CloseIcon from '@mui/icons-material/Close';
 
 export default function PostNewProject() {
   const [startDate, setStartDate] = useState(null);
   const [completionDate, setCompletionDate] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [startDateError, setStartDateError] = useState(false);
+  const [endDateError, setEndDateError] = useState(false);
+  const [goBack, setGoBack] = useState(false);
 
-  let navigate = useNavigate()
+  let navigate = useNavigate();
 
   const handleStartDateChange = (date) => {
     // console.log(date.$d)
     const formattedDate = moment(date.$d).format('YYYY-MM-DD');
     setStartDate(formattedDate);
-    // setStartDate(date.$d);
+    setStartDateError(false);
   };
 
   const handleCompletionDateChange = (date) => {
     const formattedDate = moment(date.$d).format('YYYY-MM-DD');
     setCompletionDate(formattedDate);
+    setEndDateError(false);
   };
 
   const initialValues = {
     project_name: '',
     email: '',
-    price: '',
+    price: 0,
     project_rep: '',
     phone: '',
     project_description: '',
@@ -40,21 +46,28 @@ export default function PostNewProject() {
     engineer: '',
     architect: '',
     permits: '',
-    permit_doc: null,
+    permit_doc: [],
     financing: '',
     plan: '',
-    plan_doc: null,
-    plan_image: null,
+    plan_doc: [],
+    plan_image: [],
     jobStatus: '',
     project_start_date: null,
     project_end_date: null,
   };
 
   const validationSchema = Yup.object().shape({
-    project_name: Yup.string().required('Project Name is required'),
+    project_name: Yup.string().min(3, 'Please use atleast 3 characters')
+    .max(40, 'You have exceeded the limit of 50 characters')
+    .required('Project Name is required'),
     email: Yup.string().email('Invalid email').required('Email is required'),
     project_rep: Yup.string().required('Project Rep is required'),
-    phone: Yup.string().required('Phone Number is required'),
+    phone: Yup.string()
+      .matches(
+        /^(\+\d{1,4}\s?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}$/,
+        'Invalid phone number format'
+      )
+      .required('Phone Number is required'),
     price: Yup.string().required('Price is required'),
     project_description: Yup.string().required('Description is required'),
     past_work: Yup.string().required('Past Work is required'),
@@ -62,10 +75,10 @@ export default function PostNewProject() {
     engineer: Yup.string().required('Engineer is required'),
     architect: Yup.string().required('Architect is required'),
     permits: Yup.string().required('Permits is required'),
-    permit_doc: Yup.string(),
-    plan_doc: Yup.string().required('Plan doc is required'),
+    permit_doc: Yup.array(),
+    plan_doc: Yup.array(),
     financing: Yup.string().required('Financing is required'),
-    plan: Yup.string().required('Financing is required'),
+    plan: Yup.string().required('Plan is required'),
     jobStatus: Yup.string(),
     // project_start_date: Yup.string(),
     // project_end_date: Yup.string()
@@ -85,10 +98,24 @@ export default function PostNewProject() {
     values.project_end_date = completionDate;
     values.project_type = 'commercial';
 
-    if (startDate == null || completionDate == null) {
-      toast.error('Start date or end date should not be null', { autoClose: 3000 });
-      return
+    if (!startDate) { // Use !startDate to check if it's null or undefined
+      setStartDateError(true);
+      toast.error('Start date should not be empty.', { autoClose: 3000 });
+      return;
     }
+
+    if (startDate == "Invalid date" ) { // Use !startDate to check if it's null or undefined
+      setStartDateError(true);
+      toast.error('Start date should be a valid date.', { autoClose: 3000 });
+      return;
+    }
+
+    if (!completionDate) { // Use !completionDate to check if it's null or undefined
+      toast.error('End date should not be empty.', { autoClose: 3000 });
+      setEndDateError(true);
+      return;
+    }
+
 
     if (moment(startDate).isAfter(completionDate)) {
       toast.error('Start date must be before the completion date.', { autoClose: 3000 });
@@ -99,6 +126,9 @@ export default function PostNewProject() {
     const token = localStorage.getItem('authToken');
     if (token) {
       try {
+
+        console.log(values.plan_doc)
+
         const formData = new FormData();
 
         // Append key-value pairs to formData
@@ -117,9 +147,20 @@ export default function PostNewProject() {
         formData.append('permits', values.permits);
         formData.append('project_start_date', values.project_start_date);
         formData.append('project_description', values.project_description);
-        formData.append('plan_doc', values.plan_doc);
-        formData.append('plan_image', values.plan_image);
-        formData.append('permit_doc', values.permit_doc);
+        // formData.append('plan_doc', values.plan_doc);
+        [...values.plan_doc].forEach((plan) => {
+          formData.append("plan_doc[]", plan);
+        });
+        // values.plan_image.map(file => {
+        //   formData.append('plan_image', file);
+        // });
+        [...values.plan_image].forEach((image) => {
+          formData.append("plan_image[]", image);
+        });
+        // formData.append('permit_doc', values.permit_doc);
+        [...values.permit_doc].forEach((permit) => {
+          formData.append("permit_doc[]", permit);
+        });
         formData.append('project_end_date', values.project_end_date);
 
         fetch(`${url}/create_project`, {
@@ -148,12 +189,92 @@ export default function PostNewProject() {
     }
   };
 
+  const permitDocument = useRef(null);
+  const planDocument = useRef(null);
+  const planImages = useRef(null);
 
+  console.log(startDateError, endDateError)
+
+  const handleReset = () => {
+    if (permitDocument.current) {
+      permitDocument.current.value = "";
+    }
+  };
+
+  const handleResetPlan = () => {
+    if (planDocument.current) {
+      planDocument.current.value = "";
+    }
+  };
+
+  const handleResetImages = () => {
+    if (planImages.current) {
+      planImages.current.value = "";
+    }
+  };
+
+  const [selectedPlanImages, setSelectedPlanImages] = useState([]);
+
+  const handlePlanImageChange = (event, setFieldValue) => {
+    const selectedImages = event.currentTarget.files;
+    setSelectedPlanImages([...selectedImages]);
+    setFieldValue("plan_image", selectedImages);
+  };
+
+  const handleDeleteImage = (event, index, setFieldValue) => {
+    event.preventDefault()
+    const updatedImages = [...selectedPlanImages];
+    updatedImages.splice(index, 1);
+    setSelectedPlanImages(updatedImages);
+    setFieldValue("plan_image", updatedImages);
+  };
+
+
+  const [selectedPermitDoc, setSelectedPermitDoc] = useState([]);
+
+  const handlePermitDocChange = (event, setFieldValue) => {
+    const selectedDoc = Array.from(event.currentTarget.files);
+    setSelectedPermitDoc([...selectedDoc]);
+    setFieldValue("permit_doc", selectedDoc);
+  };
+
+
+  const handleDeletePermitDoc = (event, index, setFieldValue) => {
+    event.preventDefault();
+    const updatedPermits = [...selectedPermitDoc];
+    updatedPermits.splice(index, 1);
+    setSelectedPermitDoc(updatedPermits);
+    setFieldValue("permit_doc", updatedPermits);
+  };
+
+  const [selectedPlanDoc, setSelectedPlanDoc] = useState([]);
+
+  const handlePlanDocChange = (event, setFieldValue) => {
+    const selectedDoc = Array.from(event.currentTarget.files);
+    setSelectedPlanDoc([...selectedDoc]);
+    setFieldValue("plan_doc", selectedDoc);
+  };
+
+  const handleDeletePlanDoc = (event, index, setFieldValue) => {
+    event.preventDefault();
+    const updatedPlan = [...selectedPlanDoc];
+    updatedPlan.splice(index, 1);
+    setSelectedPlanDoc(updatedPlan);
+    setFieldValue("plan_doc", updatedPlan);
+  };
+
+  useEffect(() => {
+    if (goBack) {
+      navigate(-1);
+    }
+  }, [goBack])
+
+  console.log(selectedPermitDoc, 'selectedPermitDoc')
   return (
-
     <DefaultLayout>
-      < div>
+      <div className='mt-4'>
         <div className='container'>
+          <button className='back-btn mb-3' onClick={() => { navigate(-1), setGoBack(true) }}>Go Back</button>
           <div className="new_project project_name_banner">
             <div className="color_bg">
               <h2>Start a New Project</h2>
@@ -178,7 +299,16 @@ export default function PostNewProject() {
                         </div>
                         <div className="mb-3">
                           <label htmlFor="price" className="form-label">Base Price</label>
-                          <Field type="text" className="form-control" id="price" name="price" />
+                          {/* <Field type="number" className="form-control" id="price" name="price" /> */}
+                          <div className="input-group">
+                            <span className="input-group-text">$</span>
+                            <Field
+                              type="number"
+                              className="form-control"
+                              id="price"
+                              name="price"
+                            />
+                          </div>
                           <ErrorMessage name="price" component="div" className="text-danger" />
                         </div>
                         <div className="mb-3">
@@ -188,7 +318,7 @@ export default function PostNewProject() {
                         </div>
                         <div className="mb-3">
                           <label htmlFor="phone" className="form-label">Phone Number</label>
-                          <Field type="text" className="form-control" id="phone" name="phone" />
+                          <Field type="text" placeholder="xxx-xxx-xxxx" className="form-control" id="phone" name="phone" />
                           <ErrorMessage name="phone" component="div" className="text-danger" />
                         </div>
                         <div className="mb-3">
@@ -266,11 +396,33 @@ export default function PostNewProject() {
                               <label htmlFor="permitsTBD">TBD</label>
                             </div>
                             <ErrorMessage name="permits" component="div" className="text-danger" />
-                            <label for="exampleFormControlInput12" className="form-label">Upload Permits (Upload pdf only)</label>
-                            <input type="file" name="permit_doc" accept=".pdf" onChange={(event) => {
-                              setFieldValue("permit_doc", event.currentTarget.files[0]);
-                            }} />
-                            <ErrorMessage name="permit_doc" component="div" className="text-danger" />
+                            <div className='permit-docs'>
+                              <label for="exampleFormControlInput12" className="form-label">Upload Permits (Upload pdf only)</label>
+                              <input
+                                type="file"
+                                name="permit_doc"
+                                multiple
+                                accept=".pdf"
+                                ref={permitDocument}
+                                onChange={(event) => handlePermitDocChange(event, setFieldValue)}
+                              />
+                              <ErrorMessage name="permit_doc" component="div" className="text-danger" />
+                            </div>
+                            {selectedPermitDoc.length > 0 && (
+                              <div className="d-flex selected-docs">
+                                {selectedPermitDoc.map((permit, index) => (
+                                  <div key={index} className="selected-doc">
+                                    <p className="mb-0 mr-2">
+                                      {permit.name.length > 20 ? `${permit.name.slice(0, 20)}...` : permit.name}
+                                    </p>
+                                    <button className="delete-docs"
+                                      onClick={(event) => { handleReset(), handleDeletePermitDoc(event, index, setFieldValue) }}>
+                                      <CloseIcon fontSize='20px' />
+                                    </button>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
                           </div>
                         </div>
                         <div className="mb-3">
@@ -295,16 +447,86 @@ export default function PostNewProject() {
                               <label htmlFor="financingNo">No</label>
                             </div>
                             <ErrorMessage name="plan" component="div" className="text-danger" />
-                            <label for="exampleFormControlInput12" className="form-label">Upload Plans (Upload pdf only)</label>
-                            <input type="file" name="plan_doc" accept=".pdf" onChange={(event) => {
-                              setFieldValue("plan_doc", event.currentTarget.files[0]);
-                            }} />
-                            <ErrorMessage name="plan_doc" component="div" className="text-danger" />
-                            <label for="exampleFormControlInput12" className="form-label">Upload Pictures</label>
-                            <input type="file" name="plan_image" accept="jpg, .jpeg, .png" onChange={(event) => {
-                              setFieldValue("plan_image", event.currentTarget.files[0]);
-                            }} />
-                            <ErrorMessage name="plan_image" component="div" className="text-danger" />
+                            {/* <div>
+                              <label for="exampleFormControlInput12" className="form-label">Upload Plans (Upload pdf only)</label>
+                              <input type="file" name="plan_doc" accept=".pdf" ref={planDocument} onChange={(event) => {
+
+                                if (event.currentTarget.files[0] && event.currentTarget.files[0].type === 'application/pdf') {
+                                  setFieldValue("plan_doc", event.currentTarget.files[0]);
+                                } else {
+                                  console.error('Invalid file type. Please select a PDF file.');
+                                  setFieldValue("plan_doc", null);
+                                  handleResetPlan()
+                                  // Optionally, you can clear the file input or show an error to the user
+                                }
+                              }} />
+                              {values.plan_doc && <button className='delete-file mb-2'
+                                onClick={() => { handleResetPlan(), setFieldValue("plan_doc", null) }}>
+                                Delete file
+                              </button>}
+                              <ErrorMessage name="plan_doc" component="div" className="text-danger" />
+                            </div> */}
+
+                            <div className='permit-docs'>
+                              <label for="exampleFormControlInput12" className="form-label">Upload Plans (Upload pdf only)</label>
+                              <input
+                                type="file"
+                                name="plan_doc"
+                                multiple
+                                accept=".pdf"
+                                ref={planDocument}
+                                onChange={(event) => handlePlanDocChange(event, setFieldValue)}
+                              />
+                              <ErrorMessage name="plan_doc" component="div" className="text-danger" />
+                            </div>
+                            {selectedPlanDoc.length > 0 && (
+                              <div className="d-flex selected-docs">
+                                {selectedPlanDoc.map((plan, index) => (
+                                  <div key={index} className="selected-doc">
+                                    <p className="mb-0 mr-2">
+                                      {plan.name.length > 20 ? `${plan.name.slice(0, 20)}...` : plan.name}
+                                    </p>
+                                    <button className="delete-docs"
+                                      onClick={(event) => { handleResetPlan(), handleDeletePlanDoc(event, index, setFieldValue) }}>
+                                      <CloseIcon fontSize='20px' />
+                                    </button>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                            <div className='plan-images'>
+                              <label for="exampleFormControlInput12" className="form-label">Upload Pictures</label>
+                              <input type="file" multiple name="plan_image" ref={planImages} accept="jpg, .jpeg, .png"
+                                onChange={(event) => {
+                                  if (event.currentTarget.files[0] && /^image\/(jpeg|jpg|png)$/.test(event.currentTarget.files[0].type)) {
+                                    handlePlanImageChange(event, setFieldValue)
+                                  } else {
+                                    console.error('Invalid file type. Please select a JPEG, JPG, or PNG file.');
+                                    setFieldValue(event, null);
+                                    handleResetImages()
+                                  }
+                                }} />
+                              {selectedPlanImages.length > 0 && (
+                                <div className="selected-images  d-flex">
+                                  {selectedPlanImages.map((image, index) => (
+                                    <div key={index} className="selected-image">
+                                      <img
+                                        height={100}
+                                        width={100}
+                                        className="rounded d-flex m-2 p-1"
+                                        src={URL.createObjectURL(image)}
+                                        alt={`Selected ${index}`}
+                                      />
+                                      <button className="delete-files"
+                                        onClick={(event) => { handleResetImages(), handleDeleteImage(event, index, setFieldValue) }}>
+                                        <CloseIcon fontSize='20px' />
+                                      </button>
+                                    </div>
+                                  ))}
+                                </div>
+                              )}
+                              <ErrorMessage name="plan_image" component="div" className="text-danger" />
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -316,12 +538,14 @@ export default function PostNewProject() {
                           <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DatePicker value={startDate} onChange={handleStartDateChange} />
                           </LocalizationProvider>
+                          {startDateError && <p className='text-danger'>Start date should not be empty</p>}
                         </div>
                         <div className="mb-3">
                           <label for="exampleFormControlInput1" className="form-label">Approximate Completion Date</label>
                           <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DatePicker value={completionDate} onChange={handleCompletionDateChange} />
                           </LocalizationProvider>
+                          {endDateError && <p className='text-danger'>End date should not be empty</p>}
                         </div>
                       </div>
                     </div>
@@ -344,7 +568,6 @@ export default function PostNewProject() {
               )}
               </Formik>
             </div>
-
           </div>
         </div>
       </div>

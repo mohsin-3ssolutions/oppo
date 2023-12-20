@@ -61,7 +61,7 @@ function Account() {
                                         onClick={() => handleTabChange(3)}
                                         className={`nav-link cursor-pointer ${activeTab === 3 ? 'active' : ''}`}
                                     >
-                                        General Contractor Schedule
+                                        Sub Contractor Schedule
                                     </a>
                                 </li>
                                 <li role="presentation">

@@ -131,14 +131,14 @@ export default function Submitproposal() {
                                                     <label for="exampleFormControlInput12" className="form-label">Upload Additional Document</label>
                                                     <div className='upload_file_btn'>
                                                         <img src={AddMoreLogo} alt="" />
-                                                    </div>
+                                                    </div>  
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="col-lg-4 col-md-6">
                                             <div className="form_style ps-0">
                                                 <div className="mb-3">
-                                                    <label for="exampleFormControlInput12" className="form-label">Comments for Project Ownert</label>
+                                                    <label for="exampleFormControlInput12" className="form-label">Comments for Project Owner</label>
                                                     <Field as="textarea" className="form-control" id="project_description" name="project_description" />
                                                     {/* <textarea name="" className='form-control' id="" cols="30" rows="10"></textarea> */}
                                                 </div>
