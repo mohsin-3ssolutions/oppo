@@ -1,225 +1,179 @@
-// import React, { useEffect } from 'react'
-// import Chart from 'chart.js/auto';
-// import 'chart.js/auto';
-// import 'chartjs-adapter-date-fns';
-// import 'chartjs-plugin-datalabels';
-
-// export default function GenttChart() {
-//     useEffect(() => {
-//         // Your Chart.js initialization code
-//         const data = {
-//             labels: ['Mik Jason', 'Travor Smith', 'Shane Watsaon', 'Kevin Peterson', 'James Anderson', 'Ashley', 'Lee'],
-//             datasets: [
-//                 {
-//                     label: 'My Chart',
-//                     data: [
-//                         ['2023-01-01', '2023-03-11'],
-//                         ['2023-03-01', '2023-04-01'],
-//                         ['2023-04-01', '2023-07-01'],
-//                         ['2023-04-01', '2023-05-01'],
-//                         ['2023-06-01', '2023-09-01'],
-//                         ['2023-03-01', '2023-05-01'],
-//                         ['2023-02-01', '2023-08-01'],
-//                     ],
-//                     backgroundColor: [
-//                         'rgba(255, 26, 104, 1)',
-//                         'rgba(54, 162, 235, 1)',
-//                         'rgba(255, 206, 86, 1)',
-//                         'rgba(75, 192, 192, 1)',
-//                         'rgba(153, 102, 255, 1)',
-//                         'rgba(255, 159, 64, 1)',
-//                         'rgba(0, 0, 0, 1)',
-//                     ],
-//                     borderColor: [
-//                         'rgba(255, 26, 104, 1)',
-//                         'rgba(54, 162, 235, 1)',
-//                         'rgba(255, 206, 86, 1)',
-//                         'rgba(75, 192, 192, 1)',
-//                         'rgba(153, 102, 255, 1)',
-//                         'rgba(255, 159, 64, 1)',
-//                         'rgba(0, 0, 0, 1)',
-//                     ],
-//                     // borderWidth: 1,
-//                     barPercentage: 0.2
-//                 },
-//             ],
-//         };
-
-//         const config = {
-//             type: 'bar',
-//             data,
-//             options: {
-//                 indexAxis: 'y',
-//                 scales: {
-//                     x: {
-//                         min: '2023-01-01',
-//                         type: 'time',
-//                         time: {
-//                             unit: 'month',
-//                         },
-//                     },
-//                     y: {
-//                         // type: 'linear', // Explicitly specify the scale type
-//                         beginAtZero: true,
-//                     },
-//                 },
-//                 plugins: {
-//                     datalabels: {
-//                         color: 'black',
-//                         formatter: (value, context) => {
-//                             // Calculate percentage and format it
-//                             const dataset = context.chart.data.datasets[context.datasetIndex];
-//                             const startDate = dataset.data[context.dataIndex][0];
-//                             const endDate = dataset.data[context.dataIndex][1];
-//                             const totalDuration = new Date(endDate) - new Date(startDate);
-//                             const barWidth = context.chart.width / context.chart.data.labels.length;
-//                             const percentage = (barWidth / totalDuration) * 100;
-
-//                             return percentage.toFixed(2) + '%';
-//                         },
-//                         anchor: 'end',
-//                         align: 'end',
-//                     },
-//                 },
-//             },
-//         };
-
-//         const myChart = new Chart(document.getElementById('myChart'), config);
-//     }, []);
-
-//     return (
-//         // <div className="tab-pane fade gant_tab" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-//         <div className='container'>
-//             <div className="color_bg">
-//                 <div className="project_detail">
-//                     <div>
-//                         <div className="chartCard">
-//                             <div className="chartBox">
-//                                 <canvas id="myChart"></canvas>
-//                             </div>
-//                         </div>
-//                     </div>
-//                 </div>
-//             </div>
-//         </div>
-//     )
-// }
-
-
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Chart from 'chart.js/auto';
 import 'chart.js/auto';
 import 'chartjs-adapter-date-fns';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+import moment from 'moment/moment';
 
 export default function GanttChart() {
+    const [projects, setProjects] = useState([]);
+    const [projectLabel, setProjectLabel] = useState([]);
+    const [selectedTimeUnit, setSelectedTimeUnit] = useState('quarter'); // Default value
+
+    const handleTimeUnitChange = (event) => {
+        setSelectedTimeUnit(event.target.value);
+    };
     useEffect(() => {
+        const fetchData = async () => {
+
+            const currentYear = moment().format('YYYY');
+            const startDate = `${currentYear}-01-01`;
+            const endDate = `${currentYear}-12-31`;
+
+            try {
+                let url = process.env.REACT_APP_BASE_URL;
+                const token = localStorage.getItem('authToken');
+                const requestOptions = {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                };
+
+                // const response = await fetch(
+                //     url +
+                //     `/gantt_chart?start_date=${startDate}&end_date=${endDate}`,
+                //     requestOptions
+                // );
+
+                const response = await fetch(
+                    url +
+                    `/gantt_chart?start_date=2022-10-25&end_date=2026-10-26`,
+                    requestOptions
+                );
+
+                const data = await response.json();
+                setProjects(data.data)
+                const projectNames = data.data.map(project => project.assign_to.company_name);
+                setProjectLabel(projectNames)
+
+                const transformedData = data.data.map(project => [
+                    project.project_start_date,
+                    project.project_end_date
+                ]);
+
+                const taskCompleted = data.data.map(project => '100')
+
+                const actualTaskCompleted = data.data.map(project => Number(project.status).toFixed(0));
+
+                console.log(actualTaskCompleted)
+
+                const currentDate = moment();
+
+                const actualDate = data.data.map(project => [
+                    project.project_start_date, // Format start date
+                    moment(project.project_end_date) > currentDate
+                        ? currentDate.format('YYYY-MM-DD') // If end date is greater than current date, use current date
+                        : moment(project.project_end_date).format('YYYY-MM-DD') // Format end date
+                ]);
+
+                console.log(actualDate, transformedData);
+
+                initializeChart(projectNames, transformedData, actualDate, taskCompleted, actualTaskCompleted);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+
+        fetchData();
+    }, [selectedTimeUnit]);
+
+
+    const initializeChart = (labels, transformedData, actualDate, taskCompleted, actualTaskCompleted) => {
+
+        const existingChart = Chart.getChart('myChart');
+        if (existingChart) {
+            existingChart.destroy();
+        }
+
         const data = {
-            labels: ['Mik Jason', 'Travor Smith', 'Shane Watsaon', 'Kevin Peterson', 'James Anderson', 'Ashley', 'Lee'],
+            labels: labels,
             datasets: [
                 {
-                    label: 'My Chart',
-                    data: [
-                        {
-                            x: '2023-03-01',
-                            y: 'Mik Jason',
-                            base: '2023-03-01',
-                            height: '2023-03-11',
-                            backgroundColor: 'rgba(255, 26, 104, 0.5)',
-                            borderColor: 'rgba(255, 26, 104, 1)',
-                            percentage: 20,
-                        },
-
-                        {
-                            x: '2023-04-01',
-                            y: 'Travor Smith',
-                            base: '2023-04-01',
-                            height: '2023-04-11',
-                            backgroundColor: 'rgba(54, 162, 235, 0.5)',
-                            borderColor: 'rgba(54, 162, 235, 1)',
-                        },
-                        {
-                            x: '2023-02-01',
-                            y: 'Shane Watsaon',
-                            base: '2023-02-01',
-                            height: '2023-02-01',
-                            backgroundColor: 'rgba(255, 206, 86, 0.5)',
-                            borderColor: 'rgba(255, 206, 86, 1)',
-                        },
-                        {
-                            x: '2023-04-01',
-                            y: 'Kevin Peterson',
-                            base: '2023-04-01',
-                            // height: '2023-06-01',
-                            backgroundColor: 'rgba(75, 192, 192, 0.5)',
-                            borderColor: 'rgba(75, 192, 192, 1)',
-                        },
-                        {
-                            x: '2023-06-01',
-                            y: 'James Anderson',
-                            base: '2023-06-01',
-                            height: '2023-09-01',
-                            backgroundColor: 'rgba(153, 102, 255, 0.5)',
-                            borderColor: 'rgba(153, 102, 255, 1)',
-                        },
-                        {
-                            x: '2023-03-01',
-                            y: 'Ashley',
-                            base: '2023-03-01',
-                            height: '2023-05-01',
-                            backgroundColor: 'rgba(255, 159, 64, 0.5)',
-                            borderColor: 'rgba(255, 159, 64, 1)',
-                        },
-                        {
-                            x: '2023-02-01',
-                            y: 'Lee',
-                            base: '2023-02-01',
-                            height: '2023-08-01',
-                            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                            borderColor: 'rgba(0, 0, 0, 1)',
-                        },
-                    ],
-                    barPercentage: 0.8,
+                    label: 'Project Time',
+                    data: transformedData,
+                    taskCompleted: taskCompleted,
+                    backgroundColor: 'rgba(0,0,0,0.2)',
+                    borderColor:
+                        'rgba(0, 0, 0, 1)',
+                    borderWidth: 1,
+                    // barPercentage: 0.8
+                    borderSkipped: false
                 },
-
+                {
+                    label: 'Actual Time',
+                    data: actualDate,
+                    taskCompleted: actualTaskCompleted,
+                    backgroundColor: 'rgba(255, 26, 104, 0.2)',
+                    borderColor:
+                        'rgba(255, 26, 104, 1)',
+                    borderWidth: 1,
+                    // barPercentage: 0.8
+                    borderSkipped: false
+                },
             ],
         };
+
+        const currentYear = moment().format('YYYY');
+        const startDate = `${currentYear}-01-01`;
+        const endDate = `${currentYear}-12-31`;
 
         const config = {
             type: 'bar',
             data,
             options: {
+                plugins: {
+                    tooltip: {
+                        // enabled: false
+                        callbacks: {
+                            label: (context) => {
+                                console.log(context)
+                                if (context.dataset.label == 'Project Time') {
+                                    return `Project Time : ${context.raw[0]} - ${context.raw[1]}`
+                                } else {
+                                    return `Actual Time: ${context.raw[0]} - ${context.raw[1]}`
+                                }
+                            }
+                        }
+                    },
+                    datalabels: {
+                        formatter: (value, context) => {
+                            const taskPercentage = context.dataset.taskCompleted[context.dataIndex]
+                            return `${taskPercentage}%`
+                        }
+                    }
+                },
                 indexAxis: 'y',
                 scales: {
                     x: {
+                        // min: startDate,
+                        // max: endDate,
+                        offset: false,
                         min: '2023-01-01',
+                        max: '2024-12-12',
                         type: 'time',
                         time: {
-                            unit: 'month',
+                            unit: selectedTimeUnit,
                         },
+                        ticks: {
+                            align: 'start'
+                        },
+                        grid: {
+                            borderDash: [5, 5]
+                        },
+                        position: 'top'
                     },
                     y: {
                         beginAtZero: true,
                     },
                 },
-                plugins: {
-                    tooltip: {
-                        callbacks: {
-                            label: (context) => {
-                                const datasetLabel = context.dataset.label || '';
-                                const label = context.parsed.x;
-                                const value = context.parsed.y;
-                                const percentage = context.dataset.data[context.dataIndex].percentage;
-
-                                return `Percentage (${percentage}%)`;
-                            },
-                        },
-                    },
-                },
             },
+            plugins: [ChartDataLabels],
         };
 
         const myChart = new Chart(document.getElementById('myChart'), config);
-    }, []);
+    };
 
     return (
         <div className='container'>
@@ -228,6 +182,18 @@ export default function GanttChart() {
                     <div>
                         <div className="chartCard">
                             <div className="chartBox">
+                                <div className="form-group w-25">
+                                    <label htmlFor="timeUnit">Select Time Unit: </label>
+                                    <select
+                                        id="timeUnit"
+                                        className="form-control"
+                                        value={selectedTimeUnit}
+                                        onChange={handleTimeUnitChange}
+                                    >
+                                        <option value="quarter">Quarter</option>
+                                        <option value="month">Month</option>
+                                    </select>
+                                </div>
                                 <canvas id="myChart"></canvas>
                             </div>
                         </div>

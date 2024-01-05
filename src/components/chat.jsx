@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
-export default function Chat({ setOpenChatIndex, bidData }) {
+export default function Chat({ setOpenChatIndex, bidData, onChatClose  }) {
 
     const [sendMessage, setSendMessage] = useState('');
     const [chatList, setChatList] = useState([]);
@@ -13,7 +13,15 @@ export default function Chat({ setOpenChatIndex, bidData }) {
         return state?.userProfileSlice?.userData?.data?.id;
     });
 
-    console.log(userId, 'USERID')
+    const handleCloseChat = () => {
+        // Call the callback function to refresh the parent component
+        if (onChatClose) {
+            onChatClose();
+        }
+
+        // Close the chat popup
+        setOpenChatIndex(null);
+    };
 
     const nameIcon = useSelector((state) => {
         return state?.userProfileSlice?.userData?.data?.fname;
@@ -69,6 +77,7 @@ export default function Chat({ setOpenChatIndex, bidData }) {
                     id: body.data.id, // Use the actual ID received from the server
                     user_id: userId,
                     message: sendMessage,
+                    created_at: new Date().toISOString(),
                 }]);
                 setSendMessage('');
             }
@@ -103,7 +112,7 @@ export default function Chat({ setOpenChatIndex, bidData }) {
                 if (chatContainerRef.current) {
                     chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
                 }
-    
+
                 // Focus on the input field
                 if (inputRef.current) {
                     inputRef.current.focus();
@@ -138,34 +147,44 @@ export default function Chat({ setOpenChatIndex, bidData }) {
         <div className='comunication_content' aria-labelledby="dropdownMenuButton1">
             <div className='fixed-top d-flex justify-content-between align-items-center p-3' style={{ backgroundColor: '#fff', boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)', zIndex: 999 }}>
                 <h4 className='mb-0'><strong>Chatbox</strong></h4>
-                <div className='cursor-pointer' onClick={() => { setOpenChatIndex(null) }}><Close /></div>
+                <div className='cursor-pointer' onClick={handleCloseChat}><Close /></div>
             </div>
             <div className='proposal_content' style={{ marginTop: '20px' }} ref={chatContainerRef}>
                 <div className="chat-container-wrapper">
-                    {chatList.map((message) => (
-                        <div key={message.id} className={`chat-container ${message.user_id !== userId ? '' : 'darker'}`}>
-                            <div className={`d-flex ${message.user_id === userId ? 'justify-content-end' : ''}`}>
-                                {message.user_id !== userId && (
-                                    <Avatar sx={{ width: 32, height: 32 }} className='me-2'>{firstLetter}</Avatar>
-                                )}
-                                <p className='mt-1'>{message.message}</p>
-                                {message.user_id == userId && (
-                                    <Avatar sx={{ width: 32, height: 32 }} className='ms-2'>{firstLetter}</Avatar>
-                                )}
+                    {chatList.map((message) => {
+                        const createdAt = new Date(message.created_at);
+
+                        // Extract hours and minutes
+                        const hours = createdAt.getHours().toString().padStart(2, '0');
+                        const minutes = createdAt.getMinutes().toString().padStart(2, '0');
+                        return (
+                            <div key={message.id} className={`chat-container ${message.user_id !== userId ? '' : 'darker'}`}>
+                                <div className={`d-flex ${message.user_id === userId ? 'justify-content-end' : ''}`}>
+                                    {message.user_id !== userId && (
+                                        <Avatar sx={{ width: 32, height: 32 }} className='me-2'>{firstLetter}</Avatar>
+                                    )}
+                                    <p className='mt-1'>{message.message}</p>
+                                    {message.user_id == userId && (
+                                        <Avatar sx={{ width: 32, height: 32 }} className='ms-2'>{firstLetter}</Avatar>
+                                    )}
+                                </div>
+                                <span className={`time-${message.user_id === userId ? 'right' : 'left'}`}>{`${hours}:${minutes}`}</span>
                             </div>
-                            <span className={`time-${message.user_id === userId ? 'right' : 'left'}`}>11:00</span>
-                        </div>
-                    ))}
+                        )
+
+                    })}
                 </div>
 
-                <ul className='breadcrumbs'>
+                {chatList.length == 0 && <ul className='breadcrumbs pt-3'>
                     <li>
-                        <a href="">Description</a>
+                        <a>Start Conversation</a>
                     </li>
-                    <li>
+                    {/* <li>
                         <a href="">Biography of Company & Services</a>
-                    </li>
-                </ul>
+                    </li> */}
+                </ul>}
+
+
                 <div className='form_input'>
                     <input ref={inputRef} type="text" name="" id="" value={sendMessage} onChange={(e) => { setSendMessage(e.target.value) }} autofocus />
                     <button onClick={() => { handleChat() }}><img src="/assets/images/cirlce.png" alt="" /></button>

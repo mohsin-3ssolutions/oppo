@@ -3,6 +3,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import { emailPatternValidator } from '../../utils';
+import GoogleLoginButton from '../../components/GoogleLoginButton';
 
 export default function Signin({ isAuthenticated, setIsAuthenticated }) {
   const navigate = useNavigate();
@@ -106,6 +107,9 @@ export default function Signin({ isAuthenticated, setIsAuthenticated }) {
         </div>
       </section>
 
+ 
+
+
       <section className="form_style">
         <div className="container">
           <div className="color_bg">
@@ -148,7 +152,7 @@ export default function Signin({ isAuthenticated, setIsAuthenticated }) {
         <p>Don't have an account? <a href="/signup" className="log_in">Create Account!</a></p>
       </div> */}
 
-      
+
       <ToastContainer />
     </div>
   );

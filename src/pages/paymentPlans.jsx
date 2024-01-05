@@ -45,7 +45,7 @@ function SelectRole() {
                                                     <p>Manage Sub schedules.</p>
                                                 </li>
                                             </ul>
-                                            <div className="creat_btn">
+                                            <div className="creat_btn cursor-pointer">
                                                 <a onClick={() => { navigate("/signup?role=owner") }}>Select</a>
                                                 {/* <a href="/owner-signup">Select</a> */}
                                             </div>
@@ -69,7 +69,7 @@ function SelectRole() {
                                                     <p>Send RFIs to GCs.</p>
                                                 </li>
                                             </ul>
-                                            <div className="creat_btn">
+                                            <div className="creat_btn cursor-pointer">
                                                 <a onClick={() => { navigate("/signup?role=general_contractor") }}>Select</a>
                                                 {/* <a href="/general-contractor-signup">Select</a> */}
                                             </div>
@@ -92,7 +92,7 @@ function SelectRole() {
                                                     <p>Respond to RFIs</p>
                                                 </li>
                                             </ul>
-                                            <div className="creat_btn">
+                                            <div className="creat_btn cursor-pointer">
                                                 <a onClick={() => { navigate("/signup?role=sub_contractor") }}>Select</a>                                                {/* <a href="/sub-contractor-signup">Select</a> */}
                                             </div>
                                         </div>

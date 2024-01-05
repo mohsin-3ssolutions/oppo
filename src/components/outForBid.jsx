@@ -200,7 +200,7 @@ export default function OutForBid() {
                                                             </div>
                                                         </li>
                                                         <li>
-                                                            <p className="view_count mt-2"><img src="/assets/images/view.png" alt="" /><span>{project.bids_count}</span></p>
+                                                            <p className="view_count mt-2"><img src="/assets/images/view.png" className='mb-1' alt="" /><span>{project.bids_count}</span></p>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -211,7 +211,7 @@ export default function OutForBid() {
                                 </ul>
                             </div>
                     )}
-                {projects.length > 0 && <ReactPaginate
+                {projects.length > 10 && <ReactPaginate
                     previousLabel={"Prev"}
                     nextLabel={"Next"}
                     breakLabel={"..."}

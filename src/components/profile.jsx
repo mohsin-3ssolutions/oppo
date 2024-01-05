@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
@@ -83,16 +83,60 @@ export default function Profile() {
         return state?.userProfileSlice?.userData?.data?.role;
     });
 
-    const [profile, setprofile] = useState(userData.profile_image ? userData.profile_image : null)
-    const [w9, setW9] = useState(userData.w9_form ? userData.w9_form : null)
-    const [workerComp, setWorkerComp] = useState(userData.worker_comp ? userData.worker_comp : null)
+    const [profile, setProfile] = useState(userData.profile_image ? userData.profile_image : null);
+    const [w9, setW9] = useState(userData.w9_form ? userData.w9_form : null);
+    const [workerComp, setWorkerComp] = useState(userData.worker_comp ? userData.worker_comp : null);
+
+    const convertUrlToFile = async (url, setterFunction) => {
+        try {
+            const response = await fetch(url);
+            const blob = await response.blob();
+            const filename = getFilenameFromUrl(url);
+            const file = new File([blob], filename, { type: blob.type });
+            setterFunction(file);
+        } catch (error) {
+            console.error("Error converting URL to file:", error);
+        }
+    };
+
+    const getFilenameFromUrl = (url) => {
+        const urlParts = url.split("/");
+        return urlParts[urlParts.length - 1];
+    };
+
+    const readFileAsDataURL = (file, callback) => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            callback(reader.result);
+        };
+        reader.readAsDataURL(file);
+    };
+
+
+    useEffect(() => {
+        if (userData.worker_comp) {
+            convertUrlToFile(userData.worker_comp, setWorkerComp);
+        }
+        if (userData.w9_form) {
+            convertUrlToFile(userData.w9_form, setW9);
+        }
+        if (userData.profile_image) {
+            convertUrlToFile(userData.profile_image, setProfile);
+        }
+    }, [userData.worker_comp, userData.w9_form, userData.profile_image]);
+
+    console.log(w9, 'w9')
+    console.log(userData, 'userdata')
 
     const validationSchema = Yup.object().shape({
         projectName: Yup.string().required('Company Name is required'),
         yearsInBusiness: Yup.number().required('Years In Business is required'),
-        ein: Yup.string().matches(/^\d{2}-\d{5}$/, 'Invalid format. Please use 32-99223 format'),
-        licensedWorkStates: Yup.string(),
-        contractorLicense: Yup.string().required('Contractor License # is required'),
+        ein: Yup.string()
+            .required('EIN is required')
+            .matches(/^\d{2}-\d{5}$/, 'Invalid format. Please use 32-99223 format'),
+        licensedWorkStates: Yup.string()
+            .required('Licensed work state is required'),
+        contractorLicense: Yup.string().required('Contractor License is required'),
         workCapacity: Yup.number().required('Work Capacity is required'),
         numEmployees: Yup.number().required('Number of Employees is required'),
         description: Yup.string().required('Description is required'),
@@ -110,8 +154,8 @@ export default function Profile() {
         workCapacity: userData ? userData.work_capacity : '',
         numEmployees: userData ? userData.number_of_employees : '',
         description: userData ? userData.biography : '',
-        selectedServices: [],
-        scope: userData ? userData.identify_scope : '',
+        selectedServices: userData ? userData.services.map(service => service.service) : [],
+        scope: userData ? userData.scope.map(scope => scope.scope) : [],
         pastContractorsWorkedWith: userData ? userData.past_contractors : '',
         w9Form: '',
     };
@@ -132,15 +176,20 @@ export default function Profile() {
                 formData.append('work_capacity', values.workCapacity);
                 formData.append('biography', values.description);
                 formData.append('number_of_employees', values.numEmployees);
-                formData.append('worker_comp', values.workersCompForm);
-                formData.append('w9_form', values.w9Form);
-                formData.append('profile_image', values.profilePicture);
+                formData.append('worker_comp', values.workersCompForm ? values.workersCompForm : workerComp);
+                formData.append('w9_form', values.w9Form ? values.w9Form : w9);
+                formData.append('profile_image', values.profilePicture ? values.profilePicture : profile);
                 formData.append('company_name', values.projectName);
                 formData.append('commercial_services', 1);
                 formData.append('residential_services', 1);
                 formData.append('federal_services', 1);
                 formData.append('road_and_industrial_construction', 1);
-                formData.append('identify_scope', values.scope);
+                [...values.scope].forEach((scope) => {
+                    formData.append("identify_scope[]", scope);
+                });
+                [...values.selectedServices].forEach((services) => {
+                    formData.append("services[]", services);
+                });
                 formData.append('past_contractors', values.pastContractorsWorkedWith);
 
                 const response = await fetch(`${url}/update_contractor_profile`, {
@@ -224,7 +273,7 @@ export default function Profile() {
                                                         id="yearsInBusiness"
                                                         name="yearsInBusiness"
                                                         className="form-control"
-                                                        placeholder="25"
+                                                        placeholder="00"
                                                     />
                                                     <ErrorMessage name="yearsInBusiness" component="div" className="text-danger" />
                                                 </div>
@@ -236,7 +285,7 @@ export default function Profile() {
                                                         id="ein"
                                                         name="ein"
                                                         className="form-control"
-                                                        placeholder="34-98676"
+                                                        placeholder="xx-xxxxx"
                                                     />
                                                     <ErrorMessage name="ein" component="div" className="text-danger" />
                                                 </div>
@@ -277,7 +326,7 @@ export default function Profile() {
                                                         id="contractorLicense"
                                                         name="contractorLicense"
                                                         className="form-control"
-                                                        placeholder="12983546142"
+                                                        placeholder="0000"
                                                     />
                                                     <ErrorMessage name="contractorLicense" component="div" className="text-danger" />
                                                 </div>
@@ -308,11 +357,14 @@ export default function Profile() {
                                                     {w9 !== null ?
                                                         <div className='pro_img d-flex'>
                                                             <button className="delete-files"
-                                                                onClick={(event) => { setW9(null) }} style={{ top: "0px" }}>
+                                                                onClick={(event) => { setW9(null) }} style={{ top: "-13px" }}>
                                                                 <CloseIcon fontSize='20px' />
                                                             </button>
-                                                            <span>{w9}</span>
-                                                        </div> :
+                                                            {w9 && (
+                                                                <a href={URL.createObjectURL(new Blob([w9], { type: w9.type }))} download>
+                                                                    Download W9 Form
+                                                                </a>
+                                                            )}                                                        </div> :
                                                         <div className="upload_files">
                                                             <input type="file" name="w9Form" accept=".pdf" ref={w9Document} onChange={(event) => {
                                                                 if (event.currentTarget.files[0] && event.currentTarget.files[0].type === 'application/pdf') {
@@ -341,7 +393,11 @@ export default function Profile() {
                                                                 onClick={(event) => { setWorkerComp(null) }} style={{ top: "0px" }}>
                                                                 <CloseIcon fontSize='20px' />
                                                             </button>
-                                                            <span>{w9}</span>
+                                                            {workerComp && (
+                                                                <a href={URL.createObjectURL(new Blob([workerComp], { type: workerComp.type }))} download>
+                                                                    Download Worker Compensation
+                                                                </a>
+                                                            )}
                                                         </div> :
                                                         <div className="upload_files">
                                                             <input type="file" accept='.pdf' ref={workersDocument} name="workersCompForm" onChange={(event) => {
@@ -369,11 +425,15 @@ export default function Profile() {
                                                         {profile !== null ?
                                                             <div className='pro_img d-flex'>
                                                                 <button className="delete-files"
-                                                                    onClick={(event) => { setprofile(null) }} style={{ top: "0px" }}>
+                                                                    onClick={(event) => { setProfile(null) }} style={{ top: "0px" }}>
                                                                     <CloseIcon fontSize='20px' />
                                                                 </button>
-                                                                <img src={profile} alt="" />
-                                                            </div> :
+                                                                {profile && (
+                                                                    <img
+                                                                        src={profile instanceof File ? URL.createObjectURL(profile) : profile}
+                                                                        alt="Profile Image"
+                                                                    />
+                                                                )}                                                            </div> :
                                                             <input type="file" accept="jpg, .jpeg, .png" ref={profilePicture} name="profilePicture" onChange={(event) => {
                                                                 if (event.currentTarget.files[0] && /^image\/(jpeg|jpg|png)$/.test(event.currentTarget.files[0].type)) {
                                                                     setFieldValue("profilePicture", event.currentTarget.files[0]);
@@ -417,7 +477,7 @@ export default function Profile() {
                                                                     <Field
                                                                         type="checkbox"
                                                                         name="selectedServices"
-                                                                        value="Commercial"
+                                                                        value="commercial"
                                                                         id="commercialService"
                                                                         className="form-check-input"
                                                                     />
@@ -431,7 +491,7 @@ export default function Profile() {
                                                                     <Field
                                                                         type="checkbox"
                                                                         name="selectedServices"
-                                                                        value="Residential"
+                                                                        value="residential"
                                                                         id="residentialService"
                                                                         className="form-check-input"
                                                                     />
@@ -445,7 +505,7 @@ export default function Profile() {
                                                                     <Field
                                                                         type="checkbox"
                                                                         name="selectedServices"
-                                                                        value="Federal"
+                                                                        value="federal"
                                                                         id="federalService"
                                                                         className="form-check-input"
                                                                     />
@@ -459,7 +519,7 @@ export default function Profile() {
                                                                     <Field
                                                                         type="checkbox"
                                                                         name="selectedServices"
-                                                                        value="Road Construction & Industrial"
+                                                                        value="road_construction_and_industrial"
                                                                         id="roadConstructionService"
                                                                         className="form-check-input"
                                                                     />
@@ -491,8 +551,8 @@ export default function Profile() {
                                                                     <Field
                                                                         type="checkbox"
                                                                         name="scope"
-                                                                        value="Commercial"
-                                                                        id="commercialService"
+                                                                        value="site_preparation"
+                                                                        id="sitePreparation"
                                                                         className="form-check-input"
                                                                     />
                                                                     <label className="form-check-label" for="flexCheckDefault">
@@ -505,8 +565,8 @@ export default function Profile() {
                                                                     <Field
                                                                         type="checkbox"
                                                                         name="scope"
-                                                                        value="Residential"
-                                                                        id="residentialService"
+                                                                        value="concrete"
+                                                                        id="concrete"
                                                                         className="form-check-input"
                                                                     />
                                                                     <label className="form-check-label" for="flexCheckDefault1">
@@ -519,8 +579,8 @@ export default function Profile() {
                                                                     <Field
                                                                         type="checkbox"
                                                                         name="scope"
-                                                                        value="Federal"
-                                                                        id="federalService"
+                                                                        value="structural_and_framing"
+                                                                        id="structural"
                                                                         className="form-check-input"
                                                                     />
                                                                     <label className="form-check-label" for="flexCheckDefault2">
@@ -533,7 +593,7 @@ export default function Profile() {
                                                                     <Field
                                                                         type="checkbox"
                                                                         name="scope"
-                                                                        value="Road Construction & Industrial"
+                                                                        value="roofing_siding_and_sheet_metal_work"
                                                                         id="roadConstructionService"
                                                                         className="form-check-input"
                                                                     />
@@ -547,8 +607,8 @@ export default function Profile() {
                                                                     <Field
                                                                         type="checkbox"
                                                                         name="scope"
-                                                                        value="Road Construction & Industrial"
-                                                                        id="roadConstructionService"
+                                                                        value="plumbing"
+                                                                        id="plumbing"
                                                                         className="form-check-input"
                                                                     />
                                                                     <label className="form-check-label" for="flexCheckDefault3">
@@ -561,8 +621,8 @@ export default function Profile() {
                                                                     <Field
                                                                         type="checkbox"
                                                                         name="scope"
-                                                                        value="Road Construction & Industrial"
-                                                                        id="roadConstructionService"
+                                                                        value="hvac"
+                                                                        id="HVAC"
                                                                         className="form-check-input"
                                                                     />
                                                                     <label className="form-check-label" for="flexCheckDefault3">
@@ -575,8 +635,8 @@ export default function Profile() {
                                                                     <Field
                                                                         type="checkbox"
                                                                         name="scope"
-                                                                        value="Road Construction & Industrial"
-                                                                        id="roadConstructionService"
+                                                                        value="electrical"
+                                                                        id="electrical"
                                                                         className="form-check-input"
                                                                     />
                                                                     <label className="form-check-label" for="flexCheckDefault3">
@@ -589,8 +649,8 @@ export default function Profile() {
                                                                     <Field
                                                                         type="checkbox"
                                                                         name="scope"
-                                                                        value="Road Construction & Industrial"
-                                                                        id="roadConstructionService"
+                                                                        value="carpentry"
+                                                                        id="carpentry"
                                                                         className="form-check-input"
                                                                     />
                                                                     <label className="form-check-label" for="flexCheckDefault3">
@@ -603,8 +663,8 @@ export default function Profile() {
                                                                     <Field
                                                                         type="checkbox"
                                                                         name="scope"
-                                                                        value="Road Construction & Industrial"
-                                                                        id="roadConstructionService"
+                                                                        value="drywall"
+                                                                        id="drywall"
                                                                         className="form-check-input"
                                                                     />
                                                                     <label className="form-check-label" for="flexCheckDefault3">
@@ -617,8 +677,8 @@ export default function Profile() {
                                                                     <Field
                                                                         type="checkbox"
                                                                         name="scope"
-                                                                        value="Road Construction & Industrial"
-                                                                        id="roadConstructionService"
+                                                                        value="painting_and_paper_hanging"
+                                                                        id="painting"
                                                                         className="form-check-input"
                                                                     />
                                                                     <label className="form-check-label" for="flexCheckDefault3">
@@ -628,7 +688,6 @@ export default function Profile() {
                                                             </li>
                                                         </ul>
                                                     </div>
-
                                                 </div>
 
                                                 <div className="mb-3">

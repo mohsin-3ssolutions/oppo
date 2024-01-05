@@ -6,6 +6,8 @@ import { emailPatternValidator, userRoles } from '../utils';
 import { Formik, Form, Field, ErrorMessage, useFormikContext } from 'formik';
 import * as Yup from 'yup';
 import DefaultLayout from '../reusableComponents/defaultLayout';
+import GoogleLogin from 'react-google-login';
+import { LoginSocialFacebook } from 'reactjs-social-login';
 
 function Signup({ isAuthenticated, setIsAuthenticated }) {
     const [passwordStrength, setPasswordStrength] = useState("default");
@@ -117,6 +119,61 @@ function Signup({ isAuthenticated, setIsAuthenticated }) {
             setPasswordStrength("strong");
         }
     };
+
+    const responseGoogle = async (response) => {
+        console.log(response);
+        let url = process.env.REACT_APP_BASE_URL;
+        try {
+            // setSubmitting(true); // Set submitting state when form submission begins
+            const requestData = {
+                email: response.profileObj.email,
+                role: role,
+                company_name: response.profileObj.name,
+                social_platform: "google.com",
+                social_id: response.googleId,
+                fname: response.profileObj.name,
+            };
+
+            const serverResponse = await fetch(`${url}/register`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestData),
+            });
+
+            if (serverResponse.ok) {
+                const { data, message, success } = await serverResponse.json();
+                if (success) {
+                    localStorage.setItem('authToken', data?.token);
+                    toast.success('Signup successfully!', { autoClose: 3000 });
+                    setIsAuthenticated(true);
+                    navigate('/');
+                } else {
+                    toast.error('Signup failed! ' + message, { autoClose: 3000 });
+                }
+            } else {
+                throw new Error('Network response was not ok.');
+            }
+        } catch (error) {
+            console.error('An error occurred:', error);
+            toast.error('An error occurred.' + error, { autoClose: 3000 });
+        } finally {
+            // setSubmitting(false); // Ensure submitting state is set to false even if an error occurs
+        }
+    };
+
+    useEffect(() => {
+        function start() {
+            gapi.client.init({
+                clientId: "662224309157-0tnmushq70mf9r2bipg7llc4ef1nrehu.apps.googleusercontent.com",
+                scope: ""
+            })
+        }
+        gapi.load('client:auth2', start)
+    }, [])
+
+
     return (
         <>
             <DefaultLayout>
@@ -126,11 +183,80 @@ function Signup({ isAuthenticated, setIsAuthenticated }) {
                             <div className="sign_up">
                                 <h3>Add Company Details</h3>
                                 <p>Already have an account? <a href="/signin" className="log_in">Log In</a></p>
-                                <p>Signing up with <strong className='role'>{role.charAt(0).toUpperCase() + role.slice(1)}</strong> Role.  To change role visit<a href="/select-role" className="log_in">Select Role</a></p>
+
+                                {role == 'owner' ? <p>Signing up with <strong className='role'> {role.split('_')[0]?.charAt(0)?.toUpperCase() + role.split('_')[0]?.slice(1)} </strong> Role.  To change role visit<a href="/select-role" className="log_in">Select Role</a></p> : <p>Signing up with <strong className='role'> {role.split('_')[0]?.charAt(0)?.toUpperCase() + role.split('_')[0]?.slice(1)} {role.split('_')[1]?.charAt(0)?.toUpperCase() + role.split('_')[1]?.slice(1)}</strong> Role.  To change role visit<a href="/select-role" className="log_in">Select Role</a></p>}
                                 <ul className="social_links">
-                                    <li><a href=""><img src="/assets/images/facebook.png" alt="Facebook" /></a></li>
-                                    <li><a href=""><img src="/assets/images/google.png" alt="Google" /></a></li>
-                                    <li><a href=""><img src="/assets/images/apple.png" alt="Apple" /></a></li>
+                                    <li className='cursor-pointer'>
+                                        <LoginSocialFacebook
+                                            // isOnlyGetToken
+                                            appId="1088468802336727"
+                                            // onLoginStart={onLoginStart}
+                                            onResolve={async ({ provider, data }) => {
+                                                console.log(data)
+                                                let url = process.env.REACT_APP_BASE_URL;
+                                                try {
+                                                    // setSubmitting(true); // Set submitting state when form submission begins
+
+                                                    const requestData = {
+                                                        email: data.email,
+                                                        role: role,
+                                                        company_name: data.name,
+                                                        social_platform: "facebook.com",
+                                                        social_id: data.userID,
+                                                        fname: data.name,
+                                                    };
+
+                                                    const serverResponse = await fetch(`${url}/register`, {
+                                                        method: 'POST',
+                                                        headers: {
+                                                            'Content-Type': 'application/json',
+                                                        },
+                                                        body: JSON.stringify(requestData),
+                                                    });
+
+                                                    if (serverResponse.ok) {
+                                                        const { data, message, success } = await serverResponse.json();
+                                                        if (success) {
+                                                            localStorage.setItem('authToken', data?.token);
+                                                            toast.success('Logged in successfully!', { autoClose: 3000 });
+                                                            setIsAuthenticated(true);
+                                                            navigate('/');
+                                                        } else {
+                                                            toast.error(message, { autoClose: 3000 });
+                                                        }
+                                                    } else {
+                                                        throw new Error('Network response was not ok.');
+                                                    }
+                                                } catch (error) {
+                                                    console.error('An error occurred:', error);
+                                                    toast.error('An error occurred.' + error, { autoClose: 3000 });
+                                                } finally {
+                                                    // setSubmitting(false); // Ensure submitting state is set to false even if an error occurs
+                                                }
+                                            }}
+                                            onReject={(err) => {
+                                                console.log(err)
+                                            }}
+                                        >
+                                            <a ><img src="/assets/images/facebook.png" alt="Facebook" /></a>
+                                        </LoginSocialFacebook>
+                                    </li>
+
+                                    <li className='cursor-pointer'>
+                                        <GoogleLogin
+                                            clientId="662224309157-0tnmushq70mf9r2bipg7llc4ef1nrehu.apps.googleusercontent.com"
+                                            buttonText=""
+                                            onSuccess={responseGoogle}
+                                            onFailure={responseGoogle}
+                                            cookiePolicy={'single_host_origin'}
+                                            render={(renderProps) => (
+                                                <a onClick={renderProps.onClick}>
+                                                    <img src="/assets/images/google.png" alt="Google" />
+                                                </a>
+                                            )}
+                                        />
+                                    </li>
+                                    <li className='cursor-pointer'><a href=""><img src="/assets/images/apple.png" alt="Apple" /></a></li>
                                 </ul>
                                 <Formik
                                     initialValues={initialValues}
@@ -248,9 +374,9 @@ function Signup({ isAuthenticated, setIsAuthenticated }) {
                                                 </div>
                                             </div>
                                             <div className="form-check">
-                                                <Field className="form-check-input" name='privacePolicy' type="checkbox" id="flexCheckDefault" />
+                                                <Field className="form-check-input" required name='privacePolicy' type="checkbox" id="flexCheckDefault" />
                                                 <label className="form-check-label" >
-                                                    By creating account you agree to our <a href="">Privacy Policy</a> <a href="">Terms of Service</a> and <a href="">Notification Setting</a>
+                                                    By creating account you agree to our <a href="">Privacy Policy</a>,<a href="">Terms of Service</a>and<a href="">Notification Setting</a>
                                                 </label>
                                             </div>
                                             <div >

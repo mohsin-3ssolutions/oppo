@@ -54,12 +54,13 @@ export default function PostNewProject() {
     jobStatus: '',
     project_start_date: null,
     project_end_date: null,
+    selectedServices: [],
   };
 
   const validationSchema = Yup.object().shape({
     project_name: Yup.string().min(3, 'Please use atleast 3 characters')
-    .max(40, 'You have exceeded the limit of 50 characters')
-    .required('Project Name is required'),
+      .max(40, 'You have exceeded the limit of 50 characters')
+      .required('Project Name is required'),
     email: Yup.string().email('Invalid email').required('Email is required'),
     project_rep: Yup.string().required('Project Rep is required'),
     phone: Yup.string()
@@ -80,6 +81,8 @@ export default function PostNewProject() {
     financing: Yup.string().required('Financing is required'),
     plan: Yup.string().required('Plan is required'),
     jobStatus: Yup.string(),
+    selectedServices: Yup.array().min(1, 'Select at least one service'),
+    scope: Yup.array().min(1, 'Select at least one scope'),
     // project_start_date: Yup.string(),
     // project_end_date: Yup.string()
   });
@@ -93,10 +96,11 @@ export default function PostNewProject() {
   // };
 
   const handleSubmit = async (values) => {
+
+    console.log(values)
     let url = process.env.REACT_APP_BASE_URL;
     values.project_start_date = startDate;
     values.project_end_date = completionDate;
-    values.project_type = 'commercial';
 
     if (!startDate) { // Use !startDate to check if it's null or undefined
       setStartDateError(true);
@@ -104,7 +108,7 @@ export default function PostNewProject() {
       return;
     }
 
-    if (startDate == "Invalid date" ) { // Use !startDate to check if it's null or undefined
+    if (startDate == "Invalid date") { // Use !startDate to check if it's null or undefined
       setStartDateError(true);
       toast.error('Start date should be a valid date.', { autoClose: 3000 });
       return;
@@ -127,7 +131,7 @@ export default function PostNewProject() {
     if (token) {
       try {
 
-        console.log(values.plan_doc)
+        console.log(values.selectedServices)
 
         const formData = new FormData();
 
@@ -143,11 +147,16 @@ export default function PostNewProject() {
         formData.append('architect', values.architect);
         formData.append('engineer', values.engineer);
         formData.append('financing', values.financing);
-        formData.append('project_type', 'commercial');
+        // formData.append('project_type', 'commercial');
         formData.append('permits', values.permits);
         formData.append('project_start_date', values.project_start_date);
         formData.append('project_description', values.project_description);
-        // formData.append('plan_doc', values.plan_doc);
+        [...values.selectedServices].forEach((services) => {
+          formData.append("services[]", services);
+        });
+        [...values.scope].forEach((scope) => {
+          formData.append("identify_scope[]", scope);
+        });
         [...values.plan_doc].forEach((plan) => {
           formData.append("plan_doc[]", plan);
         });
@@ -536,7 +545,7 @@ export default function PostNewProject() {
                         <div className="mb-3">
                           <label for="exampleFormControlInput1" className="form-label">Approximate Start Date</label>
                           <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DatePicker value={startDate} onChange={handleStartDateChange} />
+                            <DatePicker disablePast   value={startDate} onChange={handleStartDateChange} />
                           </LocalizationProvider>
                           {startDateError && <p className='text-danger'>Start date should not be empty</p>}
                         </div>
@@ -546,6 +555,219 @@ export default function PostNewProject() {
                             <DatePicker value={completionDate} onChange={handleCompletionDateChange} />
                           </LocalizationProvider>
                           {endDateError && <p className='text-danger'>End date should not be empty</p>}
+                        </div>
+
+                        <div className="mb-3">
+                          <label for="flexCheckDefault11" className="form-label">Select Services You Provide</label>
+                          <div className="upload_files">
+                            <ul>
+                              <li>
+                                <div className="form-check">
+                                  <Field
+                                    type="checkbox"
+                                    name="selectedServices"
+                                    value="commercial"
+                                    id="commercialService"
+                                    className="form-check-input"
+                                  />
+                                  <label className="form-check-label" for="flexCheckDefault">
+                                    Commercial
+                                  </label>
+                                </div>
+                              </li>
+                              <li>
+                                <div className="form-check">
+                                  <Field
+                                    type="checkbox"
+                                    name="selectedServices"
+                                    value="residential"
+                                    id="residentialService"
+                                    className="form-check-input"
+                                  />
+                                  <label className="form-check-label" for="flexCheckDefault1">
+                                    Residential
+                                  </label>
+                                </div>
+                              </li>
+                              <li>
+                                <div className="form-check">
+                                  <Field
+                                    type="checkbox"
+                                    name="selectedServices"
+                                    value="federal"
+                                    id="federalService"
+                                    className="form-check-input"
+                                  />
+                                  <label className="form-check-label" for="flexCheckDefault2">
+                                    Federal
+                                  </label>
+                                </div>
+                              </li>
+                              <li>
+                                <div className="form-check">
+                                  <Field
+                                    type="checkbox"
+                                    name="selectedServices"
+                                    value="road_construction_and_industrial"
+                                    id="roadConstructionService"
+                                    className="form-check-input"
+                                  />
+                                  <label className="form-check-label" for="flexCheckDefault3">
+                                    Road Construction & Industrial
+                                  </label>
+                                </div>
+                              </li>
+                            </ul>
+                          </div>
+
+                        </div>
+
+                        <div className="mb-3">
+                          <label for="flexCheckDefault11" className="form-label">Identify Scope</label>
+                          <div className="upload_files">
+                            <ul>
+                              <li>
+                                <div className="form-check">
+                                  <Field
+                                    type="checkbox"
+                                    name="scope"
+                                    value="site_preparation"
+                                    id="sitePreparation"
+                                    className="form-check-input"
+                                  />
+                                  <label className="form-check-label" for="flexCheckDefault">
+                                    Site Preparation
+                                  </label>
+                                </div>
+                              </li>
+                              <li>
+                                <div className="form-check">
+                                  <Field
+                                    type="checkbox"
+                                    name="scope"
+                                    value="concrete"
+                                    id="concrete"
+                                    className="form-check-input"
+                                  />
+                                  <label className="form-check-label" for="flexCheckDefault1">
+                                    Concrete
+                                  </label>
+                                </div>
+                              </li>
+                              <li>
+                                <div className="form-check">
+                                  <Field
+                                    type="checkbox"
+                                    name="scope"
+                                    value="structural_and_framing"
+                                    id="structural"
+                                    className="form-check-input"
+                                  />
+                                  <label className="form-check-label" for="flexCheckDefault2">
+                                    Structural and framing
+                                  </label>
+                                </div>
+                              </li>
+                              <li>
+                                <div className="form-check">
+                                  <Field
+                                    type="checkbox"
+                                    name="scope"
+                                    value="roofing_siding_and_sheet_metal_work"
+                                    id="roadConstructionService"
+                                    className="form-check-input"
+                                  />
+                                  <label className="form-check-label" for="flexCheckDefault3">
+                                    Roofing, siding, and sheet metal work
+                                  </label>
+                                </div>
+                              </li>
+                              <li>
+                                <div className="form-check">
+                                  <Field
+                                    type="checkbox"
+                                    name="scope"
+                                    value="plumbing"
+                                    id="plumbing"
+                                    className="form-check-input"
+                                  />
+                                  <label className="form-check-label" for="flexCheckDefault3">
+                                    Plumbing
+                                  </label>
+                                </div>
+                              </li>
+                              <li>
+                                <div className="form-check">
+                                  <Field
+                                    type="checkbox"
+                                    name="scope"
+                                    value="hvac"
+                                    id="HVAC"
+                                    className="form-check-input"
+                                  />
+                                  <label className="form-check-label" for="flexCheckDefault3">
+                                    HVAC
+                                  </label>
+                                </div>
+                              </li>
+                              <li>
+                                <div className="form-check">
+                                  <Field
+                                    type="checkbox"
+                                    name="scope"
+                                    value="electrical"
+                                    id="electrical"
+                                    className="form-check-input"
+                                  />
+                                  <label className="form-check-label" for="flexCheckDefault3">
+                                    Electrical
+                                  </label>
+                                </div>
+                              </li>
+                              <li>
+                                <div className="form-check">
+                                  <Field
+                                    type="checkbox"
+                                    name="scope"
+                                    value="carpentry"
+                                    id="carpentry"
+                                    className="form-check-input"
+                                  />
+                                  <label className="form-check-label" for="flexCheckDefault3">
+                                    Carpentry
+                                  </label>
+                                </div>
+                              </li>
+                              <li>
+                                <div className="form-check">
+                                  <Field
+                                    type="checkbox"
+                                    name="scope"
+                                    value="drywall"
+                                    id="drywall"
+                                    className="form-check-input"
+                                  />
+                                  <label className="form-check-label" for="flexCheckDefault3">
+                                    Drywall
+                                  </label>
+                                </div>
+                              </li>
+                              <li>
+                                <div className="form-check">
+                                  <Field
+                                    type="checkbox"
+                                    name="scope"
+                                    value="painting_and_paper_hanging"
+                                    id="painting"
+                                    className="form-check-input"
+                                  />
+                                  <label className="form-check-label" for="flexCheckDefault3">
+                                    Painting and paper hanging
+                                  </label>
+                                </div>
+                              </li>
+                            </ul>
+                          </div>
                         </div>
                       </div>
                     </div>

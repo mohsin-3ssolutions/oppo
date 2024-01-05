@@ -3,6 +3,9 @@ import DefaultLayout from '../reusableComponents/defaultLayout'
 import ReactPaginate from 'react-paginate';
 import { ThreeDots } from 'react-loader-spinner';
 import { Link, useNavigate } from 'react-router-dom';
+import { DateCalendar, DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import moment from 'moment';
 
 export default function FindProject() {
     const [projects, setprojects] = useState([]),
@@ -10,6 +13,94 @@ export default function FindProject() {
         [pageCount, setPageCount] = useState(0),
         [loading, setLoading] = useState(true);
     const [goBack, setGoBack] = useState(false);
+    const [selectedScope, setSelectedScope] = useState(''); // Default value
+    const [location, setLocation] = useState(''); // Default value
+    const [zoningType, setZoningType] = useState(''); // Default value
+    const [selectedDate, setSelectedDate] = useState('');
+
+    const [states] = useState([
+        "AK",
+        "AL",
+        "AR",
+        "AZ",
+        "CA",
+        "CO",
+        "CT",
+        "DE",
+        "DC",
+        "FL",
+        "GA",
+        "HI",
+        "ID",
+        "IL",
+        "IN",
+        "IA",
+        "KS",
+        "KY",
+        "LA",
+        "ME",
+        "MD",
+        "MA",
+        "MI",
+        "MN",
+        "MS",
+        "MO",
+        "MT",
+        "NE",
+        "NV",
+        "NH",
+        "NJ",
+        "NM",
+        "NY",
+        "NC",
+        "ND",
+        "OH",
+        "OK",
+        "OR",
+        "PA",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "TX",
+        "UT",
+        "VT",
+        "TA",
+        "VA",
+        "WA",
+        "WV",
+        "WI",
+        "WY",
+        "AB",
+        "BC",
+        "MB",
+        "NB",
+        "NL",
+        "NS",
+        "NT",
+        "NU",
+        "ON",
+        "PE",
+        "QC",
+        "SK",
+    ]);
+
+    const handleScope = (event) => {
+        setSelectedScope(event.target.value);
+    };
+
+    const handleLocation = (event) => {
+        setLocation(event.target.value);
+    };
+
+    const handZoningType = (event) => {
+        setZoningType(event.target.value);
+    };
+
+    const handleDateChange = (date) => {
+        const formattedDate = moment(date.$d).format('YYYY-MM-DD');
+        setSelectedDate(formattedDate);
+    };
 
     let navigate = useNavigate();
 
@@ -19,6 +110,8 @@ export default function FindProject() {
                 setLoading(true);
                 let url = process.env.REACT_APP_BASE_URL;
                 const token = localStorage.getItem('authToken');
+                const queryString = `?page_num_start=1&page_size=20&identify_scope=${selectedScope}&services=${zoningType}&licensed_states_of_work=${location}&timeline=${selectedDate}`;
+
                 const requestOptions = {
                     method: "GET",
                     headers: {
@@ -29,7 +122,7 @@ export default function FindProject() {
 
                 const response = await fetch(
                     url +
-                    `/projects_list?page_num_start=1&page_size=20`,
+                    `/projects_list${queryString}`,
                     requestOptions
                 );
                 const data = await response.json();
@@ -38,6 +131,10 @@ export default function FindProject() {
                     setCount(data.data.projectsCount / 10);
                     setPageCount(data.data.projectsCount);
                     setprojects(data?.data?.projects);
+                } else {
+                    setCount(0);
+                    setPageCount(0);
+                    setprojects([]);
                 }
             } catch (error) {
                 console.error("Error fetching data:", error);
@@ -47,8 +144,7 @@ export default function FindProject() {
         };
 
         fetchData();
-    }, []);
-
+    }, [zoningType, selectedDate, selectedScope, location]);
 
     const fetchPaginatedData = async (currentPage) => {
         let url = process.env.REACT_APP_BASE_URL;
@@ -84,6 +180,11 @@ export default function FindProject() {
     }, [goBack])
 
 
+    console.log(selectedDate)
+    console.log(selectedScope)
+    console.log(location)
+    console.log(zoningType)
+
     return (
         <DefaultLayout>
             <section className="inner_banner account_banner">
@@ -100,28 +201,61 @@ export default function FindProject() {
 
                     <div className="search_form filter_project">
                         <p>Search Filter</p>
-                        <form action="">
-                            <select name="" id="" className="form-control">
-                                <option value="">Scope of Work</option>
-                                <option value="">Scope of Work</option>
-                                <option value="">Scope of Work</option>
+                        <br />
+                        <div className='d-flex justify-content-between'>
+                            <select
+                                id="timeUnit"
+                                className="form-control me-3"
+                                value={selectedScope}
+                                onChange={handleScope}
+                            >
+                                <option value="">Scope of work</option>
+                                <option value="site_preparation">Site Preparation</option>
+                                <option value="concrete">Concrete</option>
+                                <option value="structural_and_framing">Structural and framing</option>
+                                <option value="roofing_siding_and_sheet_metal_work">Roofing, siding, and sheet metal work</option>
+                                <option value="plumbing">Plumbing</option>
+                                <option value="hvac">HVAC</option>
+                                <option value="electrical">Electrical</option>
+                                <option value="carpentry">Carpentry</option>
+                                <option value="drywall">Drywall</option>
+                                <option value="painting_and_paper_hanging">Painting and paper hanging</option>
                             </select>
-                            <select name="" id="" className="form-control">
+
+                            <select
+                                id="state"
+                                className="form-control mx-3"
+                                value={location}
+                                onChange={handleLocation}
+                            >
                                 <option value="">Location</option>
-                                <option value="">Location</option>
-                                <option value="">Location</option>
+                                {states.length &&
+                                    states.map((state, idx) => {
+                                        return (
+                                            <option value={state} key={idx}>
+                                                {state}
+                                            </option>
+                                        );
+                                    })}
                             </select>
-                            <select name="" id="" className="form-control">
-                                <option value="">Zoning Type</option>
-                                <option value="">Zoning Type</option>
-                                <option value="">Zoning Type</option>
+                            <select
+                                id="zoningtype"
+                                className="form-control mx-3"
+                                value={zoningType}
+                                onChange={handZoningType}
+                            >
+                                <option value="">Services</option>
+                                <option value="commercial">Commercial</option>
+                                <option value="residential">Residential</option>
+                                <option value="federal">Federal</option>
+                                <option value="road_construction_and_industrial">Road Construction & Industrial</option>
                             </select>
-                            <select name="" id="" className="form-control">
-                                <option value="">Timeline</option>
-                                <option value="">Timeline</option>
-                                <option value="">Timeline</option>
-                            </select>
-                        </form>
+
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DatePicker value={selectedDate} onChange={handleDateChange} />
+                            </LocalizationProvider>
+                        </div>
+
                     </div>
 
                     {loading ? (
@@ -148,7 +282,10 @@ export default function FindProject() {
                                         <li>
                                             <div className="project_detail">
                                                 <div className="project_head">
-                                                    <h2 key={index} onClick={() => { navigate(`/project-details/${data.id}`) }}>{data.project_name}<span>{data.project_start_date}</span></h2>
+                                                    <h2 key={index} onClick={() => { navigate(`/project-details/${data.id}`) }}>
+                                                        {data.project_name}
+                                                        <span>{moment(data.project_start_date).format('MM-DD-YYYY')}</span>
+                                                    </h2>
                                                     <ul className="project_status">
                                                         <li>
                                                             {/* <div className='bid_now'>

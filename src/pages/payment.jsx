@@ -156,7 +156,7 @@ function Payment({ setUser, isAuthenticated, user, paymentStatus }) {
                                     <p className='mb-2'>
                                         {paymentStatus === "ON_TRIAL"
                                             // ? 'Welcome to our trial experience which will expire in 2 weeks from your signup. Please complete Payment and continue your journey!"'
-                                            ? `Welcome to our trial experience which will expire on ${moment(createdDate).add(14, 'days').utc().format('DD-MM-YYYY')}. Please complete Payment and continue your journey!"`
+                                            ? `Welcome to our trial experience which will expire on ${moment(createdDate).add(14, 'days').utc().format('DD-MM-YYYY')}. Please complete Payment and continue your journey!`
                                             : paymentStatus === 'TRIAL_EXPIRED'
                                                 ? 'Your trial period is over. Please complete Payment and continue your journey.'
                                                 : ''}
@@ -186,8 +186,7 @@ function Payment({ setUser, isAuthenticated, user, paymentStatus }) {
                                                         name="name"
 
                                                         type="text"
-                                                        className={`form-control ${touched.name && errors.name ? "is-invalid" : ""
-                                                            }`}
+                                                        className={`form-control`}
                                                         placeholder="Enter Card Holder Name"
                                                     />
                                                     <ErrorMessage
@@ -198,7 +197,6 @@ function Payment({ setUser, isAuthenticated, user, paymentStatus }) {
                                                 </div>
                                                 <div className="mb-3">
                                                     <label
-
                                                         className="form-label"
                                                     >
                                                         Card Number
@@ -225,8 +223,7 @@ function Payment({ setUser, isAuthenticated, user, paymentStatus }) {
                                                         name="address"
 
                                                         type="text"
-                                                        className={`form-control ${touched.address && errors.address ? "is-invalid" : ""
-                                                            }`}
+                                                        className={`form-control`}
                                                         placeholder="Enter Billing Address"
                                                     />
                                                     <ErrorMessage
@@ -248,8 +245,7 @@ function Payment({ setUser, isAuthenticated, user, paymentStatus }) {
                                                             name="city"
 
                                                             type="text"
-                                                            className={`form-control ${touched.city && errors.city ? "is-invalid" : ""
-                                                                }`}
+                                                            className={`form-control`}
                                                             placeholder="Enter Billing City"
                                                         />
                                                         <ErrorMessage
@@ -269,8 +265,7 @@ function Payment({ setUser, isAuthenticated, user, paymentStatus }) {
                                                             name="state"
 
                                                             as="select"
-                                                            className={`form-control ${touched.state && errors.state ? "is-invalid" : ""
-                                                                }`}
+                                                            className={`form-control `}
                                                         >
                                                             <option value="utah">Utah</option>
                                                             <option value="usa">USA</option>
@@ -290,10 +285,8 @@ function Payment({ setUser, isAuthenticated, user, paymentStatus }) {
                                                         </label>
                                                         <Field
                                                             name="zip"
-
                                                             type="number"
-                                                            className={`form-control ${touched.zip && errors.zip ? "is-invalid" : ""
-                                                                }`}
+                                                            className={`form-control`}
                                                             placeholder="Enter Zip Code"
                                                         />
                                                         <ErrorMessage

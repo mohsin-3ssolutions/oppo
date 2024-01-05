@@ -28,8 +28,16 @@ export default function Startprojectdetail() {
     const [awarded, setAwarded] = useState(false);
     const [isNotesAdded, setisNotesAdded] = useState(false);
     const [goBack, setGoBack] = useState(false);
+    const [chatRefresh, setChatRefresh] = useState(false);
+
 
     const navigate = useNavigate(); // Use useNavigate hook
+
+    const handleRefresh = () => {
+        // Add the logic to refresh your parent component here
+        console.log('Parent component refreshed!');
+        setChatRefresh(true)
+    };
 
     useEffect(() => {
         if (goBack) {
@@ -167,7 +175,7 @@ export default function Startprojectdetail() {
     useEffect(() => {
         fetchProjectData();
         fetchBiddingData();
-    }, [isNotesAdded, awarded]);
+    }, [isNotesAdded, awarded, chatRefresh]);
 
     useEffect(() => {
         if (projectsDetials?.user_id == userId) {
@@ -260,7 +268,7 @@ export default function Startprojectdetail() {
                                                     <p className='text'>
                                                         {projectsDetials?.permit_doc?.map((data, index) => (
                                                             <div key={index}>
-                                                                <span><img src={FileLogo} alt="" /> {data.document_name || 'N/A'}</span>
+                                                                <span ><img src={FileLogo} alt="" /> <a href={data.document_name} target='blank' style={{ color: 'black' }}>{data.document_name || 'N/A'}</a></span>
                                                                 <br />
                                                             </div>
                                                         ))}
@@ -282,7 +290,7 @@ export default function Startprojectdetail() {
                                                         <p className='text'>
                                                             {projectsDetials?.plan_doc?.map((data, index) => (
                                                                 <div key={index}>
-                                                                    <span><img src={FileLogo} alt="" /> {data.document_name || 'N/A'}</span>
+                                                                    <span><img src={FileLogo} alt="" /> <a href={data.document_name} target='blank' style={{ color: 'black' }}>{data.document_name || 'N/A'}</a></span>
                                                                     <br />
                                                                 </div>
                                                             ))}
@@ -321,7 +329,7 @@ export default function Startprojectdetail() {
                                         </div>
                                     </div>
                                     {(isUser == false && activeProjects !== 'true') && <div className="creat_btn text-center">
-                                        <Link to={`/submitproposal/${projectsDetials?.id}`}>Submit Purposal For this Project</Link>
+                                        <Link to={`/submitproposal/${projectsDetials?.id}`}>Submit Proposal For this Project</Link>
                                     </div>}
                                 </form>
                                 {(projectsDetials?.award_bid !== null && activeProjects == 'true') && <h3 className='sub_head'>Awarded Proposals</h3>}
@@ -427,83 +435,71 @@ export default function Startprojectdetail() {
                                                     <div className='color_bg'>
                                                         <div className="project_head">
                                                             <h2>{item?.user?.fname}</h2> <span>Submitted {moment(item?.created_at).format('MMMM D, YYYY')}</span>
-                                                            <div className='row'>
-                                                                <div className='col-lg-6'>
-                                                                    <div className='proposal_content'>
-                                                                        <p><strong>Comments: </strong> {item?.description ? item?.description : "N/A"} </p>
-                                                                    </div>
-                                                                    <div className='proposal_content'>
-                                                                        <p className='dropdown-toggle' onClick={() => showChat(index)}><strong>Latest Communication </strong></p>
-                                                                        <p>{item?.latest_chat?.message ? item?.latest_chat?.message : "N/A"}</p>
-                                                                    </div>
+                                                        </div>
+                                                        <div className='row'>
+                                                            <div className='col-lg-6'>
+                                                                <div className='proposal_content'>
+                                                                    <p><strong>Comments: </strong> {item?.description ? item?.description : "N/A"} </p>
                                                                 </div>
-                                                                <div className='col-lg-6'>
-                                                                    <div className='proposal_content proposal_detail'>
-                                                                        <p className='mb-2'><strong>Proposal Documents</strong></p>
-                                                                        <ul className='proposal_files'>
-                                                                            <li>
+                                                                <div className='proposal_content'>
+                                                                    <p className='dropdown-toggle' onClick={() => showChat(index)}><strong>Latest Communication </strong></p>
+                                                                    <p>{item?.latest_chat?.message ? item?.latest_chat?.message : "N/A"}</p>
+                                                                </div>
+                                                            </div>
+                                                            <div className='col-lg-6'>
+                                                                <div className='proposal_content proposal_detail'>
+                                                                    <p className='mb-2'><strong>Proposal Documents</strong></p>
+                                                                    <ul className='proposal_files'>
+                                                                        {item?.files?.length > 0 ? item?.files?.map((file, index) => (
+                                                                            <li key={index}>
                                                                                 <a className='text'>
-                                                                                    <span><img src="/assets/images/file.png" alt="" /> MyProjectPermit.pdf</span>
+                                                                                    <span><img src="/assets/images/file.png" alt="" /> {file?.plan_doc.length > 25 ? `${file?.plan_doc.slice(0, 25)}...` : file?.plan_doc}</span>
                                                                                 </a>
                                                                             </li>
-                                                                            <li>
-                                                                                <a className='text'>
-                                                                                    <span><img src="/assets/images/file.png" alt="" /> MyProjectPermit.pdf</span>
-                                                                                </a>
-                                                                            </li>
-                                                                            <li>
-                                                                                <a className='text'>
-                                                                                    <span><img src="/assets/images/file.png" alt="" /> MyProjectPermit.pdf</span>
-                                                                                </a>
-                                                                            </li>
-                                                                            <li>
-                                                                                <a className='text'>
-                                                                                    <span><img src="/assets/images/file.png" alt="" /> MyProjectPermit.pdf</span>
-                                                                                </a>
-                                                                            </li>
-                                                                        </ul>
-                                                                        <div className='award_review'>
-                                                                            <Ratting bidData={item} />
-                                                                            <div className='notes w-50'>
-                                                                                <div className='proposal_content'>
-                                                                                    <p className='mb-1 dropdown-toggle' onClick={() => showNotes(index)}><strong>Notes </strong></p>
-                                                                                    <p className=''>{item?.latest_notes?.notes ? item?.latest_notes?.notes : 'N/A'}</p>
-                                                                                </div>
+                                                                        )) : <><p>N/A</p></>}
+
+                                                                    </ul>
+                                                                    <div className='award_review'>
+                                                                        <Ratting bidData={item} />
+                                                                        <div className='notes w-50'>
+                                                                            <div className='proposal_content'>
+                                                                                <p className='mb-1 dropdown-toggle' onClick={() => showNotes(index)}><strong>Notes </strong></p>
+                                                                                <p className=''>{item?.latest_notes?.notes ? item?.latest_notes?.notes : 'N/A'}</p>
                                                                             </div>
                                                                         </div>
-                                                                        {item.status == 'hired' ? <div className='create_btn'>
-                                                                            <button
-                                                                                onClick={() => handleAward(item, index)}
-                                                                                className='awarded_btn'
-                                                                                disabled={true}
-                                                                            >
-                                                                                {loadingIndex === index ? <Loader /> : 'Awarded'}
-                                                                            </button>
-                                                                        </div> : item.status == 'pending' ? <div className='create_btn'>
-                                                                            <button
-                                                                                onClick={() => handleAward(item, index)}
-                                                                                className='globle_btn'
-                                                                                disabled={loadingIndex === index}
-                                                                            >
-                                                                                {loadingIndex === index ? <Loader /> : 'Award Project'}
-                                                                            </button>
-                                                                        </div> : <div className='create_btn'>
-                                                                            <button
-                                                                                onClick={() => handleAward(item, index)}
-                                                                                className='rejected_btn'
-                                                                                disabled={true}
-                                                                            >
-                                                                                {loadingIndex === index ? <Loader /> : 'Rejected'}
-                                                                            </button>
-                                                                        </div>}
-
                                                                     </div>
+                                                                    {item.status == 'hired' ? <div className='create_btn'>
+                                                                        <button
+                                                                            onClick={() => handleAward(item, index)}
+                                                                            className='awarded_btn'
+                                                                            disabled={true}
+                                                                        >
+                                                                            {loadingIndex === index ? <Loader /> : 'Awarded'}
+                                                                        </button>
+                                                                    </div> : item.status == 'pending' ? <div className='create_btn'>
+                                                                        <button
+                                                                            onClick={() => handleAward(item, index)}
+                                                                            className='globle_btn'
+                                                                            disabled={loadingIndex === index}
+                                                                        >
+                                                                            {loadingIndex === index ? <Loader /> : 'Award Project'}
+                                                                        </button>
+                                                                    </div> : <div className='create_btn'>
+                                                                        <button
+                                                                            onClick={() => handleAward(item, index)}
+                                                                            className='rejected_btn'
+                                                                            disabled={true}
+                                                                        >
+                                                                            {loadingIndex === index ? <Loader /> : 'Rejected'}
+                                                                        </button>
+                                                                    </div>}
+
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     {openChatIndex == index &&
-                                                        <Chat setOpenChatIndex={setOpenChatIndex} bidData={item} />
+                                                        <Chat setOpenChatIndex={setOpenChatIndex} bidData={item} onChatClose={handleRefresh} />
                                                     }
                                                     {openNotesIndex === index && (
                                                         <Notes setOpenNotesIndex={setOpenNotesIndex} bidData={item} updateFlag={updateFlag} />

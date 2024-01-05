@@ -114,7 +114,7 @@ export default function ActiveProjects() {
                                             <li>
                                                 <div className="project_detail">
                                                     <div className="project_head">
-                                                        <h2>{item.project_name} <span>Awarded on Oct 2, 2023</span></h2>
+                                                        <h2 onClick={() => { navigate(`/project-details/${item.id}/true`) }}>{item.project_name} <span>Awarded on Oct 2, 2023</span></h2>
                                                     </div>
                                                     <p><strong>Project Description:</strong>{item.project_description}</p>
                                                 </div>
@@ -146,7 +146,7 @@ export default function ActiveProjects() {
                     </div>
                     <div className="creat_btn text-center my-5">
                         <a className="me-4" href="/find-a-project">Find a Project</a>
-                        <a href="/post-new-project">Post a Project</a>
+                        {/* <a href="/post-new-project">Post a Project</a> */}
                     </div>
                 </div>
             </div>
